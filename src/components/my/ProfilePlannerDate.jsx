@@ -122,12 +122,12 @@ const ProfilePlannerDate = () => {
                       width={
                         isNaN(
                           categoryTodoComplete[`${category[index]}`] /
-                            dateTodoObj[`${category[index]}`]
+                          dateTodoObj[`${category[index]}`]
                         )
                           ? 0
                           : (categoryTodoComplete[`${category[index]}`] /
-                              dateTodoObj[`${category[index]}`]) *
-                            100
+                            dateTodoObj[`${category[index]}`]) *
+                          100
                       }
                       backgroundColor='#74E272'
                     ></StProgressBar>
@@ -311,7 +311,10 @@ const StTodoToggleBox = styled.div`
 `;
 
 const StTodoContainer = styled.div`
-  padding: 20px;
+  width:100%;
+  &:first-child {
+    margin-bottom:16px;
+  }
 `;
 
 const StTodoItem = styled.div`
@@ -322,10 +325,6 @@ const StTodoItem = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  margin: 16px 0;
-  padding: 15px 20px;
-  -webkit-box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1);
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1);
 
   & .top {
     display: flex;
