@@ -5,11 +5,22 @@ import Calendar from "../utils/Calendar";
 import dayjs from "dayjs";
 import calendarSvg from "../../assets/img/calendarSvg.svg";
 
-const PlannerCalender = ({ calenderdate, setCalenderdate, selectDate, setSelectDate }) => {
-  const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+const PlannerCalender = ({
+  calenderdate,
+  setCalenderdate,
+  selectDate,
+  setSelectDate,
+}) => {
+  const days = [
+    "일요일",
+    "월요일",
+    "화요일",
+    "수요일",
+    "목요일",
+    "금요일",
+    "토요일",
+  ];
   const [modalVisible, setModalVisible] = useState(false);
-
-  console.log('calenderdate', calenderdate)
 
   const openModal = () => {
     setModalVisible(true);
@@ -20,7 +31,10 @@ const PlannerCalender = ({ calenderdate, setCalenderdate, selectDate, setSelectD
 
   return (
     <StDateDiv>
-      <StSpan>{dayjs(calenderdate).month() + 1}월 {dayjs(calenderdate).date()}일 {days[dayjs(calenderdate).day()]}</StSpan>
+      <StSpan>
+        {dayjs(calenderdate).month() + 1}월 {dayjs(calenderdate).date()}일{" "}
+        {days[dayjs(calenderdate).day()]}
+      </StSpan>
       <img src={calendarSvg} onClick={openModal} alt='calendarIcon' />
       <Modal
         visible={modalVisible}
@@ -30,7 +44,11 @@ const PlannerCalender = ({ calenderdate, setCalenderdate, selectDate, setSelectD
         width='350px'
         top='30%'
       >
-        <Calendar setCalenderdate={setCalenderdate} selectDate={selectDate} setSelectDate={setSelectDate} />
+        <Calendar
+          setCalenderdate={setCalenderdate}
+          selectDate={selectDate}
+          setSelectDate={setSelectDate}
+        />
       </Modal>
     </StDateDiv>
   );

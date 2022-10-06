@@ -20,8 +20,6 @@ const InfiniteScrollSchoolRank = () => {
   const [isLoaded, setIsLoaded] = useState(false); // 로드 true, false
   const [page, setPage] = useState(1); // 페이지
 
-  console.log("mainRankListSchool", mainRankListSchool);
-
   const checkIntersect = useCallback(
     ([entry], observer) => {
       if (entry.isIntersecting && !isLoaded) {
@@ -65,7 +63,7 @@ const InfiniteScrollSchoolRank = () => {
             </div>
           </div>
 
-          <StRankingScore>{(each.achievementRate).toFixed(2)}</StRankingScore>
+          <StRankingScore>{each.achievementRate.toFixed(2)}</StRankingScore>
         </StRankingBox>
       ))}
       <StRefDiv ref={targetRef}></StRefDiv>

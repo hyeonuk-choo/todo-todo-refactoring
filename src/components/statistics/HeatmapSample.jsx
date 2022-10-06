@@ -37,7 +37,6 @@ const HeatMapSample = () => {
   useEffect(() => {
     const arr = [];
     const heatmapArr = [[], [], [], [], [], [], []];
-    console.log("heatmapData", heatmapData);
     if (heatmapData.length > 0) {
       let heatmapDataLen = heatmapData.length;
       for (let i = 0; i < heatmapDataLen; i++) {
@@ -45,9 +44,7 @@ const HeatMapSample = () => {
         arr.push(data);
       }
     }
-    console.log("arr", arr);
     arr.reverse();
-    console.log("arrReverse", arr);
     let len = arr.length;
 
     for (let i = 0; i < len; i += 7) {
@@ -59,12 +56,9 @@ const HeatMapSample = () => {
       heatmapArr[1].push(arr[i + 5]);
       heatmapArr[0].push(arr[i + 6]);
     }
-    console.log("heatmapArr", heatmapArr);
 
     setHeatMapDataRate(heatmapArr);
   }, [heatmapData]);
-
-  console.log("heatMapDataRate", heatMapDataRate);
 
   const dispatch = useDispatch();
 
@@ -103,18 +97,18 @@ const HeatMapSample = () => {
             value === 0
               ? "#F3F3F3"
               : value <= 20
-                ? "rgba(255,143,39,.2)"
-                : value <= 40
-                  ? "rgba(255,143,39,.4)"
-                  : value <= 60
-                    ? "rgba(255,143,39,.6)"
-                    : value <= 80
-                      ? "rgba(255,143,39,.8)"
-                      : value <= 100
-                        ? "rgba(255,143,39,1)"
-                        : 'null',
+              ? "rgba(255,143,39,.2)"
+              : value <= 40
+              ? "rgba(255,143,39,.4)"
+              : value <= 60
+              ? "rgba(255,143,39,.6)"
+              : value <= 80
+              ? "rgba(255,143,39,.8)"
+              : value <= 100
+              ? "rgba(255,143,39,1)"
+              : "null",
         })}
-      // cellRender={(value) => value && <div>{value}%</div>}
+        // cellRender={(value) => value && <div>{value}%</div>}
       />
     </StContainer>
   );
@@ -135,13 +129,12 @@ const StContainer = styled.div`
 `;
 
 const StDaysBox = styled.div`
-  padding-top:13px;
-
+  padding-top: 13px;
 
   & p {
-    margin:0;
+    margin: 0;
     padding: 8.5px 5px;
   }
-`
+`;
 
 export default HeatMapSample;

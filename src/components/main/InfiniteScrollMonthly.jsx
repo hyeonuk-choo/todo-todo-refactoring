@@ -11,7 +11,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const InfiniteScrollMonthly = () => {
   const { mainRankListMonthly } = useSelector((state) => state.main);
-  console.log("mainRankListMonthly", mainRankListMonthly);
   const { error } = useSelector((state) => state.main);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,8 +23,6 @@ const InfiniteScrollMonthly = () => {
   let nickname = localStorage.getItem("nickname");
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  console.log("mainRankListMonthly", mainRankListMonthly);
-
   const checkIntersect = ([entry], observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
@@ -35,7 +32,6 @@ const InfiniteScrollMonthly = () => {
 
   const monthFunc = async () => {
     const { data } = await axios.get(`${BASE_URL}/month`);
-    console.log("data", data);
     setMonth(() => data);
   };
 
@@ -43,19 +39,17 @@ const InfiniteScrollMonthly = () => {
     const arr = [];
     try {
       const { data } = await axios.get(`${BASE_URL}/member`);
-      console.log(data);
+
       arr.push(...data);
     } catch (error) {
       console.log(error);
     }
     setAllUser(arr);
-  }
-
-  console.log('allUser', allUser)
+  };
 
   useEffect(() => {
-    allUserFunc()
-  }, [])
+    allUserFunc();
+  }, []);
 
   useEffect(() => {
     dispatch(__getMainRankMonthly(page));
@@ -77,7 +71,6 @@ const InfiniteScrollMonthly = () => {
     return () => {
       observer && observer.disconnect();
     };
-
   }, [mainRankListMonthly]);
 
   return (
@@ -97,21 +90,22 @@ const InfiniteScrollMonthly = () => {
             <StRankingNumber>{each.rank}</StRankingNumber>
             <div>
               {/* 영상 찍은 후 쓸데없는 코드 줄이기 */}
-              {allUser.filter((data) => data.nickname === each.nickname).length === 0
-                ?
+              {allUser.filter((data) => data.nickname === each.nickname)
+                .length === 0 ? (
+                <StRankingProfile src={profileImgSvg} alt='profileImg' />
+              ) : (
                 <StRankingProfile
-                  src={profileImgSvg}
-                  alt='profileImg'
-                />
-                :
-                <StRankingProfile
-                  src={allUser.filter((data) => data.nickname === each.nickname)[0].profileImage === ''
-                    ? profileImgSvg
-                    : allUser.filter((data) => data.nickname === each.nickname)[0].profileImage
+                  src={
+                    allUser.filter((data) => data.nickname === each.nickname)[0]
+                      .profileImage === ""
+                      ? profileImgSvg
+                      : allUser.filter(
+                          (data) => data.nickname === each.nickname
+                        )[0].profileImage
                   }
                   alt='profileImg'
                 />
-              }
+              )}
               <StRankingNickname>{each.nickname}</StRankingNickname>
             </div>
           </div>

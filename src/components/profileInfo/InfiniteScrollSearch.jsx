@@ -35,9 +35,6 @@ const InfiniteScrollSearch = () => {
     }
   }, [mainRankList]);
 
-  console.log("page", page);
-  console.log("mainRankList", mainRankList);
-
   return (
     <Stdiv>
       {mainRankList.map((each) => (

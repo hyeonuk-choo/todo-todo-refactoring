@@ -124,7 +124,7 @@ const ProfilePhotos = () => {
                 {images.indexOf(
                   images.find((data) => data.id === Number(selectImgId))
                 ) ===
-                images.length - 1 ? null : (
+                  images.length - 1 ? null : (
                   <button
                     className="next"
                     onClick={() => onClickNextHandler(selectImgId)}

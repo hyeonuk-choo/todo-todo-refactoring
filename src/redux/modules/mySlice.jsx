@@ -34,7 +34,6 @@ export const __getMyInfo = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/member/${payload}`, config);
-      console.log("data.data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -58,8 +57,6 @@ export const __getOtherInfo = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/member/${payload}`, config);
-      console.log("data", data.data);
-      console.log("payload", payload);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -72,8 +69,6 @@ export const __getOtherInfo = createAsyncThunk(
 export const __postProfileImg = createAsyncThunk(
   "postProfileImg",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
-
     let accessToken = localStorage.getItem("accessToken");
 
     const config = {
@@ -89,7 +84,6 @@ export const __postProfileImg = createAsyncThunk(
         payload,
         config
       );
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data); // data 는 수정완료 메세지
     } catch (error) {
       console.log(error);
@@ -102,7 +96,6 @@ export const __postProfileImg = createAsyncThunk(
 export const __getImages = createAsyncThunk(
   "getImages",
   async (payload, thunkAPI) => {
-    console.log("getImages payload", payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
       const config = {
@@ -116,7 +109,6 @@ export const __getImages = createAsyncThunk(
         `${BASE_URL}/image/boast/${payload}`,
         config
       );
-      console.log("__getImages", data.data);
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -130,7 +122,6 @@ export const __getImages = createAsyncThunk(
 export const __postImages = createAsyncThunk(
   "postImages",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
       const config = {
@@ -141,7 +132,6 @@ export const __postImages = createAsyncThunk(
       };
 
       const data = await axios.post(`${BASE_URL}/image/boast`, payload, config);
-      console.log("postImages data", data);
       // return thunkAPI.fulfillWithValue(data); // data는 완료 메세지, images에 반영됨
     } catch (error) {
       console.log(error);
@@ -154,7 +144,6 @@ export const __postImages = createAsyncThunk(
 export const __deleteImages = createAsyncThunk(
   "deleteImages",
   async (payload, thunkAPI) => {
-    console.log("payload", payload, typeof payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
       const config = {
@@ -168,7 +157,6 @@ export const __deleteImages = createAsyncThunk(
         `${BASE_URL}/image/boast/${payload}`,
         config
       );
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       console.log(error);
@@ -196,8 +184,6 @@ export const __getFollowInfo = createAsyncThunk(
         null,
         config
       );
-      console.log("data", data.data);
-      console.log("payload", payload);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -221,8 +207,6 @@ export const __getFollowingList = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/followings/${payload}`, config);
-      // console.log("data", data.data);
-      // console.log("payload", payload);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -246,8 +230,7 @@ export const __getOtherFollowingList = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/followings/${payload}`, config);
-      console.log("data", data.data);
-      console.log("payload", payload);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -271,8 +254,7 @@ export const __getFollowerList = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/followers/${payload}`, config);
-      // console.log("data", data.data);
-      // console.log("payload", payload);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -296,8 +278,7 @@ export const __getFollowCnt = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/follow/${payload}`, config);
-      console.log("data", data.data);
-      console.log("payload", payload);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -321,7 +302,6 @@ export const mySlice = createSlice({
       state.isLoading = true;
     },
     [__getMyInfo.fulfilled]: (state, action) => {
-      console.log("__getMyInfo", action.payload);
       state.isLoading = false;
       state.userInfo = action.payload;
     },
@@ -346,7 +326,6 @@ export const mySlice = createSlice({
       state.isLoading = true;
     },
     [__postProfileImg.fulfilled]: (state, action) => {
-      console.log("__postProfileImg.fulfilled", action.payload);
       state.isLoading = false;
       state.profileImage.push(...action.payload); //주의
     },
@@ -360,7 +339,6 @@ export const mySlice = createSlice({
     },
     [__getImages.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("action.payload", action.payload);
       state.images = action.payload;
     },
     [__getImages.rejected]: (state, action) => {
@@ -384,7 +362,6 @@ export const mySlice = createSlice({
     },
     [__deleteImages.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       state.images = state.images.filter(
         (data) => data.id !== Number(action.payload)
       );

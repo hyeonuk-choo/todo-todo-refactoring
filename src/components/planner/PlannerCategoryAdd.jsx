@@ -19,8 +19,6 @@ const PlannerCategoryAdd = () => {
   const navigate = useNavigate();
   const { category } = useSelector((state) => state.planner);
 
-  console.log("category", category);
-
   const [categoryName, setCategoryName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -67,15 +65,11 @@ const PlannerCategoryAdd = () => {
 
   const onClickModalEditHandler = (e) => {
     const { id } = e.target.parentElement;
-    console.log(id, typeof id);
     const data = category?.filter((data) => data.id === Number(id));
-    console.log("data", data);
     setSelectCategory(...data);
     setCategoryId(id);
     setEditModalVisible(true);
   };
-  console.log("categoryId", categoryId);
-  console.log("selectCategory", selectCategory);
 
   const onClickEditCategoryName = () => {
     setEditCategoryName(true);
@@ -86,7 +80,6 @@ const PlannerCategoryAdd = () => {
   };
 
   const onClickCategoryDeleteHandler = () => {
-    console.log("categoryId", categoryId);
     setDeleteCategoryCheckModalVisible(true);
     setEditModalVisible(false);
   };
@@ -120,8 +113,6 @@ const PlannerCategoryAdd = () => {
     let nickname = localStorage.getItem("nickname");
     dispatch(__getCategory(nickname));
   }, [dispatch]);
-
-  console.log(categoryName);
 
   return (
     <StDiv>

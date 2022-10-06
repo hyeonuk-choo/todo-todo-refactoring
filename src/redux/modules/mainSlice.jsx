@@ -33,7 +33,6 @@ export const __getThisMonthRate = createAsyncThunk(
         `${BASE_URL}/todo/achievement/thismonth`,
         config
       );
-      console.log("data.data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log("error", error);
@@ -58,8 +57,6 @@ export const __getTotalRate = createAsyncThunk(
         `${BASE_URL}/todo/achievement/total/${payload}`,
         config
       );
-      console.log("data.data", data);
-      console.log("data.data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log("error", error);
@@ -81,8 +78,6 @@ export const __getTotalTodo = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/todo/total`, config);
-      console.log("data.data", data);
-      console.log("data.data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log("error", error);
@@ -109,7 +104,6 @@ export const __getMainRank = createAsyncThunk(
         config
       );
 
-      console.log("__getMainRank", data);
       return thunkAPI.fulfillWithValue(data.data.content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -120,10 +114,8 @@ export const __getMainRank = createAsyncThunk(
 export const __getMainRankMonthly = createAsyncThunk(
   "getMainRankMonthly",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
-      console.log("accessToken!!!!!!!!!!", accessToken);
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -135,7 +127,6 @@ export const __getMainRankMonthly = createAsyncThunk(
         // payload,
         config
       );
-      console.log("__getMainRankMonthly", data);
       return thunkAPI.fulfillWithValue(data.data.content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -156,7 +147,6 @@ export const __getDday = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/d-day`, config);
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -167,7 +157,6 @@ export const __getDday = createAsyncThunk(
 export const __reset = createAsyncThunk("reset", async (payload, thunkAPI) => {
   try {
     let accessToken = localStorage.getItem("accessToken");
-    console.log("accessToken!!!!!!!!!!", accessToken);
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -175,7 +164,6 @@ export const __reset = createAsyncThunk("reset", async (payload, thunkAPI) => {
     };
 
     const data = await axios.get(`${BASE_URL}/reset`, config);
-    console.log(data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -185,10 +173,8 @@ export const __reset = createAsyncThunk("reset", async (payload, thunkAPI) => {
 export const __getMainRankSchool = createAsyncThunk(
   "getMainRankSchool",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
-      console.log("accessToken!!!!!!!!!!", accessToken);
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -200,7 +186,6 @@ export const __getMainRankSchool = createAsyncThunk(
         // payload,
         config
       );
-      console.log("__getMainRankSchool", data);
       return thunkAPI.fulfillWithValue(data.data.content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -213,7 +198,6 @@ export const __updateDday = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       let accessToken = localStorage.getItem("accessToken");
-      console.log("accessToken!!!!!!!!!!", accessToken);
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -221,7 +205,6 @@ export const __updateDday = createAsyncThunk(
       };
 
       const data = await axios.put(`${BASE_URL}/d-day`, payload, config);
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log("error", error);
@@ -239,7 +222,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__getThisMonthRate.fulfilled]: (state, action) => {
-      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.thisMonthRate = action.payload;
     },
@@ -252,7 +234,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__getTotalRate.fulfilled]: (state, action) => {
-      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.totalRate = action.payload;
     },
@@ -266,7 +247,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__getTotalTodo.fulfilled]: (state, action) => {
-      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.totalTodo = action.payload;
     },
@@ -280,7 +260,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__getMainRank.fulfilled]: (state, action) => {
-      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.mainRankList.push(...action.payload);
       state.mainRankListMonthly = [];
@@ -295,7 +274,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__getMainRankMonthly.fulfilled]: (state, action) => {
-      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.mainRankListMonthly.push(...action.payload);
       state.mainRankList = [];
@@ -311,8 +289,6 @@ export const mainSlice = createSlice({
     },
     [__getDday.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("dday", state.dday);
-      //console.log("dday", action.payload);
       state.dday = action.payload;
     },
     [__getDday.rejected]: (state, action) => {
@@ -338,8 +314,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__updateDday.fulfilled]: (state, action) => {
-      console.log("action.payload", action.meta.arg);
-      console.log("state", state.dday);
       state.isLoading = false;
       state.dday.title = action.meta.arg.title;
       state.dday.selectedDate = action.meta.arg.selectedDate;
@@ -354,7 +328,6 @@ export const mainSlice = createSlice({
       state.isLoading = true;
     },
     [__getMainRankSchool.fulfilled]: (state, action) => {
-      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.mainRankListSchool.push(...action.payload);
       state.mainRankList = [];

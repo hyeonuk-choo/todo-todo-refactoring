@@ -21,7 +21,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ProfileEdit = () => {
   const { profileImage } = useSelector((state) => state.my);
   const { userInfo } = useSelector((state) => state.my);
-  console.log("userInfo", userInfo);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,7 +34,6 @@ const ProfileEdit = () => {
   let newCamp = { myMotto: mottoInput };
 
   for (let key of formData.keys()) {
-    console.log(key, formData.get(key));
   }
 
   useEffect(() => {
@@ -96,23 +94,18 @@ const ProfileEdit = () => {
       };
       // reader가 이미지 읽도록 하기
       reader.readAsDataURL(input.files[0]);
-
-      console.log("input.files[0]", input.files[0]);
     }
   };
   // input file에 change 이벤트 부여
   const inputImage = document?.getElementById("input-image");
   inputImage?.addEventListener("change", (e) => {
     readImage(e.target);
-    console.log("e.target", e.target, e.target.files[0]);
     // setProfileImageState(e.target.files[0]);
   });
 
   // Browser Image Compression
   const handleImageUpload = async (event) => {
     const imageFile = event.target.files[0];
-    console.log(imageFile);
-    console.log("originalFile instanceof Blob", imageFile instanceof Blob);
 
     const options = {
       maxSizeMB: 1,
@@ -122,11 +115,6 @@ const ProfileEdit = () => {
 
     try {
       const compressedFile = await imageCompression(imageFile, options);
-      console.log(
-        "compressedFile instanceof Blob",
-        compressedFile instanceof Blob
-      );
-      console.log(`compressedFile size ${compressedFile.size}`);
       // await uploadToServer(compressedFile);
       setProfileImageState(compressedFile);
     } catch (error) {
@@ -137,9 +125,9 @@ const ProfileEdit = () => {
   return (
     <div style={{ backgroundColor: "#fff", height: "100%" }}>
       <StTitle>
-        <div className="arrowDiv">
+        <div className='arrowDiv'>
           <div
-            className="arrow"
+            className='arrow'
             onClick={() => {
               if (saveStatus === false) {
                 setModalView(true);
@@ -150,48 +138,48 @@ const ProfileEdit = () => {
           />
         </div>
 
-        <div className="title">프로필 편집</div>
+        <div className='title'>프로필 편집</div>
         <button onClick={onClickProfileEditComplete}>완료</button>
       </StTitle>
 
       <StLine></StLine>
 
       <StImgDiv>
-        <div className="image-container">
+        <div className='image-container'>
           <img
             style={{ width: "90px", height: "90px", borderRadius: "100px" }}
-            id="preview-image"
+            id='preview-image'
             src={
               userInfo?.profileImage === undefined
                 ? profileImgSvg
                 : userInfo?.profileImage
             }
             onError={handleImgError}
-            alt="previewImg"
+            alt='previewImg'
           />
           <input
             style={{ display: "none" }}
-            type="file"
-            id="input-image"
+            type='file'
+            id='input-image'
             ref={profileUploadRef}
             onChange={handleImageUpload}
           />
           {/* ----- 연필 ----- */}
-          <div className="pencilBox" onClick={onClickUploadPhotoHandler}>
-            <img className="pencil" src={pencilSvg} />
+          <div className='pencilBox' onClick={onClickUploadPhotoHandler}>
+            <img className='pencil' src={pencilSvg} />
           </div>
         </div>
       </StImgDiv>
 
       <StMotto>
-        <div className="mottoTitle">좌우명</div>
+        <div className='mottoTitle'>좌우명</div>
         <textarea
-          className="textArea"
+          className='textArea'
           value={mottoInput}
           onChange={mottoInputHandler}
         ></textarea>
 
-        <div className="mottoInputCount">
+        <div className='mottoInputCount'>
           {mottoInput == null ? 0 : mottoInput?.length}/40
         </div>
       </StMotto>
@@ -203,20 +191,20 @@ const ProfileEdit = () => {
           closable={true}
           maskClosable={true}
           onClose={modalToggleHandler}
-          radius="48px"
-          top="40%"
-          width="90%"
-          height="230px"
-          backgroundcolor="#46464624"
+          radius='48px'
+          top='40%'
+          width='90%'
+          height='230px'
+          backgroundcolor='#46464624'
         >
           <StModalTop>
-            <div className="title">저장되지 않은 변경 사항</div>
+            <div className='title'>저장되지 않은 변경 사항</div>
             <div>뒤로가기 하시겠습니까?</div>
             <div>변경사항이 저장되지 않았습니다.</div>
           </StModalTop>
           <StModalBottom>
             <div
-              className="cancel"
+              className='cancel'
               onClick={() => {
                 setModalView(false);
               }}
@@ -224,7 +212,7 @@ const ProfileEdit = () => {
               취소
             </div>
             <div
-              className="confirm"
+              className='confirm'
               onClick={() => {
                 navigate("/my");
               }}

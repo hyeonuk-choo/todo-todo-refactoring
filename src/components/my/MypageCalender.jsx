@@ -23,8 +23,6 @@ const MypageCalender = ({
   ];
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log("calenderdate", calenderdate);
-
   const openModal = () => {
     setModalVisible(true);
   };

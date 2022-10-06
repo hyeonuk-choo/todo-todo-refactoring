@@ -34,8 +34,6 @@ const Planner = ({ modalVisible, setModalVisible }) => {
   const todoInputRef = useRef(null);
 
   const { todos } = useSelector((state) => state.planner);
-  console.log("todos", todos);
-  console.log("todoList", todoList);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -75,10 +73,8 @@ const Planner = ({ modalVisible, setModalVisible }) => {
   };
 
   const onClickSelectToTodoHandler = (e) => {
-    console.dir(e.target.parentElement.parentElement.id);
     const { id } = e.target.parentElement.parentElement;
     const data = todoList?.filter((data) => data.todoId === Number(id));
-    console.log("data", data);
     setSelectTodo(...data);
     setEditModalVisible(true);
     setTodoId(id);
@@ -90,7 +86,6 @@ const Planner = ({ modalVisible, setModalVisible }) => {
   };
 
   const onClickTodoDeleteHandler = () => {
-    console.log("categoryId", categoryId);
     setDeleteTodoCheckModalVisible(true);
     setEditModalVisible(false);
   };
@@ -128,10 +123,8 @@ const Planner = ({ modalVisible, setModalVisible }) => {
 
   const onClickTodoCompleteHandler = async (e) => {
     let nickname = localStorage.getItem("nickname");
-    console.dir(e.target.parentElement.parentElement.id);
     const { id } = e.target.parentElement.parentElement;
     const data = todoList?.filter((data) => data.todoId === Number(id));
-    console.log("data", data);
     setTodoId(id);
     const completeTodo = {
       content: data[0].content,
@@ -141,8 +134,6 @@ const Planner = ({ modalVisible, setModalVisible }) => {
     await dispatch(__getTodayTodo(nickname));
   };
 
-  console.log("selectTodo", selectTodo);
-
   useEffect(() => {
     if (todoList.length > 0) {
       const rate = (
@@ -150,23 +141,18 @@ const Planner = ({ modalVisible, setModalVisible }) => {
           todoList.length) *
         100
       ).toFixed();
-      console.log("rate", rate);
       setTodoRate(rate);
     }
   }, [todoList]);
 
   useEffect(() => {
-    console.log("todos", todos);
     if (todos !== "") {
       const data = todos.filter((data) => data.category === categoryName);
-      console.log("data", data);
       setTodoList([...data]);
     } else {
       setTodoList([]);
     }
   }, [todos]);
-
-  console.log("todoRate", todoRate);
 
   useEffect(() => {
     let category = localStorage.getItem("category");

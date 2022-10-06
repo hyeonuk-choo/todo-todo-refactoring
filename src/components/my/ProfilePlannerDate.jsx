@@ -27,17 +27,6 @@ const ProfilePlannerDate = () => {
   const [display, setDisplay] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
 
-  console.log(
-    "dateTodo",
-    dateTodo,
-    "date",
-    date,
-    "selectDate",
-    selectDate,
-    "calenderdate",
-    calenderdate
-  );
-
   const onClickSelectCategoryToTodoListHandler = (e) => {
     const { title } = e.currentTarget;
     setSelectedCategoryName(title);
@@ -57,7 +46,6 @@ const ProfilePlannerDate = () => {
   };
 
   useEffect(() => {
-    console.log("dateTodo", dateTodo, "date", date);
     const obj = {};
     let arr = [];
     const newArr = [];
@@ -78,35 +66,26 @@ const ProfilePlannerDate = () => {
     }
 
     arr = Object.keys(obj);
-    console.log("arr", arr);
 
     for (let i = 0; i < arr.length; i++) {
       const newData = dateTodo.filter((data) => data.category === arr[i]);
-      console.log("data", newData);
       newArr.push(newData);
     }
 
-    console.log("newArr", newArr);
     setCategory(arr);
     setCategoryTodoComplete(arrComplete);
     setCategoryTodoList(newArr);
     setDateTodoObj(obj);
   }, [dateTodo]);
 
-  console.log("dateTodoObj", dateTodoObj, "categoryTodoList", categoryTodoList);
-
   useEffect(() => {
     let date = localStorage.getItem("date");
     setCalenderdate(date);
   }, [date]);
 
-  console.log("calenderdate", calenderdate, "selectDate", selectDate);
-
   useEffect(() => {
-    console.log("localStorage.getItem", localStorage.getItem("date"));
     let date = localStorage.getItem("date");
     let nickname = localStorage.getItem("nickname");
-    console.log("date", date, "nickname", nickname);
 
     dispatch(__getTodo({ date: date, nickname }));
   }, [dispatch]);

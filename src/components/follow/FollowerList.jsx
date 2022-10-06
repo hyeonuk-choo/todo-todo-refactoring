@@ -38,7 +38,6 @@ const FollowerList = () => {
   };
 
   useEffect(() => {
-    // const nickname = localStorage.getItem("nickname");
     dispatch(__getFollowerList(params.id));
     dispatch(__getFollowingList(nickname));
   }, [dispatch]);

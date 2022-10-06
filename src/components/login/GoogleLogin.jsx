@@ -3,9 +3,8 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { __googleLogin } from "../../redux/modules/loginSlice";
-import todoSvg from '../../assets/img/todoSvg.svg';
+import todoSvg from "../../assets/img/todoSvg.svg";
 import styled, { keyframes } from "styled-components";
-
 
 // 구글 로그인만 렌더링 최적화 - useCallback, useEffect 적용
 const GoogleLogin = ({ setToken }) => {
@@ -14,26 +13,27 @@ const GoogleLogin = ({ setToken }) => {
   const navigate = useNavigate();
 
   const GOOGLE_CODE = location.search.split("=")[1].split("&")[0];
-  const { user } = useSelector((state) => state.login)
-
-  console.log(user);
+  const { user } = useSelector((state) => state.login);
 
   const timeFunc = (url) => {
     setTimeout(() => {
-      navigate(url)
-    }, 4500)
-  }
+      navigate(url);
+    }, 4500);
+  };
 
   // 회원가입해서 nickname 없을 때 회원정보 등록하면 작업해줘야 유저정보 없다는 에러가 안나옴
-  const nicknameCheck = useCallback((user) => {
-    if (user.nickname) {
-      timeFunc('/')
-      // navigate('/')
-    } else {
-      timeFunc('/profileinfo')
-      // navigate("/profileinfo");
-    }
-  }, [navigate]);
+  const nicknameCheck = useCallback(
+    (user) => {
+      if (user.nickname) {
+        timeFunc("/");
+        // navigate('/')
+      } else {
+        timeFunc("/profileinfo");
+        // navigate("/profileinfo");
+      }
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     if (user) {
@@ -41,14 +41,14 @@ const GoogleLogin = ({ setToken }) => {
       nicknameCheck(user);
       setToken(token);
     }
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     dispatch(__googleLogin(GOOGLE_CODE));
 
     return () => {
       clearTimeout(timeFunc);
-    }
+    };
   }, []);
 
   return (
@@ -59,7 +59,7 @@ const GoogleLogin = ({ setToken }) => {
         </StImgBox1>
       </StTitleBox>
     </StContainer>
-  )
+  );
 };
 
 const titleFade = keyframes`
@@ -70,7 +70,7 @@ const titleFade = keyframes`
   100% {
     display:none;
   }
-`
+`;
 const titleShow = keyframes`
   0% {
     opacity: 1;
@@ -111,9 +111,7 @@ const titleShow = keyframes`
     opacity: 0;
     bottom:1400px;
   }
-`
-
-
+`;
 
 const backgroundChange = keyframes`
   0% {
@@ -131,53 +129,49 @@ const backgroundChange = keyframes`
     background: #fafafa;
     opacity:1;
   }
-`
+`;
 
 const StContainer = styled.div`
-position:relative;
-width:100%;
-min-width: 360px;
-height:100vh;
-overflow:hidden;
-background: #FF8F27;
-animation: ${backgroundChange} 1s 4s alternate both;
+  position: relative;
+  width: 100%;
+  min-width: 360px;
+  height: 100vh;
+  overflow: hidden;
+  background: #ff8f27;
+  animation: ${backgroundChange} 1s 4s alternate both;
 
-
-@media screen and (min-width: 768px) {
-    width:600px;
+  @media screen and (min-width: 768px) {
+    width: 600px;
   }
-`
+`;
 
 const StTitleBox = styled.div`
   animation: ${titleFade} 1s 4s alternate both;
-`
-
+`;
 
 const StImgBox1 = styled.div`
   position: absolute;
-  width:400px;
-  left:50%;
-  bottom: -400px;;
+  width: 400px;
+  left: 50%;
+  bottom: -400px;
   transform: translateX(-50%);
   display: flex;
-  justify-content:flex-end;
-  align-items:center;
-  z-index:10;
-  animation: ${titleShow} 3s .5s alternate ease-in both;
-
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 10;
+  animation: ${titleShow} 3s 0.5s alternate ease-in both;
 
   & img {
     opacity: 0;
-    width:100%;
+    width: 100%;
     animation: ${titleShow} 4s 1s alternate ease both;
     /* background-size: contain; */
   }
 
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     /* display:none; */
-    width:300px;
-
+    width: 300px;
   }
-`
+`;
 
 export default GoogleLogin;

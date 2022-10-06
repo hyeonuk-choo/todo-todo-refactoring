@@ -23,7 +23,6 @@ const Dday = () => {
       ...ddate,
       title: value,
     });
-    // console.log(value);
   };
 
   const onChangeDateHandler = (e) => {
@@ -44,9 +43,6 @@ const Dday = () => {
     );
     await dispatch(__getDday());
   };
-  console.log(ddate);
-  // console.log(Date.now());
-  // console.log(ddate.selectedDate.replace(/\-/g, ""));
 
   const onCompleteHandler = () => {
     setComplete({
@@ -54,7 +50,6 @@ const Dday = () => {
       ok: true,
     });
   };
-  console.log(complete);
 
   useEffect(() => {
     dispatch(__getDday());

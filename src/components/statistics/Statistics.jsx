@@ -13,7 +13,6 @@ import {
 } from "../../redux/modules/statisticsSlice";
 import axios from "axios";
 
-
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Statistics = () => {
@@ -25,21 +24,16 @@ const Statistics = () => {
   const [month, setMonth] = useState(null);
 
   const { rankScoreData } = useSelector((state) => state.statistics);
-  console.log("rankScoreData", rankScoreData);
   const modalToggleHandler = (parameter) => {
     setModalView(!modalView);
     setModal(parameter);
   };
 
-
-
   let lastweekScore = rankScoreData[0].score;
 
   let lastweekScore2 = lastweekScore === 0 ? 0 : lastweekScore / 7;
 
-
   let weeklyScore = rankScoreData[1].score;
-  console.log(weeklyScore);
   let weeklyScore2 = weeklyScore === 0 ? 0 : weeklyScore / 7;
 
   let monthlyScore =
@@ -48,18 +42,17 @@ const Statistics = () => {
       : rankScoreData[2].score;
   let monthlyScore2 = isNaN(monthlyScore) ? 0 : monthlyScore;
 
-  let weeklyRank = isNaN(rankScoreData[1].ranking) ? 0 : rankScoreData[1].ranking;
-  // console.log(weeklyRank.ranking);
-  let monthlyRank = isNaN(rankScoreData[2].ranking) ? 0 : rankScoreData[2].ranking;
-
-
+  let weeklyRank = isNaN(rankScoreData[1].ranking)
+    ? 0
+    : rankScoreData[1].ranking;
+  let monthlyRank = isNaN(rankScoreData[2].ranking)
+    ? 0
+    : rankScoreData[2].ranking;
 
   const monthFunc = async () => {
     const { data } = await axios.get(`${BASE_URL}/month`);
-    console.log("data", data);
     setMonth(() => data);
   };
-
 
   useEffect(() => {
     monthFunc();
@@ -72,15 +65,13 @@ const Statistics = () => {
   return (
     <StContainer>
       <StHeader>
-        <span>
-          통계
-        </span>
+        <span>통계</span>
       </StHeader>
       <StBackground>
         <StTopSubjectDiv>
-          <div className="my-score">나의 점수</div>
+          <div className='my-score'>나의 점수</div>
           <img
-            className="my-score-img"
+            className='my-score-img'
             src={info}
             onClick={() => modalToggleHandler("score")}
             alt='infoImg'
@@ -90,18 +81,20 @@ const Statistics = () => {
           <StScoreBoxDiv>
             <div>주간점수</div>
             <div>
-              {weeklyScore2 === 0 ? '-' : weeklyScore2.toFixed(2)}점 / <span>{weeklyRank === 0 ? '-' : weeklyRank}위</span>
+              {weeklyScore2 === 0 ? "-" : weeklyScore2.toFixed(2)}점 /{" "}
+              <span>{weeklyRank === 0 ? "-" : weeklyRank}위</span>
             </div>
           </StScoreBoxDiv>
           <StScoreBoxDiv>
             <div>월간점수</div>
             <div>
-              {monthlyScore2 === 0 ? '-' : monthlyScore2.toFixed(2)}점 / <span>{monthlyRank === 0 ? '-' : monthlyRank}위</span>
+              {monthlyScore2 === 0 ? "-" : monthlyScore2.toFixed(2)}점 /{" "}
+              <span>{monthlyRank === 0 ? "-" : monthlyRank}위</span>
             </div>
           </StScoreBoxDiv>
         </StScoreBoxContainer>
         <StScoreChangeBoxDiv>
-          <div className="weekText">
+          <div className='weekText'>
             <div>
               <span className='lastweek'>저번 주</span>
               <span className='thisweek'> 이번 주</span>
@@ -110,16 +103,35 @@ const Statistics = () => {
           </div>
 
           <StBarchartBox>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '25px', marginRight: '16px' }}>
-              <div className="barBox">
-                <p className="lastScore">{lastweekScore2.toFixed(0)}</p>
-                <StLastWeekChart height={parseInt(lastweekScore2.toFixed(2))}></StLastWeekChart>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "25px",
+                marginRight: "16px",
+              }}
+            >
+              <div className='barBox'>
+                <p className='lastScore'>{lastweekScore2.toFixed(0)}</p>
+                <StLastWeekChart
+                  height={parseInt(lastweekScore2.toFixed(2))}
+                ></StLastWeekChart>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '25px' }}>
-              <div className="barBox">
-                <p className="thisScore">{weeklyScore2.toFixed(0)}</p>
-                <StThisWeekChart height={parseInt(weeklyScore2.toFixed(0))}></StThisWeekChart>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "25px",
+              }}
+            >
+              <div className='barBox'>
+                <p className='thisScore'>{weeklyScore2.toFixed(0)}</p>
+                <StThisWeekChart
+                  height={parseInt(weeklyScore2.toFixed(0))}
+                ></StThisWeekChart>
               </div>
             </div>
           </StBarchartBox>
@@ -127,18 +139,26 @@ const Statistics = () => {
 
         <StThisWeekStatus>
           <div>
-            {weeklyScore2 === 0 ? '이번 주도 시작해볼까요'
-              : lastweekScore2 > 0 && lastweekScore2 * 0.5 > weeklyScore2 ? '이번 주도 화이팅이에요'
-                : lastweekScore2 * 0.5 < weeklyScore2 && lastweekScore2 * 0.9 > weeklyScore2 ? '저번 주의 절반 이상 왔어요!'
-                  : lastweekScore2 * 0.9 < weeklyScore2 && lastweekScore2 > weeklyScore2 ? '곧 저번 주 점수를 넘기겠어요!'
-                    : lastweekScore2 === weeklyScore2 ? '저번 주 점수랑 동점이에요!'
-                      : lastweekScore2 < weeklyScore2 ? '저번 주 점수를 넘으셨어요!!'
-                        : null}
+            {weeklyScore2 === 0
+              ? "이번 주도 시작해볼까요"
+              : lastweekScore2 > 0 && lastweekScore2 * 0.5 > weeklyScore2
+              ? "이번 주도 화이팅이에요"
+              : lastweekScore2 * 0.5 < weeklyScore2 &&
+                lastweekScore2 * 0.9 > weeklyScore2
+              ? "저번 주의 절반 이상 왔어요!"
+              : lastweekScore2 * 0.9 < weeklyScore2 &&
+                lastweekScore2 > weeklyScore2
+              ? "곧 저번 주 점수를 넘기겠어요!"
+              : lastweekScore2 === weeklyScore2
+              ? "저번 주 점수랑 동점이에요!"
+              : lastweekScore2 < weeklyScore2
+              ? "저번 주 점수를 넘으셨어요!!"
+              : null}
           </div>
         </StThisWeekStatus>
 
         <StTopSubjectDiv>
-          <div className="weekRank">
+          <div className='weekRank'>
             <div cl>주간 랭킹 점수</div>
             <img
               src={info}
@@ -149,7 +169,7 @@ const Statistics = () => {
         </StTopSubjectDiv>
         <LineChart />
         <StTopSubjectDiv>
-          <div className="todoRate">
+          <div className='todoRate'>
             <div>나의 투두 달성률</div>
             <img
               src={info}
@@ -288,11 +308,11 @@ const Statistics = () => {
 export default Statistics;
 
 const StContainer = styled.div`
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   font-family: "SUIT-Regular", sans-serif;
   overflow: hidden auto;
-  box-sizing:border-box;
+  box-sizing: border-box;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     display: none;
@@ -311,11 +331,11 @@ const StHeader = styled.div`
   box-sizing: border-box;
 
   & span {
-    font-weight:600;
+    font-weight: 600;
     font-size: 24px;
-    line-height:34px;
+    line-height: 34px;
     color: #111;
-    margin-left:22px;
+    margin-left: 22px;
     margin-bottom: 15px;
   }
 `;
@@ -347,39 +367,38 @@ const StLine = styled.div`
   background-color: #f1f3f5;
 `;
 
-const StBackground = styled.div`
-`;
+const StBackground = styled.div``;
 
 const StTopSubjectDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
-  width:100%;
-  box-sizing:border-box;
+  width: 100%;
+  box-sizing: border-box;
 
   & .my-score {
-    padding-left:22px;
-    padding-top:18px;
+    padding-left: 22px;
+    padding-top: 18px;
     font-size: 20px;
-    font-weight:600;
-    line-height:26px;
+    font-weight: 600;
+    line-height: 26px;
     font-weight: bold;
     color: #111;
   }
 
   & .my-score-img {
-    width:17.5px;
-    height:17.5px;
-    padding-left:7.25px;
-    padding-top:22.25px;
-    color: #D7D5D5;
+    width: 17.5px;
+    height: 17.5px;
+    padding-left: 7.25px;
+    padding-top: 22.25px;
+    color: #d7d5d5;
   }
 
   & .weekRank {
-    padding-top:29px;
-    padding-bottom:16px;
-    padding-left:22px;
+    padding-top: 29px;
+    padding-bottom: 16px;
+    padding-left: 22px;
     display: flex;
     gap: 7.25px;
     font-size: 20px;
@@ -388,9 +407,9 @@ const StTopSubjectDiv = styled.div`
   }
 
   & .todoRate {
-    padding-top:40px;
-    padding-bottom:16px;
-    padding-left:22px;
+    padding-top: 40px;
+    padding-bottom: 16px;
+    padding-left: 22px;
     display: flex;
     gap: 7.25px;
     font-size: 20px;
@@ -407,28 +426,28 @@ const StScoreBoxContainer = styled.div`
   gap: 16px;
   width: calc(100%-44px);
   box-sizing: border-box;
-`
+`;
 
 const StScoreBoxDiv = styled.div`
-  flex:1;
+  flex: 1;
   height: 90px;
   background: #ffffff;
   box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
   border-radius: 12px;
-  font-family: 'SpoqaHanSansNeo-Regular', sans-serif;
+  font-family: "SpoqaHanSansNeo-Regular", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left:21px;
-  box-sizing:border-box;
-  margin:0;
+  padding-left: 21px;
+  box-sizing: border-box;
+  margin: 0;
 
   & div {
-    height:auto;
+    height: auto;
     color: #111;
-    font-size:15px;
+    font-size: 15px;
     font-weight: 500;
-    line-height:17px;
+    line-height: 17px;
     & span {
       color: #ff7b00;
     }
@@ -442,77 +461,76 @@ const StScoreChangeBoxDiv = styled.div`
   justify-content: flex-end;
   margin: 0 22px;
   width: calc(100%-44px);
-  box-sizing:border-box;
+  box-sizing: border-box;
   height: 90px;
   background: #ffffff;
   box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
   border-radius: 12px;
-  padding-left:22px;
+  padding-left: 22px;
 
   & div {
-    width:100%;
+    width: 100%;
 
     span {
-    color: #111111;
-    font-weight:400;
-    font-size:14px;
-    line-height:22px;
-    font-weight:400;
+      color: #111111;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
     }
-    
+
     p {
       display: inline-block;
-      margin:0;
+      margin: 0;
       color: #111111;
       font-size: 15px;
-      line-height:24px;
-      font-weight:500;
+      line-height: 24px;
+      font-weight: 500;
     }
   }
 `;
 
 const StBarchartBox = styled.div`
-  width:40%;
-  height:100%;
+  width: 40%;
+  height: 100%;
   display: flex;
-  justify-content:flex-end;
-  align-items:flex-end;
-  padding-right:24px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-right: 24px;
 
   & .barBox {
-    width:100%;
-    height:80px;
+    width: 100%;
+    height: 80px;
     display: flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-end;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   & div {
-    p{
-      width: 100%; 
-      text-align: center; 
+    p {
+      width: 100%;
+      text-align: center;
       font-size: 15px;
       font-weight: 600;
       line-height: 17px;
     }
 
     p.lastScore {
-      color:#D7D5D5; 
+      color: #d7d5d5;
     }
 
     p.thisScore {
-      color:#FF7B00; 
+      color: #ff7b00;
     }
   }
-`
+`;
 
 const StThisWeekStatus = styled.div`
   margin: 12px 22px 0 22px;
   display: flex;
   justify-content: flex-end;
-  box-sizing:border-box;
-
+  box-sizing: border-box;
 
   & div {
     display: flex;
@@ -520,95 +538,93 @@ const StThisWeekStatus = styled.div`
     justify-content: center;
     align-items: center;
     padding: 5px;
-    // 글씨 사이즈때문에 width값 조금 키움 
+    // 글씨 사이즈때문에 width값 조금 키움
     width: 190px;
     height: 28px;
-    background: #FFE9D5;
+    background: #ffe9d5;
     border-radius: 49px;
-    box-sizing:border-box;
-    margin:0;
+    box-sizing: border-box;
+    margin: 0;
     font-size: 14px;
-    color: #FF7B00;
-    font-weight:600;
-
+    color: #ff7b00;
+    font-weight: 600;
   }
-`
+`;
 
 const StLastWeekChart = styled.div`
-  width:25px;
-  height: ${(props) => `${props.height}%` || '3px'};
-  background: #D9D9D9;
+  width: 25px;
+  height: ${(props) => `${props.height}%` || "3px"};
+  background: #d9d9d9;
   border-radius: 6px 6px 0px 0px;
-
-`
+`;
 const StThisWeekChart = styled.div`
   width: 25px;
-  height: ${(props) => `${props.height}%` || '3px'};
-  background: #FF7B00;
+  height: ${(props) => `${props.height}%` || "3px"};
+  background: #ff7b00;
   border-radius: 6px 6px 0px 0px;
-`
+`;
 
 // ----------- 모달 -------------
 
 const StModalTop = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 350px;
-height: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 85px;
 
-border-radius: 48px 48px 0 0;
-background-color: #ffe9d5;
-color: #ff7b00;
-font-weight: bold;
-font-size: 1.2em;
+  border-radius: 48px 48px 0 0;
+  background-color: #ffe9d5;
+  color: #ff7b00;
+  font-weight: bold;
+  font-size: 1.2em;
 `;
 
 const StModalBottom = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-height: 70%;
-width: 80%;
-margin: auto;
-gap: 1.3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
+  width: 80%;
+  margin: auto;
+  gap: 1.3em;
 
   div {
-}
+  }
 `;
 const StModalExplainTop = styled.div``;
 
 const StModalExplainBottom = styled.div`
   span {
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 3%;
-}
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3%;
+  }
   div {
-  margin-top: 5%;
-}
+    margin-top: 5%;
+  }
 `;
 
 const StCloseBtnContainer = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StModalCloseDiv = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
-width: 80%;
-height: 2em;
-margin: 0 auto;
+  width: 80%;
+  height: 2em;
+  margin: 0 auto;
 
-border: none;
-background-color: none;
-color: #ff8f27;
-font-weight: bold;
+  border: none;
+  background-color: none;
+  color: #ff8f27;
+  font-weight: bold;
 `;

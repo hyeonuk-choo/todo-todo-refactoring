@@ -35,14 +35,7 @@ const Main = () => {
   const { thisMonthRate, totalRate, totalTodo } = useSelector(
     (state) => state.main
   );
-  console.log(
-    "thisMonthRate",
-    thisMonthRate,
-    "totalRate",
-    totalRate,
-    "totalTodo",
-    totalTodo
-  );
+
   const [month, setMonth] = useState(false);
   const [weekly, setWeekly] = useState(true);
   // const [school, setSchool] = useState(false);
@@ -85,9 +78,9 @@ const Main = () => {
   return (
     <StMainContainer>
       <StPhrasesbox>
-        <div className="mainTopSentenceBox">
+        <div className='mainTopSentenceBox'>
           <span>투두투두</span>
-          <div className="mainTopSentence">
+          <div className='mainTopSentence'>
             {nickname == null || nickname === "null" ? (
               "닉네임을 설정해주세요^^"
             ) : (
@@ -105,17 +98,17 @@ const Main = () => {
       </StPhrasesbox>
       <StAchievementsBox>
         <StAchievementsTopBox>
-          <div className="nicknamePart">
+          <div className='nicknamePart'>
             {nickname === null || nickname === "null"
               ? "닉네임이 미설정 상태입니다."
               : `${nickname}님의 기록`}
           </div>
-          <div className="todoCnt">
-            <img src={plannerCntSvg} alt="todoCntSvgImg" />
+          <div className='todoCnt'>
+            <img src={plannerCntSvg} alt='todoCntSvgImg' />
             <span>
               {totalRate?.plannerCnt === null ? 0 : totalRate?.plannerCnt}
             </span>
-            <img src={todoCntSvg} alt="todoCntSvgImg" />
+            <img src={todoCntSvg} alt='todoCntSvgImg' />
             <span>{totalTodo === "" ? 0 : totalTodo.count}</span>
           </div>
         </StAchievementsTopBox>
@@ -162,17 +155,17 @@ const Main = () => {
         closable={true}
         maskClosable={true}
         onClose={closeModal}
-        width="290px"
-        height="320px"
-        radius="48px"
-        top="40%"
-        backgroundcolor="rgba(17, 17, 17, 0.6)"
+        width='290px'
+        height='320px'
+        radius='48px'
+        top='40%'
+        backgroundcolor='rgba(17, 17, 17, 0.6)'
       >
         <StModalTop>
           <span>투두투두 랭킹 산정 방법</span>
         </StModalTop>
         <Swiper
-          className="banner"
+          className='banner'
           spaceBetween={50}
           slidesPerView={1}
           // navigation
@@ -182,7 +175,7 @@ const Main = () => {
             <StModalBottom>
               <StModalExplainDiv>
                 <span>주간/월간 랭킹</span>
-                <img src={bigTrophy} alt="bigTrophyImg" />
+                <img src={bigTrophy} alt='bigTrophyImg' />
                 <div>
                   주간 랭킹은 일주일/한달 간 측정한 투두 달성률 평균이 높은
                   순으로 순위가 결정됩니다.
@@ -210,11 +203,11 @@ const Main = () => {
       </Modal>
 
       {/* -------------------- 랭킹 --------------------*/}
-      <div className="rank">
+      <div className='rank'>
         <StRankingPhrases>
-          <img src={trophy} alt="trophyImg" />
+          <img src={trophy} alt='trophyImg' />
           <span>랭킹</span>
-          <img src={info} onClick={openModal} alt="infoImg" />
+          <img src={info} onClick={openModal} alt='infoImg' />
         </StRankingPhrases>
 
         <StRankingBtnBox>

@@ -14,7 +14,6 @@ const InfiniteScroll = () => {
   const [rankList, setRankList] = useState([]);
   const [allUser, setAllUser] = useState([]);
   const { mainRankList } = useSelector((state) => state.main);
-  console.log("mainRankList", mainRankList);
   const { error } = useSelector((state) => state.main);
 
   let nickname = localStorage.getItem("nickname");
@@ -32,19 +31,16 @@ const InfiniteScroll = () => {
     const arr = [];
     try {
       const { data } = await axios.get(`${BASE_URL}/member`);
-      console.log(data);
       arr.push(...data);
     } catch (error) {
       console.log(error);
     }
     setAllUser(arr);
-  }
-
-  console.log('allUser', allUser)
+  };
 
   useEffect(() => {
-    allUserFunc()
-  }, [])
+    allUserFunc();
+  }, []);
 
   useEffect(() => {
     dispatch(__getMainRank(page));
@@ -81,21 +77,23 @@ const InfiniteScroll = () => {
               <StRankingNumber>{each.rank}</StRankingNumber>
               <div>
                 {/* 영상 찍은 후 쓸데없는 코드 줄이기 */}
-                {allUser.filter((data) => data.nickname === each.nickname).length === 0
-                  ?
+                {allUser.filter((data) => data.nickname === each.nickname)
+                  .length === 0 ? (
+                  <StRankingProfile src={profileImgSvg} alt='profileImg' />
+                ) : (
                   <StRankingProfile
-                    src={profileImgSvg}
-                    alt='profileImg'
-                  />
-                  :
-                  <StRankingProfile
-                    src={allUser.filter((data) => data.nickname === each.nickname)[0].profileImage === ''
-                      ? profileImgSvg
-                      : allUser.filter((data) => data.nickname === each.nickname)[0].profileImage
+                    src={
+                      allUser.filter(
+                        (data) => data.nickname === each.nickname
+                      )[0].profileImage === ""
+                        ? profileImgSvg
+                        : allUser.filter(
+                            (data) => data.nickname === each.nickname
+                          )[0].profileImage
                     }
                     alt='profileImg'
                   />
-                }
+                )}
                 <StRankingNickname>{each.nickname}</StRankingNickname>
               </div>
             </div>

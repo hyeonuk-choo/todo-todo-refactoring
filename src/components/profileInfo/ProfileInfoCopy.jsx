@@ -16,8 +16,6 @@ import { throttle, debounce, escapeRegExp, set } from "lodash";
 
 const ProfileInfoCopy = () => {
   const { searchList } = useSelector((state) => state.profileinfo);
-  // const [ref, inView] = useInView();
-  // console.log("inView", inView);
 
   const targetRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false); // 로드 true, false
@@ -100,32 +98,25 @@ const ProfileInfoCopy = () => {
     observer.unobserve(entry.target);
   };
 
-
   // 무한 루프 발생으로 분리
-  console.log('highschoolInput.length', highschoolInput.length)
-
-  console.log('check', check);
 
   useEffect(() => {
     if (highschoolInput.length > 0) {
-      dispatch(__getSearch({ search: highschoolInput, page: page }))
+      dispatch(__getSearch({ search: highschoolInput, page: page }));
     }
   }, [highschoolInput]);
 
   useEffect(() => {
     let observer;
-    console.log('targetRef', targetRef);
+
     if (targetRef) {
-      console.log('ok?????')
       observer = new IntersectionObserver(checkIntersect, {
         threshold: 0.3,
       });
       observer.observe(targetRef.current);
     }
     return () => {
-      console.log(searchList);
-      console.log('nnnnnnnnnnnnnnnn')
-      observer && observer.disconnect()
+      observer && observer.disconnect();
     };
   }, [searchList]);
 
@@ -133,19 +124,15 @@ const ProfileInfoCopy = () => {
 
   const ch2pattern = (ch) => {
     // const offset = 44032;
-
     // if (/[가-힣]/.test(ch)) {
     //   const chCode = ch.charCodeAt(0) - offset;
-
     //   if (chCode % 28 > 0) {
     //     return ch;
     //   }
-
     //   const begin = Math.floor(chCode / 28) * 28 + offset;
     //   const end = begin + 27;
     //   return `[\\u${begin.toString(16)}-\\u${end.toString(16)}]`;
     // }
-
     // if (/[ㄱ-ㅎ]/.test(ch)) {
     //   const con2syl = {
     //     ㄱ: "가".charCodeAt(0),
@@ -229,17 +216,17 @@ const ProfileInfoCopy = () => {
         <form ref={nicknameRef} onSubmit={onSubmitNicknameCheckHandler}>
           {isNicknameCheck ? (
             <input
-              type="text"
-              placeholder="2-12자의 영문,한글,숫자 사용 가능"
+              type='text'
+              placeholder='2-12자의 영문,한글,숫자 사용 가능'
               value={nickname}
               onChange={onChangeNicknameHandler}
-              className="checkedInput"
+              className='checkedInput'
             />
           ) : (
             <>
               <input
-                type="text"
-                placeholder="2-12자의 영문,한글,숫자 사용 가능"
+                type='text'
+                placeholder='2-12자의 영문,한글,숫자 사용 가능'
                 value={nickname}
                 onChange={onChangeNicknameHandler}
               />
@@ -251,7 +238,7 @@ const ProfileInfoCopy = () => {
       </StInfoNicknameBox>
       <StHighschoolBox>
         <p>고등학교</p>
-        <div className="gradeBox">
+        <div className='gradeBox'>
           <div ref={oneRef} onClick={onClickOneRefHandler}>
             1학년
           </div>
@@ -262,38 +249,38 @@ const ProfileInfoCopy = () => {
             3학년
           </div>
         </div>
-        <div className="inputBox" style={{ display: "flex" }}>
+        <div className='inputBox' style={{ display: "flex" }}>
           <input
-            type="text"
-            placeholder="고등학교를 검색해주세요"
+            type='text'
+            placeholder='고등학교를 검색해주세요'
             value={highschoolInput}
             onChange={onChangeSearchHandler}
           />
           {highschoolInput.length > 0 ? (
             <button onClick={onClickSearchCancelHandler}>
-              <img src={cancelSvg} alt="search" />
+              <img src={cancelSvg} alt='search' />
             </button>
           ) : (
             <button>
-              <img src={searchSvg} alt="search" />
+              <img src={searchSvg} alt='search' />
             </button>
           )}
         </div>
       </StHighschoolBox>
-      <StHighschoolSearchBox className="scroll">
+      <StHighschoolSearchBox className='scroll'>
         {highschoolInput.length > 0
           ? searchList &&
-          searchList.map((data, index) => (
-            <div className="content" key={index}>
-              <div className="school" onClick={onClickSelectHandler}>
-                {data.schoolName}
+            searchList.map((data, index) => (
+              <div className='content' key={index}>
+                <div className='school' onClick={onClickSelectHandler}>
+                  {data.schoolName}
+                </div>
+                <div className='region'>
+                  <img src={regionSvg} />
+                  {data.adres}
+                </div>
               </div>
-              <div className="region">
-                <img src={regionSvg} />
-                {data.adres}
-              </div>
-            </div>
-          ))
+            ))
           : null}
         <StRefDiv ref={targetRef} style={{ backgroundColor: "red" }}>
           temp

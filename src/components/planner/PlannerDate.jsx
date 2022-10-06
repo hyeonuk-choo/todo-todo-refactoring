@@ -10,8 +10,6 @@ const PlannerDate = ({
   display,
   setDisplay,
 }) => {
-  console.log("dateTodo", dateTodo);
-
   const [todoList, setTodoList] = useState([]);
   const [todoRate, setTodoRate] = useState(0);
 
@@ -25,7 +23,6 @@ const PlannerDate = ({
         todoList.length) *
       100
     ).toFixed();
-    console.log("rate", rate);
     setTodoRate(rate);
   }, [todoList]);
 
@@ -34,7 +31,6 @@ const PlannerDate = ({
       const data = dateTodo.filter(
         (data) => data.category === selectedCategoryName
       );
-      console.log("data", data);
       setTodoList([...data]);
     } else {
       setTodoList([]);
@@ -43,12 +39,12 @@ const PlannerDate = ({
 
   return (
     <StDiv display={display}>
-      <div className="header">
+      <div className='header'>
         <StHeaderBox>
-          <div className="iconBox">
+          <div className='iconBox'>
             <img
               src={leftArrowSvg}
-              alt="leftArrowIcon"
+              alt='leftArrowIcon'
               onClick={onClickBackPlannerHandler}
             />
           </div>
@@ -58,8 +54,8 @@ const PlannerDate = ({
           <div></div>
         </StHeaderBox>
         <StCategoryProgressContainer>
-          <div className="top">
-            <p className="title">
+          <div className='top'>
+            <p className='title'>
               {todoList.filter((data) => data.complete === true).length}/
               {todoList.length}
             </p>
@@ -73,20 +69,19 @@ const PlannerDate = ({
         </StCategoryProgressContainer>
       </div>
 
-
       <StTodoContainer>
         {todoList.length > 0 &&
           todoList
             .filter((data) => data.complete === false)
             .map((data) => (
               <StTodoItem key={data.todoId} name={data.title}>
-                <div className="top" id={data.todoId}>
+                <div className='top' id={data.todoId}>
                   <div
-                    className="content"
+                    className='content'
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <img src={notDoneSvg} alt="notDoneIcon" />
-                    <StTodoTitle className="title">{data.content}</StTodoTitle>
+                    <img src={notDoneSvg} alt='notDoneIcon' />
+                    <StTodoTitle className='title'>{data.content}</StTodoTitle>
                   </div>
                 </div>
               </StTodoItem>
@@ -99,13 +94,13 @@ const PlannerDate = ({
             .filter((data) => data.complete === true)
             .map((data) => (
               <StTodoItem key={data.todoId} name={data.title}>
-                <div className="top" id={data.todoId}>
+                <div className='top' id={data.todoId}>
                   <div
-                    className="content"
+                    className='content'
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <img src={doneSvg} alt="doneIcon" />
-                    <StTodoTitle className="title" color="#E8E8E8">
+                    <img src={doneSvg} alt='doneIcon' />
+                    <StTodoTitle className='title' color='#E8E8E8'>
                       {data.content}
                     </StTodoTitle>
                   </div>
@@ -149,7 +144,7 @@ const StDiv = styled.div`
     flex-direction: column;
     border-bottom: 1px solid #f1f3f5;
     box-sizing: border-box;
-    z-index:1;
+    z-index: 1;
 
     @media screen and (min-width: 768px) {
       width: 600px;
@@ -169,7 +164,6 @@ const StHeaderBox = styled.div`
   }
   & .iconBox {
     padding-left: 10px;
-
 
     img {
       /* position:absolute; */
@@ -234,10 +228,6 @@ const StProgressBar = styled.div`
   height: 13px;
   border-radius: 10px;
 `;
-
-
-
-
 
 const StTodoContainer = styled.div`
   padding: 20px;

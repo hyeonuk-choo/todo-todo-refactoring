@@ -24,7 +24,6 @@ const OtherProfilePlannerDate = () => {
   const [categoryTodoComplete, setCategoryTodoComplete] = useState({});
   // const [selectedCategoryName, setSelectedCategoryName] = useState("");
 
-
   // const onClickSelectCategoryToTodoListHandler = (e) => {
   //   const { title } = e.currentTarget;
   //   setSelectedCategoryName(title);
@@ -43,7 +42,6 @@ const OtherProfilePlannerDate = () => {
   };
 
   useEffect(() => {
-    console.log("dateTodo", dateTodo, "date", date);
     const obj = {};
     let arr = [];
     const newArr = [];
@@ -64,35 +62,26 @@ const OtherProfilePlannerDate = () => {
     }
 
     arr = Object.keys(obj);
-    console.log("arr", arr);
 
     for (let i = 0; i < arr.length; i++) {
       const newData = dateTodo.filter((data) => data.category === arr[i]);
-      console.log("data", newData);
       newArr.push(newData);
     }
 
-    console.log("newArr", newArr);
     setCategory(arr);
     setCategoryTodoComplete(arrComplete);
     setCategoryTodoList(newArr);
     setDateTodoObj(obj);
   }, [dateTodo]);
 
-  console.log("dateTodoObj", dateTodoObj, "categoryTodoList", categoryTodoList);
-
   useEffect(() => {
     let date = localStorage.getItem("date");
     setCalenderdate(date);
   }, [date]);
 
-  console.log("calenderdate", calenderdate, "selectDate", selectDate);
-
   useEffect(() => {
-    console.log("localStorage.getItem", localStorage.getItem("date"));
     let date = localStorage.getItem("date");
     let nickname = localStorage.getItem("nickname");
-    console.log("date", date, "nickname", nickname);
 
     dispatch(__getTodo({ date: date, nickname: params.id }));
   }, [dispatch]);
@@ -108,10 +97,7 @@ const OtherProfilePlannerDate = () => {
                 id={index}
                 onClick={onClickShowTodoHandler}
               >
-                <div
-                  className='top'
-                  title={data}
-                >
+                <div className='top' title={data}>
                   <p className='title'>{data}</p>
                   {category.length > 0 && (
                     <p onClick={(e) => e.stopPropagation()}>
@@ -128,12 +114,12 @@ const OtherProfilePlannerDate = () => {
                       width={
                         isNaN(
                           categoryTodoComplete[`${category[index]}`] /
-                          dateTodoObj[`${category[index]}`]
+                            dateTodoObj[`${category[index]}`]
                         )
                           ? 0
                           : (categoryTodoComplete[`${category[index]}`] /
-                            dateTodoObj[`${category[index]}`]) *
-                          100
+                              dateTodoObj[`${category[index]}`]) *
+                            100
                       }
                       backgroundColor='#74E272'
                     ></StProgressBar>

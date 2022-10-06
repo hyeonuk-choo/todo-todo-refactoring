@@ -6,11 +6,8 @@ import { __getLineChartData } from "../../redux/modules/statisticsSlice";
 
 const LineChart = () => {
   const { lineData } = useSelector((state) => state?.statistics);
-  console.log("lineData", lineData);
   const dispatch = useDispatch();
   const [lineDataRate, setLineDataRate] = useState([]);
-
-  console.log("lineData", lineData);
 
   const options = {
     legend: {
@@ -47,13 +44,13 @@ const LineChart = () => {
     grid: {
       // left: "15%",
       // top: "12%",
-      bottom: '15%',
+      bottom: "15%",
     },
   };
 
   useEffect(() => {
     const arr = [];
-    console.log("lineData", lineData);
+
     if (lineData.length > 0) {
       let len = lineData.length;
       for (let i = 0; i < len; i++) {
@@ -61,11 +58,9 @@ const LineChart = () => {
         arr.push(data);
       }
     }
-    console.log("arr", arr);
+
     setLineDataRate(arr);
   }, [lineData]);
-
-  // console.log('lineDataRate', lineDataRate)
 
   useEffect(() => {
     dispatch(__getLineChartData());

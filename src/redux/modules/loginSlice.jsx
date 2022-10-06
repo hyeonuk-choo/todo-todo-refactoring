@@ -18,7 +18,6 @@ export const __kakaoLogin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${KAKAO_BASE_URL}?code=${payload}`);
-      console.log(data);
 
       localStorage.setItem("nickname", data.nickname);
       localStorage.setItem("accessToken", data.accessToken);
@@ -35,18 +34,16 @@ export const __kakaoLogin = createAsyncThunk(
 export const __googleLogin = createAsyncThunk(
   "google/login",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
     try {
       const { data } = await axios.get(`${GOOGLE_BASE_URL}?code=${payload}`);
-      console.log("data", data);
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("nickname", data.nickname);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.log(error);
-      window.alert('로그인에 실패하였습니다.')
-      console.log('error', `${GOOGLE_BASE_URL}?code=${payload}`);
+      window.alert("로그인에 실패하였습니다.");
+      console.log("error", `${GOOGLE_BASE_URL}?code=${payload}`);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -63,17 +60,15 @@ export const __nicknameCheck = createAsyncThunk(
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    console.log("__nicknameCheck payload", payload);
     try {
       const { data } = await axios.post(
         `${BASE_URL}/check-nickname`,
         payload,
         config
       );
-      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -89,10 +84,8 @@ export const __userInfoRegister = createAsyncThunk(
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    console.log("__userInfoRegister payload", payload);
     try {
       const { data } = await axios.post(`${BASE_URL}/signup`, payload, config);
-      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.log(error);
@@ -104,10 +97,8 @@ export const __userInfoRegister = createAsyncThunk(
 export const __loginReissue = createAsyncThunk(
   "loginReissue/login",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
     try {
       const { headers } = await axios.post(`${BASE_URL}/reissue`, payload);
-      console.log("headers!!!!!!!!!!!!!!", headers.authorization);
       localStorage.setItem("accessToken", headers.authorization);
       return thunkAPI.fulfillWithValue(headers);
     } catch (error) {
@@ -188,5 +179,5 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { } = loginSlice.actions;
+export const {} = loginSlice.actions;
 export default loginSlice.reducer;

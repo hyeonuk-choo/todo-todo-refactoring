@@ -26,16 +26,6 @@ const PlannerCategory = () => {
   const { category, todos, dateTodo, date } = useSelector(
     (state) => state.planner
   );
-  console.log(
-    "category",
-    category,
-    "todos",
-    todos,
-    "dateTodo",
-    dateTodo,
-    "date",
-    date
-  );
 
   const onClickAddCategoryHandler = () => {
     navigate("/planner/category");
@@ -63,8 +53,6 @@ const PlannerCategory = () => {
       }
     }
 
-    console.log("arr", arr);
-
     if (arr.length > 0) {
       for (let i = 0; i < arr.length; i++) {
         const rate = (
@@ -79,9 +67,6 @@ const PlannerCategory = () => {
     setCategoryTodoComplete(arrRate);
     setCategoryTodoList(arr);
   }, [category, todos]);
-
-  console.log("categoryTodoList", categoryTodoList);
-  console.log("categoryTodoComplete", categoryTodoComplete);
 
   useEffect(() => {
     let nickname = localStorage.getItem("nickname");

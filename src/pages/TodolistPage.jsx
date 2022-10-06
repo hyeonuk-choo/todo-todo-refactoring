@@ -7,7 +7,6 @@ const TodolistPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const onClickAddTodoModalHandler = () => {
-    console.log("1111");
     setModalVisible(true);
   };
 

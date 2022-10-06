@@ -27,7 +27,6 @@ const UploadPhoto = () => {
     }
 
     const imageFile = e.target.files[0];
-    console.log("imageFile", imageFile);
 
     const options = {
       maxSizeMB: 1,
@@ -37,7 +36,6 @@ const UploadPhoto = () => {
 
     try {
       const compressedFile = await imageCompression(imageFile, options);
-      console.log(`compressedFile.size ${compressedFile.size}`);
 
       // await uploadToServer(compressedFile);
       const formData = new FormData();
@@ -56,12 +54,12 @@ const UploadPhoto = () => {
       display={profilePhotoBtn}
     >
       <input
-        type="file"
-        accept="image/*"
+        type='file'
+        accept='image/*'
         ref={uploadRef}
         onChange={onChangeUploadImageHandler}
       />
-      <img src={cameraSvg} alt="camera" />
+      <img src={cameraSvg} alt='camera' />
     </StUploadPhoto>
   );
 };

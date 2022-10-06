@@ -28,7 +28,10 @@ export const __getCategory = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(`${BASE_URL}/todo/category/${payload}`, config);
+      const { data } = await axios.get(
+        `${BASE_URL}/todo/category/${payload}`,
+        config
+      );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -76,7 +79,6 @@ export const __deleteCategory = createAsyncThunk(
         `${BASE_URL}/todo/category/${payload}`,
         config
       );
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -101,7 +103,6 @@ export const __updateCategory = createAsyncThunk(
         payload.title,
         config
       );
-      console.log("payload", payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -127,7 +128,6 @@ export const __getTodoCount = createAsyncThunk(
         )}`,
         config
       );
-      console.log("data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -148,7 +148,6 @@ export const __getTodayTodo = createAsyncThunk(
       };
 
       const data = await axios.get(`${BASE_URL}/todo/today/${payload}`, config);
-      console.log("data=====", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -160,7 +159,6 @@ export const __getTodayTodo = createAsyncThunk(
 export const __getTodo = createAsyncThunk(
   "getTodo",
   async (payload, thunkAPI) => {
-    console.log("payload!!!!!!!", payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
       const config = {
@@ -174,7 +172,6 @@ export const __getTodo = createAsyncThunk(
         `${BASE_URL}/todo/${payload.nickname}?date=${payload.date}`,
         config
       );
-      console.log("data", data, 'payload.date', payload.date);
       return thunkAPI.fulfillWithValue({ data: data.data, date: payload.date });
     } catch (error) {
       console.log("error", error);
@@ -196,7 +193,6 @@ export const __postTodo = createAsyncThunk(
       };
 
       const data = await axios.post(`${BASE_URL}/todo`, payload, config);
-      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -216,13 +212,11 @@ export const __updateTodo = createAsyncThunk(
         },
       };
 
-      console.log("payload", payload, payload.todoId, typeof payload.todoId);
       const data = await axios.put(
         `${BASE_URL}/todo/${payload.todoId}`,
         payload.editTodo,
         config
       );
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log("error", error);
@@ -234,7 +228,6 @@ export const __updateTodo = createAsyncThunk(
 export const __deleteTodo = createAsyncThunk(
   "todo/deleteTodo",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
     try {
       let accessToken = localStorage.getItem("accessToken");
       const config = {
@@ -248,7 +241,7 @@ export const __deleteTodo = createAsyncThunk(
         `${BASE_URL}/todo/${payload}`,
         config
       );
-      console.log("data", data);
+
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -268,7 +261,6 @@ export const __completeTodo = createAsyncThunk(
         },
       };
 
-      console.log("payload", payload);
       const data = await axios.put(
         `${BASE_URL}/todo/${payload.todoId}`,
         payload,
@@ -302,9 +294,7 @@ export const plannerSlice = createSlice({
     [__postCategory.pending]: (state) => {
       state.isLoading = true;
     },
-    [__postCategory.fulfilled]: (state, action) => {
-      // console.log('__postCategory action.payload', action.payload);
-    },
+    [__postCategory.fulfilled]: (state, action) => {},
     [__postCategory.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
@@ -352,7 +342,6 @@ export const plannerSlice = createSlice({
     },
     [__getTodayTodo.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("action.payload!!!", action.payload);
       state.todos = action.payload;
     },
     [__getTodayTodo.rejected]: (state, action) => {
@@ -365,8 +354,6 @@ export const plannerSlice = createSlice({
     },
     [__getTodo.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("action.payload***", action.payload);
-      // state.todos = action.payload;
       state.dateTodo = action.payload.data;
       state.date = action.payload.date;
     },
@@ -390,14 +377,12 @@ export const plannerSlice = createSlice({
       state.isLoading = true;
     },
     [__updateTodo.fulfilled]: (state, action) => {
-      console.log("action", action);
       state.isLoading = false;
       // update action.payload에 category 미포함
     },
     [__updateTodo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      console.log(state);
     },
     // __deleteTodo
     [__deleteTodo.pending]: (state, action) => {
@@ -418,13 +403,11 @@ export const plannerSlice = createSlice({
       state.isLoading = true;
     },
     [__completeTodo.fulfilled]: (state, action) => {
-      console.log(typeof action.meta.arg.todoId, action.meta.arg);
       state.isLoading = false;
       state.todos = state.todos.map((todo) => {
         // 코드 변경했는데 작동하는지 확인하기
         if (todo.todoId === action.meta.arg.todoId) {
           todo.complete = action.meta.arg.isComplete;
-          console.log(todo.complete);
           // return { ...todo, complete: action.payload.complete };
         }
         return todo;
