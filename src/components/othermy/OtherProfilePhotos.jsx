@@ -201,13 +201,9 @@ const StContainer = styled.div`
   margin: 6px 6px 0 6px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 40%;
+  grid-auto-rows: 120px;
   grid-gap: 3px;
-  /* width: 100%; */
-  /* height: auto;
-  min-height: 40vh; */
-  /* background-color: #f8f8f8; */
-  /* padding-bottom: 70px; */
+
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     display: none;
