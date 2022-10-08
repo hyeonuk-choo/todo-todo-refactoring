@@ -55,6 +55,7 @@ const InfiniteScrollMonthly = () => {
     dispatch(__getMainRankMonthly(page));
   }, [page]);
 
+
   useEffect(() => {
     monthFunc();
   }, []);
@@ -67,6 +68,7 @@ const InfiniteScrollMonthly = () => {
       });
       observer.observe(targetRef.current);
     }
+
 
     return () => {
       observer && observer.disconnect();
@@ -100,8 +102,8 @@ const InfiniteScrollMonthly = () => {
                       .profileImage === ""
                       ? profileImgSvg
                       : allUser.filter(
-                          (data) => data.nickname === each.nickname
-                        )[0].profileImage
+                        (data) => data.nickname === each.nickname
+                      )[0].profileImage
                   }
                   alt='profileImg'
                 />

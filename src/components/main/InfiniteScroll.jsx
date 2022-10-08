@@ -46,6 +46,7 @@ const InfiniteScroll = () => {
     dispatch(__getMainRank(page));
   }, [page]);
 
+
   useEffect(() => {
     let observer;
     if (targetRef) {
@@ -88,8 +89,8 @@ const InfiniteScroll = () => {
                       )[0].profileImage === ""
                         ? profileImgSvg
                         : allUser.filter(
-                            (data) => data.nickname === each.nickname
-                          )[0].profileImage
+                          (data) => data.nickname === each.nickname
+                        )[0].profileImage
                     }
                     alt='profileImg'
                   />
