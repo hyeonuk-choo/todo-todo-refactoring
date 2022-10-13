@@ -25,6 +25,7 @@ const InfiniteScrollMonthly = () => {
 
   const checkIntersect = ([entry], observer) => {
     if (entry.isIntersecting) {
+      dispatch(__getMainRankMonthly(page));
       observer.unobserve(entry.target);
       setPage((prev) => prev + 1);
     }
@@ -50,11 +51,6 @@ const InfiniteScrollMonthly = () => {
   useEffect(() => {
     allUserFunc();
   }, []);
-
-  useEffect(() => {
-    dispatch(__getMainRankMonthly(page));
-  }, [page]);
-
 
   useEffect(() => {
     monthFunc();

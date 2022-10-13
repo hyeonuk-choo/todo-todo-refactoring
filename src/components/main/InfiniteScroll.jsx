@@ -22,6 +22,7 @@ const InfiniteScroll = () => {
 
   const checkIntersect = ([entry], observer) => {
     if (entry.isIntersecting) {
+      dispatch(__getMainRank(page));
       observer.unobserve(entry.target);
       setPage((prev) => prev + 1);
     }
@@ -43,18 +44,11 @@ const InfiniteScroll = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(__getMainRank(page));
-  }, [page]);
-
-
-  useEffect(() => {
-    let observer;
-    if (targetRef) {
-      observer = new IntersectionObserver(checkIntersect, {
-        threshold: 0.5,
-      });
-      observer.observe(targetRef.current);
-    }
+    if (!targetRef.current) return;
+    const observer = new IntersectionObserver(checkIntersect, {
+      threshold: 0.5,
+    });
+    observer.observe(targetRef.current);
     return () => {
       observer && observer.disconnect();
     };

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import info from "../../assets/img/mainpage/info.svg";
-import BarChart from "./BarChart";
 import HeatmapSample from "./HeatmapSample";
 import LineChart from "./LineChart";
 import Modal from "../utils/Modal";
@@ -142,18 +141,18 @@ const Statistics = () => {
             {weeklyScore2 === 0
               ? "이번 주도 시작해볼까요"
               : lastweekScore2 > 0 && lastweekScore2 * 0.5 > weeklyScore2
-              ? "이번 주도 화이팅이에요"
-              : lastweekScore2 * 0.5 < weeklyScore2 &&
-                lastweekScore2 * 0.9 > weeklyScore2
-              ? "저번 주의 절반 이상 왔어요!"
-              : lastweekScore2 * 0.9 < weeklyScore2 &&
-                lastweekScore2 > weeklyScore2
-              ? "곧 저번 주 점수를 넘기겠어요!"
-              : lastweekScore2 === weeklyScore2
-              ? "저번 주 점수랑 동점이에요!"
-              : lastweekScore2 < weeklyScore2
-              ? "저번 주 점수를 넘으셨어요!!"
-              : null}
+                ? "이번 주도 화이팅이에요"
+                : lastweekScore2 * 0.5 < weeklyScore2 &&
+                  lastweekScore2 * 0.9 > weeklyScore2
+                  ? "저번 주의 절반 이상 왔어요!"
+                  : lastweekScore2 * 0.9 < weeklyScore2 &&
+                    lastweekScore2 > weeklyScore2
+                    ? "곧 저번 주 점수를 넘기겠어요!"
+                    : lastweekScore2 === weeklyScore2
+                      ? "저번 주 점수랑 동점이에요!"
+                      : lastweekScore2 < weeklyScore2
+                        ? "저번 주 점수를 넘으셨어요!!"
+                        : null}
           </div>
         </StThisWeekStatus>
 
