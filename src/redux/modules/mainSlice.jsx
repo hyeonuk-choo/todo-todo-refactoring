@@ -97,14 +97,14 @@ export const __getMainRank = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
+      console.log(payload);
       const data = await axios.get(
         `${BASE_URL}/rank/weekly?page=${payload}&size=${3}`,
         // payload,
         config
       );
 
-      console.log('data', data)
+      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data.content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -262,7 +262,7 @@ export const mainSlice = createSlice({
     },
     [__getMainRank.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log('__getMainRank.action.payload', action.payload);
+      console.log("__getMainRank.action.payload", action.payload);
       state.mainRankList.push(...action.payload);
       state.mainRankListMonthly = [];
       // state.mainRankListSchool = [];
@@ -277,7 +277,7 @@ export const mainSlice = createSlice({
     },
     [__getMainRankMonthly.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log('__getMainRankMonthly.action.payload', action.payload);
+      console.log("__getMainRankMonthly.action.payload", action.payload);
       state.mainRankListMonthly.push(...action.payload);
       state.mainRankList = [];
       // state.mainRankListSchool = [];

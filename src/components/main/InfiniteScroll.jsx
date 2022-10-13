@@ -74,7 +74,7 @@ const InfiniteScroll = () => {
                 {/* 영상 찍은 후 쓸데없는 코드 줄이기 */}
                 {allUser.filter((data) => data.nickname === each.nickname)
                   .length === 0 ? (
-                  <StRankingProfile src={profileImgSvg} alt='profileImg' />
+                  <StRankingProfile src={profileImgSvg} alt="profileImg" />
                 ) : (
                   <StRankingProfile
                     src={
@@ -83,10 +83,10 @@ const InfiniteScroll = () => {
                       )[0].profileImage === ""
                         ? profileImgSvg
                         : allUser.filter(
-                          (data) => data.nickname === each.nickname
-                        )[0].profileImage
+                            (data) => data.nickname === each.nickname
+                          )[0].profileImage
                     }
-                    alt='profileImg'
+                    alt="profileImg"
                   />
                 )}
                 <StRankingNickname>{each.nickname}</StRankingNickname>

@@ -68,12 +68,12 @@ const Statistics = () => {
       </StHeader>
       <StBackground>
         <StTopSubjectDiv>
-          <div className='my-score'>나의 점수</div>
+          <div className="my-score">나의 점수</div>
           <img
-            className='my-score-img'
+            className="my-score-img"
             src={info}
             onClick={() => modalToggleHandler("score")}
-            alt='infoImg'
+            alt="infoImg"
           />
         </StTopSubjectDiv>
         <StScoreBoxContainer>
@@ -93,12 +93,12 @@ const Statistics = () => {
           </StScoreBoxDiv>
         </StScoreBoxContainer>
         <StScoreChangeBoxDiv>
-          <div className='weekText'>
+          <div className="weekText">
             <div>
-              <span className='lastweek'>저번 주</span>
-              <span className='thisweek'> 이번 주</span>
+              <span className="lastweek">저번 주</span>
+              <span className="thisweek"> 이번 주</span>
             </div>
-            <p className='change-weekRank'> 주간 랭킹 점수 변화</p>
+            <p className="change-weekRank"> 주간 랭킹 점수 변화</p>
           </div>
 
           <StBarchartBox>
@@ -111,8 +111,8 @@ const Statistics = () => {
                 marginRight: "16px",
               }}
             >
-              <div className='barBox'>
-                <p className='lastScore'>{lastweekScore2.toFixed(0)}</p>
+              <div className="barBox">
+                <p className="lastScore">{lastweekScore2.toFixed(0)}</p>
                 <StLastWeekChart
                   height={parseInt(lastweekScore2.toFixed(2))}
                 ></StLastWeekChart>
@@ -126,8 +126,8 @@ const Statistics = () => {
                 width: "25px",
               }}
             >
-              <div className='barBox'>
-                <p className='thisScore'>{weeklyScore2.toFixed(0)}</p>
+              <div className="barBox">
+                <p className="thisScore">{weeklyScore2.toFixed(0)}</p>
                 <StThisWeekChart
                   height={parseInt(weeklyScore2.toFixed(0))}
                 ></StThisWeekChart>
@@ -157,23 +157,23 @@ const Statistics = () => {
         </StThisWeekStatus>
 
         <StTopSubjectDiv>
-          <div className='weekRank'>
+          <div className="weekRank">
             <div cl>주간 랭킹 점수</div>
             <img
               src={info}
               onClick={() => modalToggleHandler("rank")}
-              alt='infoImg'
+              alt="infoImg"
             />
           </div>
         </StTopSubjectDiv>
         <LineChart />
         <StTopSubjectDiv>
-          <div className='todoRate'>
+          <div className="todoRate">
             <div>나의 투두 달성률</div>
             <img
               src={info}
               onClick={() => modalToggleHandler("heatMap")}
-              alt='infoImg'
+              alt="infoImg"
             />
           </div>
         </StTopSubjectDiv>
@@ -189,13 +189,13 @@ const Statistics = () => {
           closable={true}
           maskClosable={true}
           onClose={modalToggleHandler}
-          width='350px'
+          width="350px"
           height={
             modal === "score" ? "22em" : modal === "rank" ? "20em" : "21em"
           }
-          radius='48px'
-          top='40%'
-          backgroundcolor='#11111180 '
+          radius="48px"
+          top="40%"
+          backgroundcolor="#11111180 "
         >
           <StModalTop>
             {modal === "score" ? (
@@ -221,7 +221,7 @@ const Statistics = () => {
                       gap: "3%",
                     }}
                   >
-                    <img src={trophy} alt='trophyImg' /> 주간점수
+                    <img src={trophy} alt="trophyImg" /> 주간점수
                   </span>
                   <div>
                     이번주에 쌓은 점수입니다.
@@ -231,7 +231,7 @@ const Statistics = () => {
                 </StModalExplainTop>
                 <StModalExplainBottom>
                   <span>
-                    <img src={trophy} alt='trophyImg' /> 월간 점수
+                    <img src={trophy} alt="trophyImg" /> 월간 점수
                   </span>
                   <div>
                     이번 달에 쌓은 점수입니다.
