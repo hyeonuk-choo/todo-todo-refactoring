@@ -31,39 +31,168 @@ const Router = () => {
   const [nickname, setNickname] = useState(null);
 
   useEffect(() => {
-    let token = localStorage.getItem('accessToken');
-    let nickname = localStorage.getItem('nickname');
+    let token = localStorage.getItem("accessToken");
+    let nickname = localStorage.getItem("nickname");
     setToken(() => token);
-    setNickname(() => nickname)
-  }, [])
+    setNickname(() => nickname);
+  }, []);
 
   return (
     <BrowserRouter>
       <StContainer>
         <Layout>
           <Routes>
+            {/* <Route
+              path="/login"
+              element={
+                token !== null ? <Navigate replace to="/" /> : <LoginPage />
+              }
+            /> */}
+            {/* <Route path='/' element={token === null ? <Navigate replace to='/login' /> : <MainPage />} /> */}
+            <Route path="/" element={<MainPage />} />
+            {/* <Route
+              path="/my"
+              element={
+                token === null ? <Navigate replace to="/login" /> : <MyPage />
+              }
+            /> */}
+            <Route path="/my" element={<MyPage />} />
+            {/* <Route
+              path="/my/planner"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <ProfilePlanner />
+                )
+              }
+            /> */}
+            <Route path="/my/planner" element={<ProfilePlanner />} />
             <Route
-              path='/login'
-              element={token !== null ? <Navigate replace to='/' /> : <LoginPage />}
+              path="/othermy/:id"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <OtherMyPage />
+                )
+              }
             />
-            <Route path='/' element={token === null ? <Navigate replace to='/login' /> : <MainPage />} />
-            <Route path='/my' element={token === null ? <Navigate replace to='/login' /> : <MyPage />} />
-            <Route path='/my/planner' element={token === null ? <Navigate replace to='/login' /> : <ProfilePlanner />} />
-            <Route path='/othermy/:id' element={token === null ? <Navigate replace to='/login' /> : <OtherMyPage />} />
-            <Route path='/follower/:id' element={token === null ? <Navigate replace to='/login' /> : <FollowerPage />} />
-            <Route path='/following/:id' element={token === null ? <Navigate replace to='/login' /> : <FollowingPage />} />
-            <Route path='/profileedit' element={token === null ? <Navigate replace to='/login' /> : <ProfileEdit />} />
-            <Route path='/setting' element={token === null ? <Navigate replace to='/login' /> : <Setting setToken={setToken} />} />
-            <Route path='/planner' element={token === null ? <Navigate replace to='/login' /> : <PlannerPage />} />
-            <Route path='/planner/date' element={token === null ? <Navigate replace to='/login' /> : <PlannerDatePage />} />
-            <Route path='/planner/category' element={token === null ? <Navigate replace to='/login' /> : <PlannerCategoryAdd />} />
-            <Route path='/planner/category/todolist' element={token === null ? <Navigate replace to='/login' /> : <TodolistPage />} />
-            <Route path='/statistics' element={token === null ? <Navigate replace to='/login' /> : <StatisticsPage />} />
-            {/* <Route path='/profileinfo' element={<ProfileInfoPage />} /> */}
-            <Route path='/profileinfo' element={nickname !== null ? <Navigate replace to='/' /> : <ProfileInfoPage />} />
-            <Route path='/user/kakao/callback' element={<KakaoLogin setToken={setToken} />} />
-            <Route path='/user/google/callback' element={<GoogleLogin setToken={setToken} />} />
-            <Route path='/user/naver/callback' element={<NaverLogin />} />
+            <Route path="/othermy/:id" element={<OtherMyPage />} />
+            <Route
+              path="/follower/:id"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <FollowerPage />
+                )
+              }
+            />
+            <Route
+              path="/following/:id"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <FollowingPage />
+                )
+              }
+            />
+            <Route
+              path="/profileedit"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <ProfileEdit />
+                )
+              }
+            />
+            {/* <Route
+              path="/setting"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <Setting setToken={setToken} />
+                )
+              }
+            /> */}
+            <Route path="/setting" element={<Setting setToken={setToken} />} />
+            {/* <Route
+              path="/planner"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <PlannerPage />
+                )
+              }
+            /> */}
+            <Route path="/planner" element={<PlannerPage />} />
+            <Route
+              path="/planner/date"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <PlannerDatePage />
+                )
+              }
+            />
+            <Route
+              path="/planner/category"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <PlannerCategoryAdd />
+                )
+              }
+            />
+            <Route
+              path="/planner/category/todolist"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <TodolistPage />
+                )
+              }
+            />
+            {/* <Route
+              path="/statistics"
+              element={
+                token === null ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <StatisticsPage />
+                )
+              }
+            /> */}
+            <Route path="/statistics" element={<StatisticsPage />} />
+
+            {/* <Route
+              path="/profileinfo"
+              element={
+                nickname !== null ? (
+                  <Navigate replace to="/" />
+                ) : (
+                  <ProfileInfoPage />
+                )
+              }
+            /> */}
+            <Route path="/profileinfo" element={<ProfileInfoPage />} />
+            <Route
+              path="/user/kakao/callback"
+              element={<KakaoLogin setToken={setToken} />}
+            />
+            <Route
+              path="/user/google/callback"
+              element={<GoogleLogin setToken={setToken} />}
+            />
+            <Route path="/user/naver/callback" element={<NaverLogin />} />
           </Routes>
         </Layout>
       </StContainer>
@@ -72,12 +201,11 @@ const Router = () => {
 };
 
 const StContainer = styled.div`
-  width:100vw;
-  height:100vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  justify-content:center;
-  box-sizing:border-box;
-
-`
+  justify-content: center;
+  box-sizing: border-box;
+`;
 
 export default Router;
