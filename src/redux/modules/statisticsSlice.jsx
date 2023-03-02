@@ -44,7 +44,6 @@ export const __getRankScoreData = createAsyncThunk(
         monthlyData.data,
       ]);
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -110,7 +109,7 @@ export const statisticsSlice = createSlice({
     },
     [__getRankScoreData.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
 
@@ -123,7 +122,7 @@ export const statisticsSlice = createSlice({
     },
     [__getLineChartData.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
 
@@ -136,7 +135,7 @@ export const statisticsSlice = createSlice({
     },
     [__getHeatMapData.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
   },

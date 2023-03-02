@@ -150,7 +150,6 @@ export const __getTodayTodo = createAsyncThunk(
       const data = await axios.get(`${BASE_URL}/todo/today/${payload}`, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -174,7 +173,6 @@ export const __getTodo = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue({ data: data.data, date: payload.date });
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -219,7 +217,6 @@ export const __updateTodo = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }

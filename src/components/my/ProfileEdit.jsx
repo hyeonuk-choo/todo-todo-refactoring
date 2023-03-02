@@ -118,7 +118,7 @@ const ProfileEdit = () => {
       // await uploadToServer(compressedFile);
       setProfileImageState(compressedFile);
     } catch (error) {
-      console.log(error);
+      
     }
   };
 

@@ -35,7 +35,6 @@ export const __getThisMonthRate = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -59,7 +58,6 @@ export const __getTotalRate = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -80,7 +78,6 @@ export const __getTotalTodo = createAsyncThunk(
       const data = await axios.get(`${BASE_URL}/todo/total`, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -97,14 +94,12 @@ export const __getMainRank = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       };
-      console.log(payload);
+
       const data = await axios.get(
         `${BASE_URL}/rank/weekly?page=${payload}&size=${3}`,
         // payload,
         config
       );
-
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data.content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -208,7 +203,6 @@ export const __updateDday = createAsyncThunk(
       const data = await axios.put(`${BASE_URL}/d-day`, payload, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log("error", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -228,7 +222,7 @@ export const mainSlice = createSlice({
     },
     [__getThisMonthRate.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
     [__getTotalRate.pending]: (state) => {
@@ -240,7 +234,7 @@ export const mainSlice = createSlice({
     },
     [__getTotalRate.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
 
@@ -253,7 +247,7 @@ export const mainSlice = createSlice({
     },
     [__getTotalTodo.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
 
@@ -262,14 +256,13 @@ export const mainSlice = createSlice({
     },
     [__getMainRank.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("__getMainRank.action.payload", action.payload);
       state.mainRankList.push(...action.payload);
       state.mainRankListMonthly = [];
       // state.mainRankListSchool = [];
     },
     [__getMainRank.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
     [__getMainRankMonthly.pending]: (state) => {
@@ -277,14 +270,13 @@ export const mainSlice = createSlice({
     },
     [__getMainRankMonthly.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("__getMainRankMonthly.action.payload", action.payload);
       state.mainRankListMonthly.push(...action.payload);
       state.mainRankList = [];
       // state.mainRankListSchool = [];
     },
     [__getMainRankMonthly.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
     [__getDday.pending]: (state) => {
@@ -296,7 +288,7 @@ export const mainSlice = createSlice({
     },
     [__getDday.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("dday", action.payload);
+
       state.error = action.payload;
     },
     [__reset.pending]: (state) => {
@@ -310,7 +302,7 @@ export const mainSlice = createSlice({
     },
     [__reset.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("dday", action.payload);
+
       state.error = action.payload;
     },
     [__updateDday.pending]: (state) => {
@@ -324,7 +316,6 @@ export const mainSlice = createSlice({
     [__updateDday.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      console.log(state);
     },
 
     [__getMainRankSchool.pending]: (state) => {
@@ -338,7 +329,7 @@ export const mainSlice = createSlice({
     },
     [__getMainRankSchool.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log("rejected action", action);
+
       state.error = action.payload.message;
     },
   },

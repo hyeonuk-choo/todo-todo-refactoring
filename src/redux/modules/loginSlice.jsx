@@ -24,7 +24,6 @@ export const __kakaoLogin = createAsyncThunk(
       localStorage.setItem("refreshToken", data.refreshToken);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
       window.alert("로그인에 실패하였습니다.");
       return thunkAPI.rejectWithValue(error);
     }
@@ -41,9 +40,8 @@ export const __googleLogin = createAsyncThunk(
       localStorage.setItem("nickname", data.nickname);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
       window.alert("로그인에 실패하였습니다.");
-      console.log("error", `${GOOGLE_BASE_URL}?code=${payload}`);
+
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -68,7 +66,6 @@ export const __nicknameCheck = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -88,7 +85,6 @@ export const __userInfoRegister = createAsyncThunk(
       const { data } = await axios.post(`${BASE_URL}/signup`, payload, config);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -102,7 +98,6 @@ export const __loginReissue = createAsyncThunk(
       localStorage.setItem("accessToken", headers.authorization);
       return thunkAPI.fulfillWithValue(headers);
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }

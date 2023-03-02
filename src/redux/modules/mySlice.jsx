@@ -36,8 +36,6 @@ export const __getMyInfo = createAsyncThunk(
       const data = await axios.get(`${BASE_URL}/member/${payload}`, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -59,8 +57,6 @@ export const __getOtherInfo = createAsyncThunk(
       const data = await axios.get(`${BASE_URL}/member/${payload}`, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -86,8 +82,6 @@ export const __postProfileImg = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data.data); // data 는 수정완료 메세지
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -112,8 +106,6 @@ export const __getImages = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -134,8 +126,6 @@ export const __postImages = createAsyncThunk(
       const data = await axios.post(`${BASE_URL}/image/boast`, payload, config);
       // return thunkAPI.fulfillWithValue(data); // data는 완료 메세지, images에 반영됨
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -159,8 +149,6 @@ export const __deleteImages = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -186,8 +174,6 @@ export const __getFollowInfo = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -209,8 +195,6 @@ export const __getFollowingList = createAsyncThunk(
       const data = await axios.get(`${BASE_URL}/followings/${payload}`, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -233,8 +217,6 @@ export const __getOtherFollowingList = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -257,8 +239,6 @@ export const __getFollowerList = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }
@@ -281,8 +261,6 @@ export const __getFollowCnt = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.errorMessage);
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
     }
   }

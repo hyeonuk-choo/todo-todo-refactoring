@@ -42,9 +42,7 @@ const InfiniteScrollMonthly = () => {
       const { data } = await axios.get(`${BASE_URL}/member`);
 
       arr.push(...data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     setAllUser(arr);
   };
 

@@ -43,9 +43,7 @@ const UploadPhoto = () => {
 
       await dispatch(__postImages(formData));
       await dispatch(__getImages(nickname));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -54,12 +52,12 @@ const UploadPhoto = () => {
       display={profilePhotoBtn}
     >
       <input
-        type='file'
-        accept='image/*'
+        type="file"
+        accept="image/*"
         ref={uploadRef}
         onChange={onChangeUploadImageHandler}
       />
-      <img src={cameraSvg} alt='camera' />
+      <img src={cameraSvg} alt="camera" />
     </StUploadPhoto>
   );
 };
