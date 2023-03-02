@@ -42,6 +42,12 @@ const Router = () => {
       <StContainer>
         <Layout>
           <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/statistics" element={<StatisticsPage />} />
+            <Route path="/planner" element={<PlannerPage />} />
+            <Route path="/my" element={<MyPage />} />
+
+            <Route path="/my/planner" element={<ProfilePlanner />} />
             {/* <Route
               path="/login"
               element={
@@ -49,25 +55,22 @@ const Router = () => {
               }
             /> */}
             {/* <Route path='/' element={token === null ? <Navigate replace to='/login' /> : <MainPage />} /> */}
-            <Route path="/" element={<MainPage />} />
             {/* <Route
               path="/my"
               element={
                 token === null ? <Navigate replace to="/login" /> : <MyPage />
               }
             /> */}
-            <Route path="/my" element={<MyPage />} />
             {/* <Route
               path="/my/planner"
               element={
                 token === null ? (
                   <Navigate replace to="/login" />
-                ) : (
+                  ) : (
                   <ProfilePlanner />
                 )
               }
             /> */}
-            <Route path="/my/planner" element={<ProfilePlanner />} />
             <Route
               path="/othermy/:id"
               element={
@@ -130,7 +133,6 @@ const Router = () => {
                 )
               }
             /> */}
-            <Route path="/planner" element={<PlannerPage />} />
             <Route
               path="/planner/date"
               element={
@@ -171,7 +173,6 @@ const Router = () => {
                 )
               }
             /> */}
-            <Route path="/statistics" element={<StatisticsPage />} />
 
             {/* <Route
               path="/profileinfo"

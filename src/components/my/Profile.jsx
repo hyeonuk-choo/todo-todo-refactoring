@@ -38,19 +38,19 @@ const Profile = () => {
   const motoRef = useRef(null);
   const motoImgRef = useRef(null);
 
-  useEffect(() => {
-    setmottoInput(motto);
-  }, [setmottoInput, motto]);
+  // useEffect(() => {
+  //   setmottoInput(motto);
+  // }, [setmottoInput, motto]);
 
-  const nickname = localStorage.getItem("nickname");
+  // const nickname = localStorage.getItem("nickname");
 
-  useEffect(() => {
-    dispatch(__getMyInfo(nickname));
-  }, [profileImage]);
+  // useEffect(() => {
+  //   dispatch(__getMyInfo(nickname));
+  // }, [profileImage]);
 
-  useEffect(() => {
-    dispatch(__getFollowCnt(userInfo.id));
-  }, [dispatch, userInfo]);
+  // useEffect(() => {
+  //   dispatch(__getFollowCnt(userInfo.id));
+  // }, [dispatch, userInfo]);
 
   const handleImgError = (e) => {
     e.target.src = profileImgSvg;
@@ -59,14 +59,14 @@ const Profile = () => {
   return (
     <StContainer>
       <StProfileContainer>
-        <div className='titleDiv'>
-          <div className='title'>마이페이지</div>
+        <div className="titleDiv">
+          <div className="title">마이페이지</div>
           <img
             src={settingSvg}
             onClick={() => {
               navigate("/setting");
             }}
-            alt='settingImg'
+            alt="settingImg"
           />
         </div>
         <StLine></StLine>
@@ -79,48 +79,48 @@ const Profile = () => {
                   ? profileImgSvg
                   : userInfo?.profileImage
               }
-              alt='profileImage'
+              alt="profileImage"
               onError={handleImgError}
             />
           </StImg>
           <StInfo>
-            <div className='nextToPicture'>
-              <span className='count'>
+            <div className="nextToPicture">
+              <span className="count">
                 {images === null || images.errorMessage !== undefined
                   ? 0
                   : images.length}
               </span>
-              <span className='text'>사진</span>
+              <span className="text">사진</span>
             </div>
             <div
-              className='nextToPicture'
+              className="nextToPicture"
               onClick={() => {
-                navigate(`/follower/${nickname}`);
+                // navigate(`/follower/${nickname}`);
               }}
             >
-              <span className='count'>
+              <span className="count">
                 {followcnt?.followerCnt === null ? 0 : followcnt?.followerCnt}
               </span>
-              <span className='text'>팔로워</span>
+              <span className="text">팔로워</span>
             </div>
             <div
-              className='nextToPicture'
+              className="nextToPicture"
               onClick={() => {
-                navigate(`/following/${nickname}`);
+                // navigate(`/following/${nickname}`);
               }}
             >
-              <span className='count'>
+              <span className="count">
                 {followcnt?.followingCnt === null ? 0 : followcnt?.followingCnt}
               </span>
-              <span className='text'>팔로잉</span>
+              <span className="text">팔로잉</span>
             </div>
           </StInfo>
         </StImgInfoBox>
         <StStatusDiv>
-          <div className='userName'>
-            {nickname == null || nickname === "null" ? "" : nickname}
+          <div className="userName">
+            {/* {nickname == null || nickname === "null" ? "" : nickname} */}
           </div>
-          <div className='myMotto'>
+          <div className="myMotto">
             {userInfo?.myMotto == null ? "" : userInfo?.myMotto}
           </div>
         </StStatusDiv>
