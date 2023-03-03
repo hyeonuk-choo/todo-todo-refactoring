@@ -24,42 +24,33 @@ import Dday from "./Dday";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/css";
-// import "swiper/css/bundle";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-SwiperCore.use([Navigation, Pagination]);
 
 const Main = () => {
   const dispatch = useDispatch();
   const { thisMonthRate, totalRate, totalTodo } = useSelector(
     (state) => state.main
   );
+  const { userinfo } = useSelector((state) => state.my);
+  console.log(userinfo.nickname);
 
   const [month, setMonth] = useState(false);
   const [weekly, setWeekly] = useState(true);
-  // const [school, setSchool] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  let nickname = localStorage.getItem("nickname");
+  // let nickname = localStorage.getItem("nickname");
 
   const onClickWeekly = () => {
     setWeekly(true);
     setMonth(false);
-    // setSchool(false);
   };
 
   const onClickMonth = () => {
     setWeekly(false);
     setMonth(true);
-    // setSchool(false);
   };
-
-  // const onClickSchoolRank = () => {
-  //   setWeekly(false);
-  //   setMonth(false);
-  //   setSchool(true);
-  // };
 
   const openModal = () => {
     setModalVisible(true);
@@ -69,23 +60,23 @@ const Main = () => {
   };
 
   useEffect(() => {
-    dispatch(__getMyInfo(nickname));
-    dispatch(__getTotalRate(nickname));
-    dispatch(__getTotalTodo(nickname));
+    dispatch(__getMyInfo());
+    dispatch(__getTotalRate());
+    dispatch(__getTotalTodo());
     dispatch(__getThisMonthRate());
   }, []);
 
   return (
     <StMainContainer>
       <StPhrasesbox>
-        <div className='mainTopSentenceBox'>
+        <div className="mainTopSentenceBox">
           <span>투두투두</span>
-          <div className='mainTopSentence'>
-            {nickname == null || nickname === "null" ? (
+          <div className="mainTopSentence">
+            {userinfo.nickname == null || userinfo.nickname === "" ? (
               "닉네임을 설정해주세요^^"
             ) : (
               <StPhrase>
-                <div>{nickname}님,</div>
+                <div>{userinfo.nickname}님,</div>
                 <div>오늘 하루도 힘내세요!</div>
               </StPhrase>
             )}
@@ -98,17 +89,17 @@ const Main = () => {
       </StPhrasesbox>
       <StAchievementsBox>
         <StAchievementsTopBox>
-          <div className='nicknamePart'>
-            {nickname === null || nickname === "null"
+          <div className="nicknamePart">
+            {userinfo.nickname === null || userinfo.nickname === "null"
               ? "닉네임이 미설정 상태입니다."
-              : `${nickname}님의 기록`}
+              : `${userinfo.nickname}님의 기록`}
           </div>
-          <div className='todoCnt'>
-            <img src={plannerCntSvg} alt='todoCntSvgImg' />
+          <div className="todoCnt">
+            <img src={plannerCntSvg} alt="todoCntSvgImg" />
             <span>
               {totalRate?.plannerCnt === null ? 0 : totalRate?.plannerCnt}
             </span>
-            <img src={todoCntSvg} alt='todoCntSvgImg' />
+            <img src={todoCntSvg} alt="todoCntSvgImg" />
             <span>{totalTodo === "" ? 0 : totalTodo.count}</span>
           </div>
         </StAchievementsTopBox>
@@ -155,17 +146,17 @@ const Main = () => {
         closable={true}
         maskClosable={true}
         onClose={closeModal}
-        width='290px'
-        height='320px'
-        radius='48px'
-        top='40%'
-        backgroundcolor='rgba(17, 17, 17, 0.6)'
+        width="290px"
+        height="320px"
+        radius="48px"
+        top="40%"
+        backgroundcolor="rgba(17, 17, 17, 0.6)"
       >
         <StModalTop>
           <span>투두투두 랭킹 산정 방법</span>
         </StModalTop>
         <Swiper
-          className='banner'
+          className="banner"
           spaceBetween={50}
           slidesPerView={1}
           // navigation
@@ -175,7 +166,7 @@ const Main = () => {
             <StModalBottom>
               <StModalExplainDiv>
                 <span>주간/월간 랭킹</span>
-                <img src={bigTrophy} alt='bigTrophyImg' />
+                <img src={bigTrophy} alt="bigTrophyImg" />
                 <div>
                   주간 랭킹은 일주일/한달 간 측정한 투두 달성률 평균이 높은
                   순으로 순위가 결정됩니다.
@@ -203,11 +194,11 @@ const Main = () => {
       </Modal>
 
       {/* -------------------- 랭킹 --------------------*/}
-      <div className='rank'>
+      <div className="rank">
         <StRankingPhrases>
-          <img src={trophy} alt='trophyImg' />
+          <img src={trophy} alt="trophyImg" />
           <span>랭킹</span>
-          <img src={info} onClick={openModal} alt='infoImg' />
+          <img src={info} onClick={openModal} alt="infoImg" />
         </StRankingPhrases>
 
         <StRankingBtnBox>

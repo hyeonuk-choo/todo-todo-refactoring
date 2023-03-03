@@ -1,48 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import defaultProfile from "../../assets/img/defaultProfile.jpg";
-import profileImgSvg from "../../assets/img/profileImgSvg.svg";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const initialState = {
-  followcnt: null,
-  follower: null,
-  otherfollowing: null,
-  following: null,
-  userInfo: null,
-  otherUserInfo: null,
-  images: [],
-  profileImage: [], //주의
-  isLoading: false,
-  error: null,
-  motto: null,
-  profilePhotoBtn: "flex",
+  userinfo: {},
 };
 
 export const __getMyInfo = createAsyncThunk(
-  "getMyInfo",
+  "getMyInfo", // extraReducer 미동작 이유: 다른 Thunk함수의 이름과 중복!
   async (payload, thunkAPI) => {
     try {
-      let accessToken = localStorage.getItem("accessToken");
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const data = await axios.get(`${BASE_URL}/member/${payload}`, config);
+      const data = await axios.get(`${BASE_URL}/userinfo`);
+      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.errorMessage);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
 export const __getOtherInfo = createAsyncThunk(
-  "getMyInfo",
+  "getOtherInfo", // 이름 중요! 다른 Thunk함수 이름과 중복되지 않도록 주의!
   async (payload, thunkAPI) => {
     try {
       let accessToken = localStorage.getItem("accessToken");
@@ -226,16 +205,15 @@ export const __getFollowerList = createAsyncThunk(
   "getFollowerList",
   async (payload, thunkAPI) => {
     try {
-      let accessToken = localStorage.getItem("accessToken");
+      // let accessToken = localStorage.getItem("accessToken");
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // };
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const data = await axios.get(`${BASE_URL}/followers/${payload}`, config);
+      const data = await axios.get(`${BASE_URL}/followers/${payload}`);
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -245,7 +223,7 @@ export const __getFollowerList = createAsyncThunk(
 );
 
 export const __getFollowCnt = createAsyncThunk(
-  "getFollowInfo",
+  "getFollowCnt",
   async (payload, thunkAPI) => {
     try {
       let accessToken = localStorage.getItem("accessToken");
@@ -270,24 +248,24 @@ export const mySlice = createSlice({
   name: "mySlice",
   initialState,
   reducers: {
-    displayNone: (state, action) => {
-      state.profilePhotoBtn = action.payload;
-    },
+    // displayNone: (state, action) => {
+    //   state.profilePhotoBtn = action.payload;
+    // },
   },
   extraReducers: {
-    //__getMyInfo
     [__getMyInfo.pending]: (state) => {
       state.isLoading = true;
     },
     [__getMyInfo.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.userInfo = action.payload;
+      console.log(action.payload[0]);
+      state.userinfo = action.payload[0];
     },
     [__getMyInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    //getOtherInfo
+
     [__getOtherInfo.pending]: (state) => {
       state.isLoading = true;
     },
@@ -299,19 +277,19 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__postProfileImg
+
     [__postProfileImg.pending]: (state) => {
       state.isLoading = true;
     },
     [__postProfileImg.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.profileImage.push(...action.payload); //주의
+      state.profileImage.push(...action.payload);
     },
     [__postProfileImg.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__getImages
+
     [__getImages.pending]: (state) => {
       state.isLoading = true;
     },
@@ -328,13 +306,12 @@ export const mySlice = createSlice({
     },
     [__postImages.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // state.images.push(action.payload);
     },
     [__postImages.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__deleteImages
+
     [__deleteImages.pending]: (state) => {
       state.isLoading = true;
     },
@@ -348,7 +325,7 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__getFollowInfo
+
     [__getFollowInfo.pending]: (state) => {
       state.isLoading = true;
     },
@@ -359,7 +336,7 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__getFollowingList
+
     [__getFollowingList.pending]: (state) => {
       state.isLoading = true;
     },
@@ -371,7 +348,7 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__getFollowerList
+
     [__getFollowerList.pending]: (state) => {
       state.isLoading = true;
     },
@@ -383,7 +360,7 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__getOtherFollowingList
+
     [__getOtherFollowingList.pending]: (state) => {
       state.isLoading = true;
     },
@@ -395,7 +372,7 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    // __getFollowCnt
+
     [__getFollowCnt.pending]: (state) => {
       state.isLoading = true;
     },

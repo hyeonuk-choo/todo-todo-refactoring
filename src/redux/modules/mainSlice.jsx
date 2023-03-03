@@ -134,15 +134,15 @@ export const __getDday = createAsyncThunk(
   "getDday",
   async (payload, thunkAPI) => {
     try {
-      let accessToken = localStorage.getItem("accessToken");
+      // let accessToken = localStorage.getItem("accessToken");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // };
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const data = await axios.get(`${BASE_URL}/d-day`, config);
+      const data = await axios.get(`${BASE_URL}/dday`);
+      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -258,7 +258,6 @@ export const mainSlice = createSlice({
       state.isLoading = false;
       state.mainRankList.push(...action.payload);
       state.mainRankListMonthly = [];
-      // state.mainRankListSchool = [];
     },
     [__getMainRank.rejected]: (state, action) => {
       state.isLoading = false;
@@ -272,7 +271,6 @@ export const mainSlice = createSlice({
       state.isLoading = false;
       state.mainRankListMonthly.push(...action.payload);
       state.mainRankList = [];
-      // state.mainRankListSchool = [];
     },
     [__getMainRankMonthly.rejected]: (state, action) => {
       state.isLoading = false;
@@ -284,7 +282,8 @@ export const mainSlice = createSlice({
     },
     [__getDday.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.dday = action.payload;
+      console.log(action);
+      state.dday = action.payload[0];
     },
     [__getDday.rejected]: (state, action) => {
       state.isLoading = false;

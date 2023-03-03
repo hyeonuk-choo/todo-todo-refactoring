@@ -14,9 +14,8 @@ const Dday = () => {
     ok: false,
   });
 
-  //옵셔널 체이닝을 사용하여 데이터를 불러오느라 아직 없을 경우에는 에러가 아닌 null을, 데이터가 있으면 값을 불러옴
-  // const dday = useSelector((state) => state.main?.dday);
-  const dday = useSelector((state) => state.main);
+  const { dday } = useSelector((state) => state.main);
+
   const onChangeHandler = (e) => {
     const { value } = e.target;
     setDdate({
@@ -89,32 +88,33 @@ const Dday = () => {
 
   return (
     <div>
+      {/* 모달창 */}
       {modalVisible && (
         <Modal
           visible={modalVisible}
           closable={true}
           maskClosable={true}
           onClose={closeModal}
-          width='350px'
-          height='330px'
-          top='45%'
-          radius='48px'
-          backgroundcolor='rgba(31, 31, 31, 0.116)'
+          width="350px"
+          height="330px"
+          top="45%"
+          radius="48px"
+          backgroundcolor="rgba(31, 31, 31, 0.116)"
         >
           <StModalTop>디데이</StModalTop>
           <StInputbox>
             <input
-              type='text'
-              maxLength='8'
-              placeholder='8자 이내로 입력해주세요.'
+              type="text"
+              maxLength="8"
+              placeholder="8자 이내로 입력해주세요."
               onChange={onChangeHandler}
             />
           </StInputbox>
           <StDate>날짜</StDate>
           <StDateInput
-            type='date'
-            min='2012-01-01'
-            max='2032-12-31'
+            type="date"
+            min="2012-01-01"
+            max="2032-12-31"
             onChange={onChangeDateHandler}
           ></StDateInput>
           {complete.ok === true ? (
@@ -147,13 +147,11 @@ const Dday = () => {
           </StModalBottom>
         </Modal>
       )}
+
       <StDdayBox onClick={openModal}>
-        {dday.dday.title}
-        {dday.dday.remaingDay > 0
-          ? `+${dday.dday.remaingDay}`
-          : dday.dday.remaingDay === 0
-          ? ` D-DAY`
-          : dday.dday.remaingDay}
+        {console.log(dday)}
+        {dday.title}
+        {dday.remainingDay}
       </StDdayBox>
     </div>
   );
