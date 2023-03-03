@@ -89,11 +89,11 @@ const Main = () => {
           <div className="todoCnt">
             <img src={plannerCntSvg} alt="todoCntSvgImg" />
             <span>
-              {userinfo?.totalCnt === undefined ? 0 : userinfo.totalCnt}
+              {userinfo?.totalCnt === undefined ? 0 : userinfo?.totalCnt}
             </span>
             <img src={todoCntSvg} alt="todoCntSvgImg" />
             <span>
-              {userinfo?.completeCnt === undefined ? 0 : userinfo.completeCnt}
+              {userinfo?.completeCnt === undefined ? 0 : userinfo?.completeCnt}
             </span>
           </div>
         </StAchievementsTopBox>
