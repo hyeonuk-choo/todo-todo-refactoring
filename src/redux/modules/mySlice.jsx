@@ -4,7 +4,11 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const initialState = {
-  userinfo: {},
+  userinfo: [],
+  images: [],
+  profileImage: [],
+  motto: [],
+  followcnt: [],
 };
 
 export const __getMyInfo = createAsyncThunk(
