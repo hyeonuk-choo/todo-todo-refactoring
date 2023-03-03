@@ -149,7 +149,6 @@ const Dday = () => {
       )}
 
       <StDdayBox onClick={openModal}>
-        {console.log(dday)}
         {dday.title}
         {dday.remainingDay}
       </StDdayBox>

@@ -4,23 +4,18 @@ import styled, { css } from "styled-components";
 import info from "../../assets/img/mainpage/info.svg";
 import trophy from "../../assets/img/mainpage/trophy.svg";
 import bigTrophy from "../../assets/img/mainpage/bigTrophy.svg";
-import schoolSvg from "../../assets/img/mainpage/school.svg";
 import plannerCntSvg from "../../assets/img/mainpage/plannerCntSvg.svg";
 import todoCntSvg from "../../assets/img/mainpage/todoCntSvg.svg";
 import Modal from "../utils/Modal";
 import InfiniteScroll from "./InfiniteScroll";
 import InfiniteScrollMonthly from "./InfiniteScrollMonthly";
 import {
-  __getDday,
-  __getMainRank,
   __getThisMonthRate,
   __getTotalRate,
   __getTotalTodo,
 } from "../../redux/modules/mainSlice";
 import { __getMyInfo } from "../../redux/modules/mySlice";
-import InfiniteScrollSchoolRank from "./InfiniteScrollSchoolRank";
 import Dday from "./Dday";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/css";
@@ -30,11 +25,15 @@ import "swiper/css/scrollbar";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const { thisMonthRate, totalRate, totalTodo } = useSelector(
-    (state) => state.main
-  );
+
+  useEffect(() => {
+    dispatch(__getMyInfo());
+    dispatch(__getTotalRate());
+    dispatch(__getTotalTodo());
+    dispatch(__getThisMonthRate());
+  }, []);
+
   const { userinfo } = useSelector((state) => state.my);
-  console.log(userinfo.nickname);
 
   const [month, setMonth] = useState(false);
   const [weekly, setWeekly] = useState(true);
@@ -59,20 +58,13 @@ const Main = () => {
     setModalVisible(false);
   };
 
-  useEffect(() => {
-    dispatch(__getMyInfo());
-    dispatch(__getTotalRate());
-    dispatch(__getTotalTodo());
-    dispatch(__getThisMonthRate());
-  }, []);
-
   return (
     <StMainContainer>
       <StPhrasesbox>
         <div className="mainTopSentenceBox">
           <span>투두투두</span>
           <div className="mainTopSentence">
-            {userinfo.nickname == null || userinfo.nickname === "" ? (
+            {userinfo?.nickname === undefined ? (
               "닉네임을 설정해주세요^^"
             ) : (
               <StPhrase>
@@ -90,32 +82,34 @@ const Main = () => {
       <StAchievementsBox>
         <StAchievementsTopBox>
           <div className="nicknamePart">
-            {userinfo.nickname === null || userinfo.nickname === "null"
+            {userinfo?.nickname === undefined
               ? "닉네임이 미설정 상태입니다."
               : `${userinfo.nickname}님의 기록`}
           </div>
           <div className="todoCnt">
             <img src={plannerCntSvg} alt="todoCntSvgImg" />
             <span>
-              {totalRate?.plannerCnt === null ? 0 : totalRate?.plannerCnt}
+              {userinfo?.totalCnt === undefined ? 0 : userinfo.totalCnt}
             </span>
             <img src={todoCntSvg} alt="todoCntSvgImg" />
-            <span>{totalTodo === "" ? 0 : totalTodo.count}</span>
+            <span>
+              {userinfo?.completeCnt === undefined ? 0 : userinfo.completeCnt}
+            </span>
           </div>
         </StAchievementsTopBox>
         <StAchievementsBottomBox>
           <StthisMonthGauge>
             <StGaugeText>
               이번달 플래너 달성률
-              <div>{Math.round(thisMonthRate?.achievementRate)} %</div>
+              <div>{Math.round(userinfo.achievementRate?.thisMonthRate)} %</div>
             </StGaugeText>
 
             <StProgressBarBox>
               <StProgressBar
                 width={
-                  thisMonthRate?.achievementRate === undefined
+                  userinfo.achievementRate?.thisMonthRate === undefined
                     ? 0
-                    : Math.round(thisMonthRate?.achievementRate)
+                    : Math.round(userinfo.achievementRate?.thisMonthRate)
                 }
               ></StProgressBar>
             </StProgressBarBox>
@@ -124,15 +118,15 @@ const Main = () => {
           <StTotalGauge>
             <StGaugeText>
               플래너 총 달성률
-              <div>{Math.round(totalRate?.achievementRate)} %</div>
+              <div>{Math.round(userinfo.achievementRate?.totalRate)} %</div>
             </StGaugeText>
 
             <StProgressBarBox>
               <StProgressBar
                 width={
-                  totalRate?.achievementRate === undefined
+                  userinfo.achievementRate?.totalRate === undefined
                     ? 0
-                    : Math.round(totalRate?.achievementRate)
+                    : Math.round(userinfo.achievementRate?.totalRate)
                 }
               ></StProgressBar>
             </StProgressBarBox>
@@ -220,21 +214,10 @@ const Main = () => {
               <span>월간 랭킹</span>
             </StMonthRankingBtn2nd>
           )}
-
-          {/* {school ? (
-            <StMonthRankingBtn onClick={onClickSchoolRank}>
-              <span>학교 랭킹</span>
-            </StMonthRankingBtn>
-          ) : (
-            <StMonthRankingBtn2nd onClick={onClickSchoolRank}>
-              <span>학교 랭킹</span>
-            </StMonthRankingBtn2nd>
-          )} */}
         </StRankingBtnBox>
 
         {weekly ? <InfiniteScroll /> : null}
         {month ? <InfiniteScrollMonthly /> : null}
-        {/* {school ? <InfiniteScrollSchoolRank /> : null} */}
       </div>
     </StMainContainer>
   );
