@@ -215,9 +215,13 @@ const Main = () => {
             </StMonthRankingBtn2nd>
           )}
         </StRankingBtnBox>
-
-        {weekly ? <InfiniteScroll /> : null}
-        {month ? <InfiniteScrollMonthly /> : null}
+        <div
+          className="scrollBox"
+          style={{ width: "100%", height: "250px", overflow: "auto" }}
+        >
+          {weekly ? <InfiniteScroll /> : null}
+          {month ? <InfiniteScrollMonthly /> : null}
+        </div>
       </div>
     </StMainContainer>
   );

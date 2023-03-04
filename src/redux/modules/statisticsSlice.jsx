@@ -18,25 +18,16 @@ export const __getRankScoreData = createAsyncThunk(
   "__getRankScoreData",
   async (payload, thunkAPI) => {
     try {
-      let accessToken = localStorage.getItem("accessToken");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
+      // let accessToken = localStorage.getItem("accessToken");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // };
 
-      const lastWeekData = await axios.get(
-        `${BASE_URL}/rank/lastweek/member`,
-        config
-      );
-      const weeklyData = await axios.get(
-        `${BASE_URL}/rank/weekly/member/${payload}`,
-        config
-      );
-      const monthlyData = await axios.get(
-        `${BASE_URL}/rank/monthly/member/${payload}`,
-        config
-      );
+      const lastWeekData = await axios.get(`${BASE_URL}/rank/week?page=0`);
+      const weeklyData = await axios.get(`${BASE_URL}/rank/week?page=0`);
+      const monthlyData = await axios.get(`${BASE_URL}/rank/week?page=0`);
 
       return thunkAPI.fulfillWithValue([
         lastWeekData.data,
@@ -53,17 +44,14 @@ export const __getLineChartData = createAsyncThunk(
   "getLineChartData",
   async (payload, thunkAPI) => {
     try {
-      let accessToken = localStorage.getItem("accessToken");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
+      // let accessToken = localStorage.getItem("accessToken");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // };
 
-      const data = await axios.get(
-        `${BASE_URL}/todo/achievement/thisweek`,
-        config
-      );
+      const data = await axios.get(`${BASE_URL}/todo/achievement/thisweek`);
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -76,17 +64,14 @@ export const __getHeatMapData = createAsyncThunk(
   "getHeatMapData",
   async (payload, thunkAPI) => {
     try {
-      let accessToken = localStorage.getItem("accessToken");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
+      // let accessToken = localStorage.getItem("accessToken");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // };
 
-      const data = await axios.get(
-        `${BASE_URL}/todo/achievement/dayly`,
-        config
-      );
+      const data = await axios.get(`${BASE_URL}/todo/achievement/dayly`);
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {

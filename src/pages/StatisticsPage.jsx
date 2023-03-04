@@ -9,7 +9,7 @@ const StatisticsPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(__reset());
+    // dispatch(__reset());
   }, []);
 
   return (

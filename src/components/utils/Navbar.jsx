@@ -38,7 +38,7 @@ const Navbar = (props) => {
     setStatistics(true);
     setPlanner(false);
     setMypage(false);
-    dispatch(displayNone("flex"));
+    // dispatch(displayNone("flex"));
   };
 
   const onClickPlannerMenu = async () => {
@@ -98,7 +98,7 @@ const StNav = styled.div`
   min-height: 71px;
   border-top: 1px solid #ddd;
   background-color: white;
-  box-sizing:border-box;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -109,22 +109,22 @@ const StNav = styled.div`
 `;
 
 const StHome = styled.img`
-  width:45px;
-  height:100%;
+  width: 45px;
+  height: 100%;
   cursor: pointer;
 `;
 const StStatistics = styled.img`
-  width:45px;
-  height:100%;
+  width: 45px;
+  height: 100%;
   cursor: pointer;
 `;
 const StPlanner = styled.img`
-  width:45px;
-  height:100%;
+  width: 45px;
+  height: 100%;
   cursor: pointer;
 `;
 const StMypage = styled.img`
-  width:45px;
-  height:100%;
+  width: 45px;
+  height: 100%;
   cursor: pointer;
 `;
