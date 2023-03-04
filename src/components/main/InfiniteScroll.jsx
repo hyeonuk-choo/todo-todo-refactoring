@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { __getMainRank } from "../../redux/modules/mainSlice";
 import profileImgSvg from "../../assets/img/profileImgSvg.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,53 +7,50 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const InfiniteScroll = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [rankList, setRankList] = useState([]);
   const [allUser, setAllUser] = useState([]);
-  const { mainRankList } = useSelector((state) => state.main);
-  const { error } = useSelector((state) => state.main);
 
   let nickname = localStorage.getItem("nickname");
   const targetRef = useRef(null);
-  const [page, setPage] = useState(0);
-
-  const checkIntersect = ([entry], observer) => {
-    if (entry.isIntersecting) {
-      dispatch(__getMainRank(page));
-      observer.unobserve(entry.target);
-      setPage((prev) => prev + 1);
-    }
-  };
+  const page = useRef(0);
 
   const allUserFunc = async () => {
-    const arr = [];
     try {
-      const { data } = await axios.get(`${BASE_URL}/member`);
-      arr.push(...data);
+      const { data } = await axios.get(
+        `${BASE_URL}/rank/week?page=${page.current}`
+      );
+      console.log(data);
+      console.log(page.current);
+
+      setAllUser((prev) => prev.concat(data));
     } catch (error) {}
-    setAllUser(arr);
+  };
+
+  // useEffect(() => allUserFunc(), []); // 주의: useEffect 라우팅후 unmount시 error발생, {}블록 생략한 한줄짜리는 return 반환값을 뜻함. useEffect에서 return 값은 unmount시 동작하는 clean-up함수다.
+
+  const observerCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        allUserFunc();
+        page.current += 1;
+      }
+    });
   };
 
   useEffect(() => {
-    allUserFunc();
-  }, []);
-
-  useEffect(() => {
-    if (!targetRef.current) return;
-    const observer = new IntersectionObserver(checkIntersect, {
+    let observer = new IntersectionObserver(observerCallback, {
       threshold: 0.5,
     });
     observer.observe(targetRef.current);
-    return () => {
-      observer && observer.disconnect();
-    };
-  }, [mainRankList]);
+    console.log(targetRef.current);
+  }, []);
+
+  // console.log(targetRef.current);
 
   return (
     <Stdiv>
-      {mainRankList.length > 0 &&
-        mainRankList.map((each) => (
+      {allUser.length > 0 &&
+        allUser.map((each) => (
           <StRankingBox
             key={each.id}
             onClick={() => {
@@ -69,7 +64,6 @@ const InfiniteScroll = () => {
             <div>
               <StRankingNumber>{each.rank}</StRankingNumber>
               <div>
-                {/* 영상 찍은 후 쓸데없는 코드 줄이기 */}
                 {allUser.filter((data) => data.nickname === each.nickname)
                   .length === 0 ? (
                   <StRankingProfile src={profileImgSvg} alt="profileImg" />
@@ -91,12 +85,10 @@ const InfiniteScroll = () => {
               </div>
             </div>
 
-            <StRankingScore>
-              {(each.achievementRate / 7).toFixed(2)}
-            </StRankingScore>
+            <StRankingScore>{each.achievementScore}</StRankingScore>
           </StRankingBox>
         ))}
-      <StRefDiv ref={targetRef}></StRefDiv>
+      {<StRefDiv ref={targetRef}></StRefDiv>}
     </Stdiv>
   );
 };
@@ -107,10 +99,8 @@ const Stdiv = styled.div`
   background-color: #fafafa;
   padding-left: 1rem;
   padding-right: 1rem;
-  height: 100%;
+  // overflow: scroll;
   /* background-color: gray; */
-  /* height: 35vh;  */
-  /* overflow: scroll; */
 `;
 const StRefDiv = styled.div`
   height: 50px;
