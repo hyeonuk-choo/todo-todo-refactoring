@@ -157,14 +157,14 @@ const Dday = () => {
 };
 
 const StDdayBox = styled.div`
-  color: #ff8f27;
+  width: 9vw;
+  height: 7vh;
+  font-size: 2vh;
   font-weight: 600;
+  color: #ff8f27;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  min-width: 82px;
-  height: 44px;
   background: #ffffff;
   padding: 8px 12px;
   box-sizing: border-box;
