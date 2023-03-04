@@ -22,6 +22,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import Navbar from "../utils/Navbar";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -59,28 +60,23 @@ const Main = () => {
   };
 
   return (
-    <StMainContainer>
-      <StPhrasesbox>
+    <StRootDiv>
+      <StSubDiv1>
         <div className="mainTopSentenceBox">
           <span>투두투두</span>
           <div className="mainTopSentence">
-            {userinfo?.nickname === undefined ? (
-              "닉네임을 설정해주세요^^"
-            ) : (
-              <StPhrase>
-                <div>{userinfo.nickname}님,</div>
-                <div>오늘 하루도 힘내세요!</div>
-              </StPhrase>
-            )}
+            {userinfo?.nickname === undefined
+              ? "닉네임을 설정해주세요^^"
+              : `${userinfo.nickname}님, 오늘도 힘내세요!`}
           </div>
         </div>
 
         <div>
           <Dday />
         </div>
-      </StPhrasesbox>
-      <StAchievementsBox>
-        <StAchievementsTopBox>
+      </StSubDiv1>
+      <StSubDiv2>
+        <div className="achievementBox">
           <div className="nicknamePart">
             {userinfo?.nickname === undefined
               ? "닉네임이 미설정 상태입니다."
@@ -96,13 +92,13 @@ const Main = () => {
               {userinfo?.completeCnt === undefined ? 0 : userinfo?.completeCnt}
             </span>
           </div>
-        </StAchievementsTopBox>
-        <StAchievementsBottomBox>
-          <StthisMonthGauge>
-            <StGaugeText>
+        </div>
+        <div className="achievementSecondBox">
+          <div className="thisMonthGauge">
+            <div className="gaugeText">
               이번달 플래너 달성률
               <div>{Math.round(userinfo.achievementRate?.thisMonthRate)} %</div>
-            </StGaugeText>
+            </div>
 
             <StProgressBarBox>
               <StProgressBar
@@ -113,13 +109,13 @@ const Main = () => {
                 }
               ></StProgressBar>
             </StProgressBarBox>
-          </StthisMonthGauge>
+          </div>
 
-          <StTotalGauge>
-            <StGaugeText>
+          <div className="totalGauge">
+            <div className="gaugeText">
               플래너 총 달성률
               <div>{Math.round(userinfo.achievementRate?.totalRate)} %</div>
-            </StGaugeText>
+            </div>
 
             <StProgressBarBox>
               <StProgressBar
@@ -130,10 +126,47 @@ const Main = () => {
                 }
               ></StProgressBar>
             </StProgressBarBox>
-          </StTotalGauge>
-        </StAchievementsBottomBox>
-      </StAchievementsBox>
+          </div>
+        </div>
+      </StSubDiv2>
 
+      {/* -------------------- 랭킹 --------------------*/}
+      <StSubDiv3>
+        <StRankingPhrases>
+          <img src={trophy} alt="trophyImg" />
+          <span>랭킹</span>
+          <img src={info} onClick={openModal} alt="infoImg" />
+        </StRankingPhrases>
+
+        <StRankingBtnBox>
+          {weekly ? (
+            <StWeeklyRankingBtn onClick={onClickWeekly}>
+              <span>주간 랭킹</span>
+            </StWeeklyRankingBtn>
+          ) : (
+            <StWeeklyRankingBtn2nd onClick={onClickWeekly}>
+              <span>주간 랭킹</span>
+            </StWeeklyRankingBtn2nd>
+          )}
+          {month ? (
+            <StMonthRankingBtn onClick={onClickMonth}>
+              <span>월간 랭킹</span>
+            </StMonthRankingBtn>
+          ) : (
+            <StMonthRankingBtn2nd onClick={onClickMonth}>
+              <span>월간 랭킹</span>
+            </StMonthRankingBtn2nd>
+          )}
+        </StRankingBtnBox>
+      </StSubDiv3>
+      <StSubDiv4
+        className="scrollBox"
+        style={{ width: "100%", overflow: "auto" }}
+      >
+        {weekly ? <InfiniteScroll /> : null}
+        {month ? <InfiniteScrollMonthly /> : null}
+      </StSubDiv4>
+      <Navbar home={true} />
       {/* -------------- 모달창 ---------------*/}
       <Modal
         visible={modalVisible}
@@ -169,69 +202,148 @@ const Main = () => {
             </StModalBottom>
           </SwiperSlide>
           {/* <SwiperSlide>
-              <StModalBottom>
-                <StModalExplainDiv>
-                  <span>학교 랭킹</span>
-                  <img src={schoolSvg} />
-                  <div>
-                    학교 랭킹은 같은 학교에 소속돼 있는 학생들의 한달 간 측정한
-                    투두 달성률의 평균이 높은 순으로 순위가 결정됩니다.
-                  </div>
-                </StModalExplainDiv>
-              </StModalBottom>
-            </SwiperSlide> */}
+        <StModalBottom>
+          <StModalExplainDiv>
+            <span>학교 랭킹</span>
+            <img src={schoolSvg} />
+            <div>
+              학교 랭킹은 같은 학교에 소속돼 있는 학생들의 한달 간 측정한
+              투두 달성률의 평균이 높은 순으로 순위가 결정됩니다.
+            </div>
+          </StModalExplainDiv>
+        </StModalBottom>
+      </SwiperSlide> */}
         </Swiper>
 
         <StCloseBtnContainer>
           <StModalCloseBtn onClick={closeModal}>확인</StModalCloseBtn>
         </StCloseBtnContainer>
       </Modal>
-
-      {/* -------------------- 랭킹 --------------------*/}
-      <div className="rank">
-        <StRankingPhrases>
-          <img src={trophy} alt="trophyImg" />
-          <span>랭킹</span>
-          <img src={info} onClick={openModal} alt="infoImg" />
-        </StRankingPhrases>
-
-        <StRankingBtnBox>
-          {weekly ? (
-            <StWeeklyRankingBtn onClick={onClickWeekly}>
-              <span>주간 랭킹</span>
-            </StWeeklyRankingBtn>
-          ) : (
-            <StWeeklyRankingBtn2nd onClick={onClickWeekly}>
-              <span>주간 랭킹</span>
-            </StWeeklyRankingBtn2nd>
-          )}
-          {month ? (
-            <StMonthRankingBtn onClick={onClickMonth}>
-              <span>월간 랭킹</span>
-            </StMonthRankingBtn>
-          ) : (
-            <StMonthRankingBtn2nd onClick={onClickMonth}>
-              <span>월간 랭킹</span>
-            </StMonthRankingBtn2nd>
-          )}
-        </StRankingBtnBox>
-        <div
-          className="scrollBox"
-          style={{ width: "100%", height: "250px", overflow: "auto" }}
-        >
-          {weekly ? <InfiniteScroll /> : null}
-          {month ? <InfiniteScrollMonthly /> : null}
-        </div>
-      </div>
-    </StMainContainer>
+    </StRootDiv>
   );
 };
 
 export default Main;
 
+const StRootDiv = styled.div`
+height: 100vh; // 본문 90vh, 내비게이션바 10vh
+font-family: "SUIT-Regular", sans-serif;
+overflow: hidden auto;
+
+// ::-webkit-scrollbar {
+  //   background-color: #fafafa;
+  //   width: 0.5rem;
+  //   height: 1rem;
+  // }
+  // ::-webkit-scrollbar-thumb {
+    //   background-color: rgb(255, 233, 213);
+    //   border-radius: 1rem;
+    //   width: 0.1rem;
+    // }
+    // ::-webkit-scrollbar-track {
+    }
+    `;
+
+const StSubDiv1 = styled.div`
+  width: 90%;
+  height: 11vh;
+  margin: auto;
+  margin-top: 3vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  span {
+    color: #ff7b00;
+    font-weight: 700;
+    /* font-size: 14px; */
+    line-height: 16px;
+  }
+
+  .mainTopSentenceBox {
+    padding-left: 0.4rem;
+    font-size: 2.5vh;
+  }
+
+  .mainTopSentence {
+    margin-top: 8px;
+    font-weight: 600;
+  }
+`;
+
+const StSubDiv2 = styled.div`
+  height: 26vh;
+  width: 90%;
+  margin: 0 auto 0 auto;
+  box-shadow: 0px 4px 15px 0px rgba(17, 17, 17, 0.05);
+  border-radius: 16px;
+  background-color: white;
+
+  .achievementBox {
+    height: 6vh;
+    width: 100%;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 12px 12px 0 0;
+    background-color: #ffe9d5;
+
+    div {
+      font-size: 2vh;
+      color: #ff7b00;
+    }
+
+    .nicknamePart {
+      margin-left: 1rem;
+    }
+
+    .todoCnt {
+      display: flex;
+      gap: 0.3rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .achievementSecondBox {
+    font-size: 2.1vh;
+    height: 20vh;
+    width: 100%;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15%;
+
+    .thisMonthGauge {
+      width: 90%;
+    }
+
+    .totalGauge {
+      width: 90%;
+    }
+
+    .gaugeText {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+`;
+
+const StSubDiv3 = styled.div`
+  height: 12vh;
+`;
+
+const StSubDiv4 = styled.div`
+  height: 36vh;
+  padding-top: 1rem;
+`;
+
 const StProgressBarBox = styled.div`
   width: 100%;
-  height: 13px;
   border-radius: 10px;
   background-color: #ececec;
 `;
@@ -265,134 +377,43 @@ const StProgressBar = styled.div`
   border-radius: 10px;
 `;
 
-const StMainContainer = styled.div`
-  height: calc(100%-71px);
-  overflow: hidden auto;
-  font-family: "SUIT-Regular", sans-serif;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const StPhrasesbox = styled.div`
-  width: 90%;
-  margin: auto;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  span {
-    color: #ff7b00;
-    font-weight: 700;
-    /* font-size: 14px; */
-    line-height: 16px;
-  }
-  .mainTopSentenceBox {
-  }
-  .mainTopSentence {
-    margin-top: 8px;
-    font-weight: 600;
-    font-size: 14px;
-  }
-`;
-
-const StPhrase = styled.div`
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 34px;
-`;
-
-const StAchievementsBox = styled.div`
-  width: 90%;
-  margin: 32px auto 44px auto;
-  height: 220px;
-  box-shadow: 0px 4px 15px 0px rgba(17, 17, 17, 0.05);
-  border-radius: 16px;
-  background-color: white;
-`;
-
-const StAchievementsTopBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 49px;
-  font-weight: 700;
-  border-radius: 12px 12px 0 0;
-  background-color: #ffe9d5;
-  div {
-    color: #ff7b00;
-  }
-
-  .nicknamePart {
-    margin-left: 1rem;
-  }
-
-  .todoCnt {
-    display: flex;
-    gap: 0.3rem;
-    margin-right: 1rem;
-  }
-`;
-
-const StAchievementsBottomBox = styled.div`
-  height: 170px;
-  width: 100%;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15%;
-`;
-
-const StthisMonthGauge = styled.div`
-  width: 90%;
-`;
-
-const StTotalGauge = styled.div`
-  width: 90%;
-`;
-
-const StGaugeText = styled.div`
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-`;
+const StGaugeText = styled.div``;
 
 const StRankingPhrases = styled.div`
-  span {
-    margin-left: 7px;
-    margin-right: 7px;
-    font-weight: 600;
-    font-size: 20px;
-    background-color: #fafafa;
-  }
-  img {
-    background-color: #fafafa;
-  }
   display: flex;
   flex-direction: row;
   align-items: center;
   position: sticky;
   z-index: 1;
   top: 0;
+  left: 10;
   background-color: #fafafa;
-  padding-left: 22px;
-  padding-bottom: 18px;
+  padding: 1rem 0 1rem 0;
+  padding-left: 2.3rem;
+
+  span {
+    padding-top: 1rem;
+    margin-left: 7px;
+    margin-right: 7px;
+    font-weight: 600;
+    font-size: 20px;
+    background-color: #fafafa;
+  }
+
+  img {
+    padding-top: 1rem;
+    background-color: #fafafa;
+    margin-left: 0;
+  }
 `;
 
 const StRankingBtnBox = styled.div`
   font-weight: 600;
   background-color: #fafafa;
-  padding-left: 22px;
-  margin-bottom: 32px;
   position: sticky;
   z-index: 1;
   top: 2.6em;
+  padding: 0 0 0 2rem;
 `;
 
 const StWeeklyRankingBtn = styled.button`

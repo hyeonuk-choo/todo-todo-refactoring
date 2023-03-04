@@ -92,10 +92,9 @@ const Navbar = (props) => {
 export default Navbar;
 
 const StNav = styled.div`
-  z-index: 5;
+  height: 10vh;
   width: 100%;
-  min-width: 360px;
-  min-height: 71px;
+  z-index: 5;
   border-top: 1px solid #ddd;
   background-color: white;
   box-sizing: border-box;

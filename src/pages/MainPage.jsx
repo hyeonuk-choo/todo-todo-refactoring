@@ -7,25 +7,22 @@ const MainPage = () => {
   return (
     <StContainer>
       <Main />
-      <Navbar home={true} />
     </StContainer>
   );
 };
 
-
 const StContainer = styled.div`
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction:column;
-  justify-content:space-between;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #fafafa;
-  box-sizing:border-box;
+  box-sizing: border-box;
 
   @media screen and (min-width: 768px) {
-    width:600px;
+    width: 600px;
   }
-
-`
+`;
 
 export default MainPage;
