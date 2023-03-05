@@ -6,7 +6,7 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const InfiniteScroll = () => {
+const InfiniteScrollMonth = () => {
   const navigate = useNavigate();
   const [allUser, setAllUser] = useState([]);
 
@@ -17,7 +17,7 @@ const InfiniteScroll = () => {
   const allUserFunc = async () => {
     try {
       const { data } = await axios.get(
-        `${BASE_URL}/rank/week?page=${page.current}`
+        `${BASE_URL}/rank/month?page=${page.current}`
       );
       console.log(data);
       console.log(page.current);
@@ -93,7 +93,7 @@ const InfiniteScroll = () => {
   );
 };
 
-export default InfiniteScroll;
+export default InfiniteScrollMonth;
 
 const Stdiv = styled.div`
   padding: 0 1rem 0 1rem;
