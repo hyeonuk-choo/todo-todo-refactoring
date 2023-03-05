@@ -61,7 +61,7 @@ const InfiniteScroll = () => {
               }
             }}
           >
-            <div>
+            <div className="firstInner">
               <StRankingNumber>{each.rank}</StRankingNumber>
               <div>
                 {allUser.filter((data) => data.nickname === each.nickname)
@@ -85,7 +85,7 @@ const InfiniteScroll = () => {
               </div>
             </div>
 
-            <StRankingScore>{each.achievementScore}</StRankingScore>
+            <div className="secondInner">{each.achievementScore}</div>
           </StRankingBox>
         ))}
       {<StRefDiv ref={targetRef}></StRefDiv>}
@@ -97,13 +97,11 @@ export default InfiniteScroll;
 
 const Stdiv = styled.div`
   background-color: #fafafa;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  // overflow: scroll;
-  /* background-color: gray; */
+  padding: 1rem 1rem 0 1rem;
+  height: 36vh;
 `;
 const StRefDiv = styled.div`
-  height: 50px;
+  height: 3vh;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -117,14 +115,14 @@ const StRankingBox = styled.div`
 
   width: 90%;
   margin: auto;
-  height: 70px;
+  height: 8vh;
 
   background: #ffffff;
 
   box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
   border-radius: 19px;
 
-  margin-bottom: 16px;
+  margin-bottom: 1.2vh;
   padding-left: 15px;
   padding-right: 15px;
 
@@ -139,18 +137,25 @@ const StRankingBox = styled.div`
       gap: 0.6em;
     }
   }
+
+  .secondInner {
+    color: #9f9e9e;
+    margin-right: 1em;
+    font-weight: 700;
+    font-size: 2vh;
+  }
 `;
 
 const StRankingNumber = styled.div`
+  font-size: 2.3vh;
   font-weight: 700;
-  font-size: 15px;
   color: #ff7b00;
   margin-left: 1em;
 `;
 
 const StRankingProfile = styled.img`
-  width: 45px;
-  height: 45px;
+  width: 6vh;
+  height: 6vh;
   background-color: #eee;
   border-radius: 100px;
   object-fit: cover;
@@ -159,12 +164,6 @@ const StRankingProfile = styled.img`
 const StRankingNickname = styled.div`
   margin-left: 8px;
   font-weight: 500;
-  font-size: 16px;
   font-family: "SUIT-Regular";
-`;
-
-const StRankingScore = styled.div`
-  font-weight: 700;
-  color: #9f9e9e;
-  margin-right: 1em;
+  font-size: 2.1vh;
 `;

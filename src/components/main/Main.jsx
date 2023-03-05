@@ -71,9 +71,7 @@ const Main = () => {
           </div>
         </div>
 
-        <div>
-          <Dday />
-        </div>
+        <Dday />
       </StSubDiv1>
       <StSubDiv2>
         <div className="achievementBox">
@@ -226,29 +224,16 @@ const Main = () => {
 export default Main;
 
 const StRootDiv = styled.div`
-height: 100vh; // 본문 90vh, 내비게이션바 10vh
-font-family: "SUIT-Regular", sans-serif;
-overflow: hidden auto;
-
-// ::-webkit-scrollbar {
-  //   background-color: #fafafa;
-  //   width: 0.5rem;
-  //   height: 1rem;
-  // }
-  // ::-webkit-scrollbar-thumb {
-    //   background-color: rgb(255, 233, 213);
-    //   border-radius: 1rem;
-    //   width: 0.1rem;
-    // }
-    // ::-webkit-scrollbar-track {
-    }
-    `;
+  height: 100vh; // 본문 90vh, 내비게이션바 10vh
+  font-family: "SUIT-Regular", sans-serif;
+  overflow: hidden;
+`;
 
 const StSubDiv1 = styled.div`
   width: 90%;
   height: 11vh;
   margin: auto;
-  margin-top: 3vh;
+  margin-top: 4.5vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -263,12 +248,13 @@ const StSubDiv1 = styled.div`
 
   .mainTopSentenceBox {
     padding-left: 0.4rem;
-    font-size: 2.5vh;
+    font-size: 3vh;
   }
 
   .mainTopSentence {
     margin-top: 8px;
     font-weight: 600;
+    font-size: 2.2vh;
   }
 `;
 
@@ -339,7 +325,6 @@ const StSubDiv3 = styled.div`
 
 const StSubDiv4 = styled.div`
   height: 36vh;
-  padding-top: 1rem;
 `;
 
 const StProgressBarBox = styled.div`
@@ -372,100 +357,99 @@ const StProgressBar = styled.div`
       `;
     }
   }};
-  /* transition: all 0.3s; */
-  height: 13px;
+  height: 2vh;
   border-radius: 10px;
+  /* transition: all 0.3s; */
 `;
-
-const StGaugeText = styled.div``;
 
 const StRankingPhrases = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  left: 10;
   background-color: #fafafa;
-  padding: 1rem 0 1rem 0;
-  padding-left: 2.3rem;
+  padding: 1vh 0 1vh 2.4rem;
+  // position: sticky;
+  // z-index: 1;
+  // top: 0;
+
+  img {
+    padding-top: 1rem;
+    background-color: #fafafa;
+    margin-left: 0;
+    height: 2.7vh;
+  }
 
   span {
     padding-top: 1rem;
     margin-left: 7px;
     margin-right: 7px;
     font-weight: 600;
-    font-size: 20px;
     background-color: #fafafa;
-  }
-
-  img {
-    padding-top: 1rem;
-    background-color: #fafafa;
-    margin-left: 0;
+    font-size: 2.5vh;
   }
 `;
 
 const StRankingBtnBox = styled.div`
   font-weight: 600;
   background-color: #fafafa;
-  position: sticky;
-  z-index: 1;
-  top: 2.6em;
   padding: 0 0 0 2rem;
+  height: 5vh;
+
+  button {
+    font-size: 1.7vh;
+  }
+
+  // position: sticky;
+  // z-index: 1;
+  // top: 2.6em;
 `;
 
 const StWeeklyRankingBtn = styled.button`
   width: 80px;
-  height: 40px;
-  min-height: 40px;
+  height: 100%;
   background: #ff8f27;
   border: 1px solid #ff8f27;
   border-radius: 44px;
   span {
     color: white;
-    font-size: 14px;
-    font-family: "SUIT-Regular";
-  }
-`;
-
-const StMonthRankingBtn2nd = styled.button`
-  width: 80px;
-  height: 40px;
-  margin-left: 6px;
-  background: #ffffff;
-  border: 1px solid #d7d5d5;
-  border-radius: 44px;
-  span {
-    color: #9f9e9e;
-    font-size: 14px;
-    font-family: "SUIT-Regular";
-  }
-`;
-const StMonthRankingBtn = styled.button`
-  width: 80px;
-  height: 40px;
-  margin-left: 6px;
-  background: #ff8f27;
-  border: 1px solid #ff8f27;
-  border-radius: 44px;
-  span {
-    color: white;
-    font-size: 14px;
     font-family: "SUIT-Regular";
   }
 `;
 
 const StWeeklyRankingBtn2nd = styled.button`
   width: 80px;
-  height: 40px;
+  height: 100%;
   background: #ffffff;
   border: 1px solid #d7d5d5;
   border-radius: 44px;
   span {
     color: #9f9e9e;
-    font-size: 14px;
+    font-family: "SUIT-Regular";
+  }
+`;
+
+const StMonthRankingBtn = styled.button`
+  width: 80px;
+  height: 100%;
+  margin-left: 6px;
+  background: #ff8f27;
+  border: 1px solid #ff8f27;
+  border-radius: 44px;
+  span {
+    color: white;
+    font-family: "SUIT-Regular";
+  }
+`;
+
+const StMonthRankingBtn2nd = styled.button`
+  width: 80px;
+  height: 100%;
+  margin-left: 6px;
+  background: #ffffff;
+  border: 1px solid #d7d5d5;
+  border-radius: 44px;
+  span {
+    color: #9f9e9e;
     font-family: "SUIT-Regular";
   }
 `;
@@ -528,20 +512,4 @@ const StModalCloseBtn = styled.button`
   color: #ffffff;
   font-size: 16px;
   padding: 1em;
-`;
-
-const StScrollDiv = styled.div`
-  background-color: #fafafa;
-  height: 40%;
-  overflow: scroll;
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 150px;
-    border-radius: 0px;
-    background: rgba(255, 255, 255, 0.4);
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #d1d1d1;
-  }
 `;

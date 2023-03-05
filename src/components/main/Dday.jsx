@@ -87,7 +87,7 @@ const Dday = () => {
   }
 
   return (
-    <div>
+    <>
       {/* 모달창 */}
       {modalVisible && (
         <Modal
@@ -149,17 +149,16 @@ const Dday = () => {
       )}
 
       <StDdayBox onClick={openModal}>
-        {dday.title}
-        {dday.remainingDay}
+        {dday.title + " " + dday.remainingDay}
       </StDdayBox>
-    </div>
+    </>
   );
 };
 
 const StDdayBox = styled.div`
-  width: 9vw;
+  width: 8rem;
   height: 7vh;
-  font-size: 2vh;
+  font-size: 2.3vh;
   font-weight: 600;
   color: #ff8f27;
   display: flex;
