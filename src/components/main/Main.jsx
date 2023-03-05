@@ -8,7 +8,7 @@ import plannerCntSvg from "../../assets/img/mainpage/plannerCntSvg.svg";
 import todoCntSvg from "../../assets/img/mainpage/todoCntSvg.svg";
 import Modal from "../utils/Modal";
 import InfiniteScroll from "./InfiniteScroll";
-import InfiniteScrollMonthly from "./InfiniteScrollMonthly";
+import InfiniteScrollMonth from "./InfiniteScrollMonth";
 import {
   __getThisMonthRate,
   __getTotalRate,
@@ -29,27 +29,22 @@ const Main = () => {
 
   useEffect(() => {
     dispatch(__getMyInfo());
-    dispatch(__getTotalRate());
-    dispatch(__getTotalTodo());
-    dispatch(__getThisMonthRate());
+    // dispatch(__getTotalRate());
   }, []);
 
   const { userinfo } = useSelector((state) => state.my);
 
-  const [month, setMonth] = useState(false);
-  const [weekly, setWeekly] = useState(true);
+  const [toggleValue, setToggleValue] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
   // let nickname = localStorage.getItem("nickname");
 
   const onClickWeekly = () => {
-    setWeekly(true);
-    setMonth(false);
+    setToggleValue(true);
   };
 
   const onClickMonth = () => {
-    setWeekly(false);
-    setMonth(true);
+    setToggleValue(false);
   };
 
   const openModal = () => {
@@ -133,33 +128,38 @@ const Main = () => {
         <StRankingPhrases>
           <img src={trophy} alt="trophyImg" />
           <span>랭킹</span>
-          <img src={info} onClick={openModal} alt="infoImg" />
+          <img
+            src={info}
+            id="exclamationMark"
+            onClick={openModal}
+            alt="infoImg"
+          />
         </StRankingPhrases>
 
         <StRankingBtnBox>
-          {weekly ? (
-            <StWeeklyRankingBtn onClick={onClickWeekly}>
-              <span>주간 랭킹</span>
-            </StWeeklyRankingBtn>
+          {toggleValue ? (
+            <>
+              <StWeeklyRankingBtn onClick={onClickWeekly}>
+                <span>주간 랭킹</span>
+              </StWeeklyRankingBtn>
+              <StMonthRankingBtn2nd onClick={onClickMonth}>
+                <span>월간 랭킹</span>
+              </StMonthRankingBtn2nd>
+            </>
           ) : (
-            <StWeeklyRankingBtn2nd onClick={onClickWeekly}>
-              <span>주간 랭킹</span>
-            </StWeeklyRankingBtn2nd>
-          )}
-          {month ? (
-            <StMonthRankingBtn onClick={onClickMonth}>
-              <span>월간 랭킹</span>
-            </StMonthRankingBtn>
-          ) : (
-            <StMonthRankingBtn2nd onClick={onClickMonth}>
-              <span>월간 랭킹</span>
-            </StMonthRankingBtn2nd>
+            <>
+              <StWeeklyRankingBtn2nd onClick={onClickWeekly}>
+                <span>주간 랭킹</span>
+              </StWeeklyRankingBtn2nd>
+              <StMonthRankingBtn onClick={onClickMonth}>
+                <span>월간 랭킹</span>
+              </StMonthRankingBtn>
+            </>
           )}
         </StRankingBtnBox>
       </StSubDiv3>
       <StSubDiv4 className="scrollBox">
-        {weekly ? <InfiniteScroll /> : null}
-        {month ? <InfiniteScrollMonthly /> : null}
+        {toggleValue ? <InfiniteScroll /> : <InfiniteScrollMonth />}
       </StSubDiv4>
       <Navbar home={true} />
 
@@ -319,6 +319,7 @@ const StSubDiv2 = styled.div`
 
 const StSubDiv3 = styled.div`
   height: 12vh;
+  padding-bottom: 1.5vh;
 `;
 
 const StSubDiv4 = styled.div`
@@ -387,6 +388,10 @@ const StRankingPhrases = styled.div`
     height: 2.7vh;
   }
 
+  #exclamationMark:hover {
+    cursor: pointer;
+  }
+
   span {
     padding-top: 1rem;
     margin-left: 7px;
@@ -405,6 +410,7 @@ const StRankingBtnBox = styled.div`
 
   button {
     font-size: 1.7vh;
+    cursor: pointer;
   }
 
   // position: sticky;
