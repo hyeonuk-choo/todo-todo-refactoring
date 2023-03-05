@@ -96,7 +96,6 @@ const InfiniteScroll = () => {
 export default InfiniteScroll;
 
 const Stdiv = styled.div`
-  background-color: #fafafa;
   padding: 1rem 1rem 0 1rem;
   height: 36vh;
 `;

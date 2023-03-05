@@ -128,7 +128,7 @@ const Main = () => {
         </div>
       </StSubDiv2>
 
-      {/* -------------------- 랭킹 --------------------*/}
+      {/* ------------- 랭킹 --------------*/}
       <StSubDiv3>
         <StRankingPhrases>
           <img src={trophy} alt="trophyImg" />
@@ -157,14 +157,12 @@ const Main = () => {
           )}
         </StRankingBtnBox>
       </StSubDiv3>
-      <StSubDiv4
-        className="scrollBox"
-        style={{ width: "100%", overflow: "auto" }}
-      >
+      <StSubDiv4 className="scrollBox">
         {weekly ? <InfiniteScroll /> : null}
         {month ? <InfiniteScrollMonthly /> : null}
       </StSubDiv4>
       <Navbar home={true} />
+
       {/* -------------- 모달창 ---------------*/}
       <Modal
         visible={modalVisible}
@@ -325,6 +323,16 @@ const StSubDiv3 = styled.div`
 
 const StSubDiv4 = styled.div`
   height: 36vh;
+  width: 100%;
+  overflow: auto;
+
+  ::-webkit-scrollbar {
+    width: 1vh;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 233, 213);
+    border-radius: 100px;
+  }
 `;
 
 const StProgressBarBox = styled.div`
