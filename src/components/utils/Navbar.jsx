@@ -92,19 +92,15 @@ const Navbar = (props) => {
 export default Navbar;
 
 const StNav = styled.div`
+  box-sizing: border-box;
   height: 10vh;
   width: 100%;
   z-index: 5;
   border-top: 1px solid #ddd;
   background-color: white;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-
-  @media screen and (min-width: 768px) {
-    width: 600px;
-  }
 `;
 
 const StHome = styled.img`

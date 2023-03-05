@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import info from "../../assets/img/mainpage/info.svg";
-import HeatmapSample from "./HeatmapSample";
 import LineChart from "./LineChart";
 import Modal from "../utils/Modal";
 import trophy from "../../assets/img/mainpage/trophy.svg";
@@ -11,6 +10,7 @@ import {
   __getLineChartData,
 } from "../../redux/modules/statisticsSlice";
 import axios from "axios";
+import Navbar from "../utils/Navbar";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -63,10 +63,10 @@ const Statistics = () => {
 
   return (
     <StContainer>
-      <StHeader>
+      <div id="header">
         <span>통계</span>
-      </StHeader>
-      <StBackground>
+      </div>
+      <div id="body">
         <StTopSubjectDiv>
           <div className="my-score">나의 점수</div>
           <img
@@ -141,18 +141,18 @@ const Statistics = () => {
             {weeklyScore2 === 0
               ? "이번 주도 시작해볼까요"
               : lastweekScore2 > 0 && lastweekScore2 * 0.5 > weeklyScore2
-                ? "이번 주도 화이팅이에요"
-                : lastweekScore2 * 0.5 < weeklyScore2 &&
-                  lastweekScore2 * 0.9 > weeklyScore2
-                  ? "저번 주의 절반 이상 왔어요!"
-                  : lastweekScore2 * 0.9 < weeklyScore2 &&
-                    lastweekScore2 > weeklyScore2
-                    ? "곧 저번 주 점수를 넘기겠어요!"
-                    : lastweekScore2 === weeklyScore2
-                      ? "저번 주 점수랑 동점이에요!"
-                      : lastweekScore2 < weeklyScore2
-                        ? "저번 주 점수를 넘으셨어요!!"
-                        : null}
+              ? "이번 주도 화이팅이에요"
+              : lastweekScore2 * 0.5 < weeklyScore2 &&
+                lastweekScore2 * 0.9 > weeklyScore2
+              ? "저번 주의 절반 이상 왔어요!"
+              : lastweekScore2 * 0.9 < weeklyScore2 &&
+                lastweekScore2 > weeklyScore2
+              ? "곧 저번 주 점수를 넘기겠어요!"
+              : lastweekScore2 === weeklyScore2
+              ? "저번 주 점수랑 동점이에요!"
+              : lastweekScore2 < weeklyScore2
+              ? "저번 주 점수를 넘으셨어요!!"
+              : null}
           </div>
         </StThisWeekStatus>
 
@@ -167,22 +167,9 @@ const Statistics = () => {
           </div>
         </StTopSubjectDiv>
         <LineChart />
-        <StTopSubjectDiv>
-          <div className="todoRate">
-            <div>나의 투두 달성률</div>
-            <img
-              src={info}
-              onClick={() => modalToggleHandler("heatMap")}
-              alt="infoImg"
-            />
-          </div>
-        </StTopSubjectDiv>
-        <div style={{ paddingBottom: "20px" }}>
-          <HeatmapSample />
-        </div>
-      </StBackground>
+      </div>
 
-      {/* ------------------- 모달창 ------------------ */}
+      {/* ------------- 모달창 ------------ */}
       {modalView && (
         <Modal
           visible={modalView}
@@ -301,43 +288,42 @@ const Statistics = () => {
           </StModalBottom>
         </Modal>
       )}
+      {/* ------------- 모달창 끝 ------------ */}
+
+      {/* ----------- 네비게이션바 ----------- */}
+      <Navbar statistics={true} />
     </StContainer>
   );
 };
 export default Statistics;
 
 const StContainer = styled.div`
-  width: 100%;
   height: 100%;
+  width: 100%;
   font-family: "SUIT-Regular", sans-serif;
-  overflow: hidden auto;
+  overflow: auto;
   box-sizing: border-box;
   -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
-const StHeader = styled.div`
-  display: flex;
-  align-items: flex-end;
-  height: 72px;
-  background-color: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  border-bottom: 1px solid #f1f3f5;
-  box-sizing: border-box;
-
-  & span {
+  #header {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    background-color: #ffff;
+    border-bottom: 1px solid #f1f3f5;
+    box-sizing: border-box;
     font-weight: 600;
-    font-size: 24px;
-    line-height: 34px;
-    color: #111;
-    margin-left: 22px;
-    margin-bottom: 15px;
+    font-size: 3vh;
+    color: black;
+    padding-left: 1.5rem;
+  }
+
+  #body {
+    height: 80vh;
   }
 `;
+
+const StHeader = styled.div``;
 
 const StTemp = styled.div`
   width: 100%;
@@ -360,13 +346,6 @@ const StTemp = styled.div`
     font-size: 15px;
   }
 `;
-const StLine = styled.div`
-  width: 100%;
-  height: 1.5px;
-  background-color: #f1f3f5;
-`;
-
-const StBackground = styled.div``;
 
 const StTopSubjectDiv = styled.div`
   position: relative;

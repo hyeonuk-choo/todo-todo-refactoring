@@ -1,21 +1,14 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/utils/Navbar";
 import Statistics from "../components/statistics/Statistics";
 import { useDispatch } from "react-redux";
-import { __reset } from "../redux/modules/mainSlice";
 import styled from "styled-components";
 
 const StatisticsPage = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // dispatch(__reset());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <StContainer>
       <Statistics />
-      <Navbar statistics={true} />
     </StContainer>
   );
 };
@@ -32,7 +25,7 @@ const StContainer = styled.div`
   box-sizing: border-box;
 
   @media screen and (min-width: 768px) {
-    width: 600px;
+    width: 100%;
   }
 
   /* @media screen and (min-height: 667px) {

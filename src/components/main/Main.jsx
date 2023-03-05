@@ -197,18 +197,6 @@ const Main = () => {
               </StModalExplainDiv>
             </StModalBottom>
           </SwiperSlide>
-          {/* <SwiperSlide>
-        <StModalBottom>
-          <StModalExplainDiv>
-            <span>학교 랭킹</span>
-            <img src={schoolSvg} />
-            <div>
-              학교 랭킹은 같은 학교에 소속돼 있는 학생들의 한달 간 측정한
-              투두 달성률의 평균이 높은 순으로 순위가 결정됩니다.
-            </div>
-          </StModalExplainDiv>
-        </StModalBottom>
-      </SwiperSlide> */}
         </Swiper>
 
         <StCloseBtnContainer>
@@ -222,16 +210,16 @@ const Main = () => {
 export default Main;
 
 const StRootDiv = styled.div`
-  height: 100vh; // 본문 90vh, 내비게이션바 10vh
   font-family: "SUIT-Regular", sans-serif;
   overflow: hidden;
 `;
 
 const StSubDiv1 = styled.div`
+  height: 12vh;
+  box-sizing: border-box;
+  padding: 2.5vh 0 1vh 0;
   width: 90%;
-  height: 11vh;
   margin: auto;
-  margin-top: 4.5vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -257,7 +245,8 @@ const StSubDiv1 = styled.div`
 `;
 
 const StSubDiv2 = styled.div`
-  height: 26vh;
+  box-sizing: border-box;
+  height: 27vh;
   width: 90%;
   margin: 0 auto 0 auto;
   box-shadow: 0px 4px 15px 0px rgba(17, 17, 17, 0.05);
@@ -265,6 +254,7 @@ const StSubDiv2 = styled.div`
   background-color: white;
 
   .achievementBox {
+    box-sizing: border-box;
     height: 6vh;
     width: 100%;
     font-weight: 700;
@@ -291,6 +281,7 @@ const StSubDiv2 = styled.div`
   }
 
   .achievementSecondBox {
+    box-sizing: border-box;
     font-size: 2.1vh;
     height: 20vh;
     width: 100%;
@@ -310,7 +301,7 @@ const StSubDiv2 = styled.div`
     }
 
     .gaugeText {
-      margin-bottom: 10px;
+      margin-bottom: 1vh;
       display: flex;
       justify-content: space-between;
     }
@@ -318,13 +309,14 @@ const StSubDiv2 = styled.div`
 `;
 
 const StSubDiv3 = styled.div`
-  height: 12vh;
-  padding-bottom: 1.5vh;
+  box-sizing: border-box;
+  height: 13vh;
 `;
 
 const StSubDiv4 = styled.div`
-  height: 36vh;
+  height: 38vh;
   width: 100%;
+  box-sizing: border-box;
   overflow: auto;
 
   ::-webkit-scrollbar {
@@ -368,18 +360,16 @@ const StProgressBar = styled.div`
   }};
   height: 2vh;
   border-radius: 10px;
-  /* transition: all 0.3s; */
+  transition: all 1.5s;
 `;
 
 const StRankingPhrases = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: #fafafa;
-  padding: 1vh 0 1vh 2.4rem;
-  // position: sticky;
-  // z-index: 1;
-  // top: 0;
+  padding: 0 0 1vh 2.4rem;
 
   img {
     padding-top: 1rem;
@@ -393,6 +383,7 @@ const StRankingPhrases = styled.div`
   }
 
   span {
+    box-sizing: border-box;
     padding-top: 1rem;
     margin-left: 7px;
     margin-right: 7px;
