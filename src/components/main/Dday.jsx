@@ -6,41 +6,31 @@ import Modal from "../utils/Modal";
 
 const Dday = () => {
   const dispatch = useDispatch();
-  const [ddate, setDdate] = useState({
-    title: "",
-    selectedDate: "",
-  });
   const [complete, setComplete] = useState({
     ok: false,
   });
 
-  const { dday } = useSelector((state) => state.main);
+  const [ddate, setDdate] = useState({
+    title: "목표",
+    selectedDate: "",
+    dday: 0,
+  });
 
   const onChangeHandler = (e) => {
-    const { value } = e.target;
+    const { value, name } = e.target;
     setDdate({
       ...ddate,
-      title: value,
+      [name]: value,
     });
   };
 
-  const onChangeDateHandler = (e) => {
-    const { value } = e.target;
-    setDdate({
-      ...ddate,
-      selectedDate: value,
-    });
-  };
+  const today = new Date().toISOString().split("T")[0];
 
-  const onSubmitHandler = async () => {
-    await dispatch(
-      __updateDday({
-        ...ddate,
-        title: ddate.title,
-        selectedDate: ddate.selectedDate,
-      })
-    );
-    await dispatch(__getDday());
+  const onSubmitHandler = () => {
+    const startDate = new Date().getDate();
+    const endDate = new Date(ddate.selectedDate).getDate();
+    const difference = endDate - startDate;
+    setDdate({ ...ddate, dday: difference });
   };
 
   const onCompleteHandler = () => {
@@ -70,25 +60,16 @@ const Dday = () => {
   };
   const closeModal = () => {
     setModalVisible(false);
-    setDdate({
-      ...ddate,
-      title: "",
-      selectedDate: "",
-    });
-    setComplete({
-      ...complete,
-      ok: false,
-    });
   };
-
-  //state를 불러오는중이라 null인 상태일때는 아래 if문을,response를 받게되면 원래의 return문 출력
-  if (!dday) {
-    return <div></div>;
-  }
 
   return (
     <>
-      {/* 모달창 */}
+      {/* --- 메인 첫페이지 D-day UI --- */}
+      <StDdayBox onClick={openModal}>
+        {ddate.title + "\u00A0-\u00A0" + ddate.dday}
+      </StDdayBox>
+
+      {/* --------- 모달창 시작 --------- */}
       {modalVisible && (
         <Modal
           visible={modalVisible}
@@ -101,21 +82,30 @@ const Dday = () => {
           radius="48px"
           backgroundcolor="rgba(31, 31, 31, 0.116)"
         >
-          <StModalTop>디데이</StModalTop>
+          <StModalTop>Let's Set D-day!</StModalTop>
           <StInputbox>
-            <input
+            <select name="title" onChange={onChangeHandler} placeholder="dd">
+              <option value={ddate.title}>목표를 선택해주세요!</option>
+              <option value="수능">수능</option>
+              <option value="모의고사">모의고사</option>
+              <option value="중간고사">중간고사</option>
+              <option value="기말고사">기말고사</option>
+            </select>
+            {/* <input
               type="text"
               maxLength="8"
               placeholder="8자 이내로 입력해주세요."
               onChange={onChangeHandler}
-            />
+              name="title"
+            /> */}
           </StInputbox>
-          <StDate>날짜</StDate>
+          <StDate>목표 날짜</StDate>
           <StDateInput
             type="date"
-            min="2012-01-01"
-            max="2032-12-31"
-            onChange={onChangeDateHandler}
+            min={today}
+            max="2030-12-31"
+            name="selectedDate"
+            onChange={onChangeHandler}
           ></StDateInput>
           {complete.ok === true ? (
             <Stalert>입력하지 않은 항목이 있는지 확인해주세요!</Stalert>
@@ -147,16 +137,13 @@ const Dday = () => {
           </StModalBottom>
         </Modal>
       )}
-
-      <StDdayBox onClick={openModal}>
-        {dday.title + " " + dday.remainingDay}
-      </StDdayBox>
+      {/* --------- 모달창 끝 ---------- */}
     </>
   );
 };
 
 const StDdayBox = styled.div`
-  width: 8rem;
+  width: 9rem;
   height: 7vh;
   font-size: 2.3vh;
   font-weight: 600;
@@ -187,19 +174,33 @@ const StModalTop = styled.div`
 const StInputbox = styled.div`
   display: flex;
   justify-content: center;
-  input {
+  select {
+    appearance: none;
     width: 300px;
     height: 50px;
     border: 1px solid #e8e8e8;
     border-radius: 16px;
-    padding-left: 10px;
+    padding: 0 1rem 0 1rem;
     box-sizing: border-box;
     font-size: 15px;
+
+    option {
+      border: none;
+    }
   }
+  // input {
+  //   width: 300px;
+  //   height: 50px;
+  //   border: 1px solid #e8e8e8;
+  //   border-radius: 16px;
+  //   padding-left: 10px;
+  //   box-sizing: border-box;
+  //   font-size: 15px;
+  // }
 `;
 
 const StDate = styled.div`
-  margin-left: 25px;
+  margin-left: 2rem;
   padding-top: 15px;
 `;
 
@@ -209,9 +210,9 @@ const StDateInput = styled.input`
   border-radius: 16px;
   margin-left: 25px;
   margin-top: 8px;
-  width: 170px;
+  width: 300px;
   height: 50px;
-  padding: 0 10px;
+  padding: 0 1rem 0 1rem;
   box-sizing: border-box;
   font-family: "SUIT-Regular";
   font-size: 15px;
