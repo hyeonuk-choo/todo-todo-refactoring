@@ -3,22 +3,20 @@ import Navbar from "../components/utils/Navbar";
 import PlannerCategory from "../components/planner/PlannerCategory";
 import { useDispatch } from "react-redux";
 import { __reset } from "../redux/modules/mainSlice";
-import Layout from "../components/utils/Layout";
 import styled from "styled-components";
 
 const PlannerPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(__reset())
-  }, [])
+    dispatch(__reset());
+  }, []);
 
   return (
     // <StContainer>
     // <Layout>
     <StContainer>
       <PlannerCategory />
-      <Navbar planner={true} />
     </StContainer>
     // </Layout>
     // </StContainer>
@@ -26,18 +24,13 @@ const PlannerPage = () => {
 };
 
 const StContainer = styled.div`
-  width:100%;
-  height:100%;
-  display: flex;
-  flex-direction:column;
-  justify-content:space-between;
+  width: 100%;
   background-color: #fafafa;
-  justify-content:center;
-  box-sizing:border-box;
-
+  justify-content: center;
+  box-sizing: border-box;
 
   @media screen and (min-width: 768px) {
-    width:600px;
+    width: 600px;
   }
 
   /* @media screen and (min-height: 667px) {
@@ -86,7 +79,6 @@ const StContainer = styled.div`
   @media screen and (min-height: 1366px) {
   height:1366px;
   } */
-`
+`;
 
 export default PlannerPage;
-

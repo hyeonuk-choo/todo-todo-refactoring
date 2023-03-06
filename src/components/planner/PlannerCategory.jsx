@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import PlannerCalender from "./PlannerCalender";
 import categorySvg from "../../assets/img/categorySvg.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,28 +7,18 @@ import {
   __getCategory,
   __getTodayTodo,
 } from "../../redux/modules/plannerSlice";
-import dayjs from "dayjs";
-import Planner from "./Planner";
-import { __getDday } from "../../redux/modules/mainSlice";
+import Navbar from "../utils/Navbar";
 
 const PlannerCategory = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectDate, setSelectDate] = useState(null);
 
-  const [calenderdate, setCalenderdate] = useState(
-    dayjs(Date.now()).format("YYYY-MM-DD")
-  );
   const [categoryTodoList, setCategoryTodoList] = useState([]);
   const [categoryTodoComplete, setCategoryTodoComplete] = useState([]);
 
   const { category, todos, dateTodo, date } = useSelector(
     (state) => state.planner
   );
-
-  const onClickAddCategoryHandler = () => {
-    navigate("/planner/category");
-  };
 
   const onClickSelectCategoryToTodoListHandler = (e) => {
     const { innerText } = e.target.children[0];
@@ -77,34 +66,29 @@ const PlannerCategory = () => {
   return (
     <>
       <StDiv>
-        <div className='header'>
-          <PlannerCalender
-            calenderdate={calenderdate}
-            selectDate={selectDate}
-            setSelectDate={setSelectDate}
-          />
-          <div className='categoryBox'>
+        <div className="header">
+          <div className="categoryBox">
             <img
-              className='category'
+              className="category"
               src={categorySvg}
-              alt='categoryIcon'
-              onClick={onClickAddCategoryHandler}
+              alt="categoryIcon"
+              onClick={() => {}}
             />
           </div>
         </div>
 
+        {/* --------- 투두 바디부분 시작 ----------*/}
         <StCategoryContainer>
           {category.length > 0 &&
             category.map((data, index) => (
               <StCategoryItem key={data.id} id={data.id} name={data.title}>
                 <div
-                  className='top'
+                  className="top"
                   onClick={onClickSelectCategoryToTodoListHandler}
                 >
-                  <p className='title' onClick={(e) => e.stopPropagation()}>
+                  <p className="title" onClick={(e) => e.stopPropagation()}>
                     {data.title}
                   </p>
-                  {/* filter undefined 에러 확인하기 */}
                   <p onClick={(e) => e.stopPropagation()}>
                     {categoryTodoList.length === 0
                       ? 0
@@ -129,42 +113,39 @@ const PlannerCategory = () => {
               </StCategoryItem>
             ))}
         </StCategoryContainer>
+        {/* --------- 투두 바디부분 끝 ----------*/}
+
+        {/* --------- 네비게이션바 ----------*/}
+        <Navbar planner={true} />
       </StDiv>
-      {/* <Planner x={x} setX={setX} /> */}
     </>
   );
 };
 
 const StDiv = styled.div`
   background-color: #fafafa;
-  height: 100%;
   overflow: hidden auto;
   font-family: "SUIT-Regular", sans-serif;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  // -ms-overflow-style: none;
+  // &::-webkit-scrollbar {
+  // }
 
   & .header {
-    position: sticky;
-    top: 0;
-
+    box-sizing: border-box;
     width: 100%;
-    height: 72px;
+    height: 10vh;
     display: flex;
     background-color: #ffffff;
     justify-content: space-between;
-    /* align-items: center; */
     padding: 10px;
     border-bottom: 1px solid #f1f3f5;
-    box-sizing: border-box;
 
     .categoryBox {
+      cursor: pointer;
       padding: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
-
       img.category {
         width: 24px;
         height: 24px;
@@ -174,7 +155,8 @@ const StDiv = styled.div`
 `;
 
 const StCategoryContainer = styled.div`
-  padding: 20px;
+  box-sizing: border-box;
+  height: 80vh;
 `;
 
 const StCategoryItem = styled.div`
