@@ -1,25 +1,12 @@
-import React, { useEffect } from "react";
-import Navbar from "../components/utils/Navbar";
+import React from "react";
 import PlannerMain from "../components/planner/PlannerMain";
-import { useDispatch } from "react-redux";
-import { __reset } from "../redux/modules/mainSlice";
 import styled from "styled-components";
 
 const PlannerPage = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(__reset());
-  }, []);
-
   return (
-    // <StContainer>
-    // <Layout>
     <StContainer>
       <PlannerMain />
     </StContainer>
-    // </Layout>
-    // </StContainer>
   );
 };
 

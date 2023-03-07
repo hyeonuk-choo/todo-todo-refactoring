@@ -3,11 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import whitePlusSvg from "../../assets/img/whitePlusSvg.svg";
-import {
-  __getImages,
-  __postImages,
-  __getMyInfo,
-} from "../../redux/modules/mySlice";
 
 const TodoAddBtn = () => {
   const navigate = useNavigate();
@@ -22,7 +17,7 @@ const TodoAddBtn = () => {
         navigate("/planner-add");
       }}
     >
-      <img src={whitePlusSvg} alt="camera" />
+      <img src={whitePlusSvg} alt="whitePlusSvg" />
     </StTodoAddBtn>
   );
 };

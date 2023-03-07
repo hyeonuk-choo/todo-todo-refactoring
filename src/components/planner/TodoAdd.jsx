@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const TodoAdd = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
+  const [todo, setTodo] = useState({ title: "", content: "" });
+
+  const onChangeInput = async (e) => {
+    const { name, value } = await e.target;
+    setTodo({ ...todo, [name]: value });
+  };
+  console.log(todo);
+
+  const onClickAdd = () => {
+    axios
+      .post(`${BASE_URL}/todo-add`, todo)
+      .then((response) => {
+        console.log(response.data);
+        // Handle success
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle error
+      });
+  };
+
   return (
     <>
-      <Stdiv>
+      <StHeader>
         <div
           id="prev"
           onClick={() => {
@@ -16,17 +39,29 @@ const TodoAdd = () => {
           이전
         </div>
         <div id="title">할일 추가</div>
-        <div id="confirm">확인</div>
+        <div id="confirm" onClick={onClickAdd}>
+          확인
+        </div>
         {/* <div id="arrow-left"></div> */}
         {/* <div id="arrow-right"></div> */}
-      </Stdiv>
+      </StHeader>
+      <></>
+      <StBody>
+        <div id="titleInput">
+          할일 제목: <input name="title" onChange={onChangeInput}></input>
+        </div>
+        <div id="contentInput">
+          할일 상세항목:
+          <input name="content" onChange={onChangeInput}></input>
+        </div>
+      </StBody>
     </>
   );
 };
 
 export default TodoAdd;
 
-const Stdiv = styled.div`
+const StHeader = styled.div`
   width: 100%;
   height: 10vh;
   display: flex;
@@ -36,6 +71,8 @@ const Stdiv = styled.div`
   box-sizing: border-box;
   padding: 0 2rem;
   font-size: 2.5vh;
+  font-weight: bold;
+  background-color: white;
 
   #prev {
     color: gray;
@@ -66,4 +103,9 @@ const Stdiv = styled.div`
   //   border-right: 0.7vh solid #000; /* 선 두께 */
   //   transform: rotate(45deg); /* 각도 */
   // }
+`;
+
+const StBody = styled.div`
+  width: 50%;
+  margin: auto;
 `;
