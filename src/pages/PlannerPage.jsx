@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/utils/Navbar";
-import PlannerCategory from "../components/planner/PlannerCategory";
+import PlannerMain from "../components/planner/PlannerMain";
 import { useDispatch } from "react-redux";
 import { __reset } from "../redux/modules/mainSlice";
 import styled from "styled-components";
@@ -16,7 +16,7 @@ const PlannerPage = () => {
     // <StContainer>
     // <Layout>
     <StContainer>
-      <PlannerCategory />
+      <PlannerMain />
     </StContainer>
     // </Layout>
     // </StContainer>

@@ -7,6 +7,7 @@ import Layout from "../components/utils/Layout";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useState } from "react";
+import TodoAdd from "../components/planner/TodoAdd";
 
 const Router = () => {
   useEffect(() => {
@@ -21,7 +22,8 @@ const Router = () => {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/statistics" element={<StatisticsPage />} />
-            <Route path="/planner" element={<PlannerPage />} />
+            <Route path="/planner-main" element={<PlannerPage />} />
+            <Route path="/planner-add" element={<TodoAdd />} />
 
             {/* <Route
               path="/setting"

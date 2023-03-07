@@ -8,6 +8,7 @@ import {
   __getTodayTodo,
 } from "../../redux/modules/plannerSlice";
 import Navbar from "../utils/Navbar";
+import TodoAddBtn from "./TodoAddBtn";
 
 const PlannerCategory = () => {
   const dispatch = useDispatch();
@@ -66,18 +67,26 @@ const PlannerCategory = () => {
   return (
     <>
       <StDiv>
+        {/* ------------ 투두 헤더 -------------*/}
         <div className="header">
           <div className="categoryBox">
-            <img
-              className="category"
-              src={categorySvg}
-              alt="categoryIcon"
-              onClick={() => {}}
-            />
+            <StDateInput
+              type="date"
+              min={1}
+              max="2030-12-31"
+              name="selectedDate"
+              onChange={(e) => {}}
+            ></StDateInput>
           </div>
+          <img
+            className="category"
+            src={categorySvg}
+            alt="categoryIcon"
+            onClick={() => {}}
+          />
         </div>
 
-        {/* --------- 투두 바디부분 시작 ----------*/}
+        {/* -------- 투두 바디부분 시작 ---------*/}
         <StCategoryContainer>
           {category.length > 0 &&
             category.map((data, index) => (
@@ -117,6 +126,8 @@ const PlannerCategory = () => {
 
         {/* --------- 네비게이션바 ----------*/}
         <Navbar planner={true} />
+        {/* --------- 투두 추가 고정버튼 ----------*/}
+        <TodoAddBtn />
       </StDiv>
     </>
   );
@@ -125,7 +136,7 @@ const PlannerCategory = () => {
 const StDiv = styled.div`
   background-color: #fafafa;
   overflow: hidden auto;
-  font-family: "SUIT-Regular", sans-serif;
+
   // -ms-overflow-style: none;
   // &::-webkit-scrollbar {
   // }
@@ -144,8 +155,9 @@ const StDiv = styled.div`
       cursor: pointer;
       padding: 10px;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+
       img.category {
         width: 24px;
         height: 24px;
@@ -212,6 +224,15 @@ const StProgressBar = styled.div`
   }};
   height: 13px;
   border-radius: 10px;
+`;
+
+const StDateInput = styled.input`
+  background-color: #ffffff;
+  border: none;
+  focus: none;
+  width: 20vh;
+  box-sizing: border-box;
+  font-size: 2.5vh;
 `;
 
 export default PlannerCategory;

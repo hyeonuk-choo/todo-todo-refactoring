@@ -36,7 +36,7 @@ const Navbar = (props) => {
   };
 
   const onClickPlannerMenu = async () => {
-    navigate("/planner");
+    navigate("/planner-main");
     setHome(false);
     setStatistics(false);
     setPlanner(true);
