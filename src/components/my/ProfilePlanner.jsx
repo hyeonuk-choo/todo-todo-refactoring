@@ -26,9 +26,7 @@ const ProfilePlanner = () => {
   const [categoryTodoList, setCategoryTodoList] = useState([]);
   const [categoryTodoComplete, setCategoryTodoComplete] = useState([]);
 
-  const { category, todos } = useSelector(
-    (state) => state.planner
-  );
+  const { category, todos } = useSelector((state) => state.planner);
 
   const onClickSelectCategoryToTodoListHandler = (e) => {
     const { innerText } = e.target.children[0];
@@ -54,9 +52,11 @@ const ProfilePlanner = () => {
     const arrRate = [];
 
     // length를 구해놓고 for문을 돌리면 성능이 빨라짐 -> 코드 수정하기
-    if (todos !== '') {
+    if (todos !== "") {
       for (let i = 0; i < category.length; i++) {
-        const data = todos.filter((data) => data.category === category[i].title);
+        const data = todos.filter(
+          (data) => data.category === category[i].title
+        );
         arr.push(data);
       }
 
@@ -83,7 +83,7 @@ const ProfilePlanner = () => {
   return (
     <>
       <StDiv>
-        <div className='header'>
+        <div className="header">
           <MypageCalender
             calenderdate={calenderdate}
             setCalenderdate={setCalenderdate}
@@ -104,19 +104,22 @@ const ProfilePlanner = () => {
                   onClick={onClickShowTodoHandler}
                 >
                   <div
-                    className='top'
+                    className="top"
                     onClick={onClickSelectCategoryToTodoListHandler}
                   >
-                    <p className='title'>{data.title}</p>
+                    <p className="title">{data.title}</p>
 
                     {categoryTodoList.length > 0 && (
                       <p onClick={(e) => e.stopPropagation()}>
-                        {
-                          categoryTodoList[index] === undefined ? 0 : categoryTodoList[index].filter(
-                            (data) => data.complete === true
-                          ).length
-                        }
-                        /{categoryTodoList[index] === undefined ? 0 : categoryTodoList[index].length}
+                        {categoryTodoList[index] === undefined
+                          ? 0
+                          : categoryTodoList[index].filter(
+                              (data) => data.complete === true
+                            ).length}
+                        /
+                        {categoryTodoList[index] === undefined
+                          ? 0
+                          : categoryTodoList[index].length}
                       </p>
                     )}
                   </div>
@@ -132,7 +135,7 @@ const ProfilePlanner = () => {
                       ></StProgressBar>
                     </StProgressBarBox>
                     <StToggleImgBox>
-                      <img src={toggleSvg} alt='toggleIcon' />
+                      <img src={toggleSvg} alt="toggleIcon" />
                     </StToggleImgBox>
                   </StToggleBox>
 
@@ -143,16 +146,16 @@ const ProfilePlanner = () => {
                           ?.filter((data) => data.complete === false)
                           .map((data) => (
                             <StTodoItem key={data.todoId} name={data.title}>
-                              <div className='top' id={data.todoId}>
+                              <div className="top" id={data.todoId}>
                                 <div
-                                  className='content'
+                                  className="content"
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
                                   }}
                                 >
-                                  <img src={notDoneSvg} alt='notDoneIcon' />
-                                  <StTodoTitle className='title'>
+                                  <img src={notDoneSvg} alt="notDoneIcon" />
+                                  <StTodoTitle className="title">
                                     {data.content}
                                   </StTodoTitle>
                                 </div>
@@ -167,18 +170,18 @@ const ProfilePlanner = () => {
                           ?.filter((data) => data.complete === true)
                           .map((data) => (
                             <StTodoItem key={data.todoId} name={data.title}>
-                              <div className='top' id={data.todoId}>
+                              <div className="top" id={data.todoId}>
                                 <div
-                                  className='content'
+                                  className="content"
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
                                   }}
                                 >
-                                  <img src={doneSvg} alt='doneIcon' />
+                                  <img src={doneSvg} alt="doneIcon" />
                                   <StTodoTitle
-                                    className='title'
-                                    color='#E8E8E8'
+                                    className="title"
+                                    color="#E8E8E8"
                                   >
                                     {data.content}
                                   </StTodoTitle>
@@ -207,7 +210,6 @@ const StDiv = styled.div`
   height: auto;
   min-height: 70vh;
   padding-bottom: 50px;
-  font-family: "SUIT-Regular", sans-serif;
 
   & div {
     box-sizing: border-box;
@@ -316,12 +318,10 @@ const StTodoToggleBox = styled.div`
 `;
 
 const StTodoContainer = styled.div`
-  width:100%;
+  width: 100%;
   &:first-child {
-    margin-bottom:16px;
+    margin-bottom: 16px;
   }
-
-
 `;
 
 const StTodoItem = styled.div`

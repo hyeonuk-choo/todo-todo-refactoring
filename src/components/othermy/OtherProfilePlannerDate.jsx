@@ -97,8 +97,8 @@ const OtherProfilePlannerDate = () => {
                 id={index}
                 onClick={onClickShowTodoHandler}
               >
-                <div className='top' title={data}>
-                  <p className='title'>{data}</p>
+                <div className="top" title={data}>
+                  <p className="title">{data}</p>
                   {category.length > 0 && (
                     <p onClick={(e) => e.stopPropagation()}>
                       {categoryTodoComplete[`${category[index]}`] === undefined
@@ -121,11 +121,11 @@ const OtherProfilePlannerDate = () => {
                               dateTodoObj[`${category[index]}`]) *
                             100
                       }
-                      backgroundColor='#74E272'
+                      backgroundColor="#74E272"
                     ></StProgressBar>
                   </StProgressBarBox>
                   <StToggleImgBox>
-                    <img src={toggleSvg} alt='toggleIcon' />
+                    <img src={toggleSvg} alt="toggleIcon" />
                   </StToggleImgBox>
                 </StToggleBox>
 
@@ -136,16 +136,16 @@ const OtherProfilePlannerDate = () => {
                         .filter((data) => data.complete === false)
                         .map((data) => (
                           <StTodoItem key={data.todoId} name={data.title}>
-                            <div className='top' id={data.todoId}>
+                            <div className="top" id={data.todoId}>
                               <div
-                                className='content'
+                                className="content"
                                 style={{
                                   display: "flex",
                                   alignItems: "center",
                                 }}
                               >
-                                <img src={notDoneSvg} alt='notDoneIcon' />
-                                <StTodoTitle className='title'>
+                                <img src={notDoneSvg} alt="notDoneIcon" />
+                                <StTodoTitle className="title">
                                   {data.content}
                                 </StTodoTitle>
                               </div>
@@ -160,16 +160,16 @@ const OtherProfilePlannerDate = () => {
                         .filter((data) => data.complete === true)
                         .map((data) => (
                           <StTodoItem key={data.todoId} name={data.title}>
-                            <div className='top' id={data.todoId}>
+                            <div className="top" id={data.todoId}>
                               <div
-                                className='content'
+                                className="content"
                                 style={{
                                   display: "flex",
                                   alignItems: "center",
                                 }}
                               >
-                                <img src={doneSvg} alt='doneIcon' />
-                                <StTodoTitle className='title' color='#E8E8E8'>
+                                <img src={doneSvg} alt="doneIcon" />
+                                <StTodoTitle className="title" color="#E8E8E8">
                                   {data.content}
                                 </StTodoTitle>
                               </div>
@@ -197,7 +197,6 @@ const OtherProfilePlannerDate = () => {
 const StDiv = styled.div`
   background-color: #fafafa;
   height: 100vh;
-  font-family: "SUIT-Regular", sans-serif;
 
   & div.header {
     /* width: 100%; */

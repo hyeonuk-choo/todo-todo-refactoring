@@ -7,7 +7,12 @@ import { useDispatch } from "react-redux";
 import { __getTodo } from "../../redux/modules/plannerSlice";
 import { useParams } from "react-router-dom";
 
-const OtherProfileCalender = ({ setCalenderdate, setFirstCheck, selectDate, setSelectDate }) => {
+const OtherProfileCalender = ({
+  setCalenderdate,
+  setFirstCheck,
+  selectDate,
+  setSelectDate,
+}) => {
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -26,9 +31,9 @@ const OtherProfileCalender = ({ setCalenderdate, setFirstCheck, selectDate, setS
     <StDiv>
       <ReactCalendar
         onClickDay={selectDateHandler}
-        locale='Korean'
+        locale="Korean"
         formatDay={(locale, date) => dayjs(date).format("DD")}
-        calendarType='US'
+        calendarType="US"
       />
     </StDiv>
   );
@@ -37,21 +42,21 @@ const OtherProfileCalender = ({ setCalenderdate, setFirstCheck, selectDate, setS
 export default OtherProfileCalender;
 
 const StDiv = styled.div`
-    width: 100%;
-    /* height:400px; */
-    z-index:10;
-    background-color:rgba(0,0,0,.2);
+  width: 100%;
+  /* height:400px; */
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.2);
 
   .react-calendar {
     width: 100%;
     /* height:400px; */
     background: white;
     /* border: 1px solid #a0a096; */
-    font-family: 'SpoqaHanSansNeo-Regular', sans-serif;
-    font-size:1rem;
+
+    font-size: 1rem;
     line-height: 17px;
-    z-index:10;
-    border:none;
+    z-index: 10;
+    border: none;
   }
   .react-calendar--doubleView {
     width: 700px;
@@ -109,11 +114,11 @@ const StDiv = styled.div`
   .react-calendar__month-view__weekdays__weekday {
     padding: 0.5em;
     font-weight: 500;
-    color: #9F9E9E;
+    color: #9f9e9e;
 
     & abbr[title] {
-    text-decoration: none;
-    } 
+      text-decoration: none;
+    }
   }
   .react-calendar__month-view__weekNumbers .react-calendar__tile {
     display: flex;
@@ -123,7 +128,7 @@ const StDiv = styled.div`
     font-weight: bold;
   }
   .react-calendar__month-view__days__day {
-    color:#111;
+    color: #111;
   }
   .react-calendar__month-view__days__day--weekend {
     color: #111;
@@ -188,14 +193,14 @@ const StDiv = styled.div`
     background-color: #e6e6e6;
   }
   .react-calendar__navigation__arrow.react-calendar__navigation__prev-button {
-    font-size:24px;
-    padding-left:27px;
-    color:#FF7B00;
+    font-size: 24px;
+    padding-left: 27px;
+    color: #ff7b00;
   }
   .react-calendar__navigation__arrow.react-calendar__navigation__next-button {
-    font-size:24px;
-    padding-right:27px;
-    color:#FF7B00;
+    font-size: 24px;
+    padding-right: 27px;
+    color: #ff7b00;
   }
   .react-calendar__navigation__arrow.react-calendar__navigation__prev2-button {
     display: none;
@@ -204,8 +209,7 @@ const StDiv = styled.div`
     display: none;
   }
   .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
-    font-family: 'SUIT-Regular', sans-serif;
-    font-weight:700;
+    font-weight: 700;
     font-size: 17px;
   }
 `;

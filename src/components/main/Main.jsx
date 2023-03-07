@@ -16,12 +16,6 @@ import {
 } from "../../redux/modules/mainSlice";
 import { __getMyInfo } from "../../redux/modules/mySlice";
 import Dday from "./Dday";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import Navbar from "../utils/Navbar";
 
 const Main = () => {
@@ -178,26 +172,17 @@ const Main = () => {
         <StModalTop>
           <span>투두투두 랭킹 산정 방법</span>
         </StModalTop>
-        <Swiper
-          className="banner"
-          spaceBetween={50}
-          slidesPerView={1}
-          // navigation
-          pagination={{ clickable: true }}
-        >
-          <SwiperSlide>
-            <StModalBottom>
-              <StModalExplainDiv>
-                <span>주간/월간 랭킹</span>
-                <img src={bigTrophy} alt="bigTrophyImg" />
-                <div>
-                  주간 랭킹은 일주일/한달 간 측정한 투두 달성률 평균이 높은
-                  순으로 순위가 결정됩니다.
-                </div>
-              </StModalExplainDiv>
-            </StModalBottom>
-          </SwiperSlide>
-        </Swiper>
+
+        <StModalBottom>
+          <StModalExplainDiv>
+            <span>주간/월간 랭킹</span>
+            <img src={bigTrophy} alt="bigTrophyImg" />
+            <div>
+              주간 랭킹은 일주일/한달 간 측정한 투두 달성률 평균이 높은 순으로
+              순위가 결정됩니다.
+            </div>
+          </StModalExplainDiv>
+        </StModalBottom>
 
         <StCloseBtnContainer>
           <StModalCloseBtn onClick={closeModal}>확인</StModalCloseBtn>
@@ -210,7 +195,6 @@ const Main = () => {
 export default Main;
 
 const StRootDiv = styled.div`
-  font-family: "SUIT-Regular", sans-serif;
   overflow: hidden;
 `;
 
@@ -400,13 +384,10 @@ const StRankingBtnBox = styled.div`
   height: 5vh;
 
   button {
+    font-family: "Gowun Dodum", sans-serif;
     font-size: 1.7vh;
     cursor: pointer;
   }
-
-  // position: sticky;
-  // z-index: 1;
-  // top: 2.6em;
 `;
 
 const StWeeklyRankingBtn = styled.button`
@@ -417,7 +398,6 @@ const StWeeklyRankingBtn = styled.button`
   border-radius: 44px;
   span {
     color: white;
-    font-family: "SUIT-Regular";
   }
 `;
 
@@ -429,7 +409,6 @@ const StWeeklyRankingBtn2nd = styled.button`
   border-radius: 44px;
   span {
     color: #9f9e9e;
-    font-family: "SUIT-Regular";
   }
 `;
 
@@ -442,7 +421,6 @@ const StMonthRankingBtn = styled.button`
   border-radius: 44px;
   span {
     color: white;
-    font-family: "SUIT-Regular";
   }
 `;
 
@@ -455,7 +433,6 @@ const StMonthRankingBtn2nd = styled.button`
   border-radius: 44px;
   span {
     color: #9f9e9e;
-    font-family: "SUIT-Regular";
   }
 `;
 

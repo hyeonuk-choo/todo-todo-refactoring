@@ -214,7 +214,6 @@ const StDateInput = styled.input`
   height: 50px;
   padding: 0 1rem 0 1rem;
   box-sizing: border-box;
-  font-family: "SUIT-Regular";
   font-size: 15px;
 `;
 

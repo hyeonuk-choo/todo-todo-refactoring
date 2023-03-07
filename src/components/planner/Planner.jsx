@@ -49,7 +49,7 @@ const Planner = ({ modalVisible, setModalVisible }) => {
   };
 
   const onClickBackPlannerHandler = () => {
-    navigate("/planner");
+    navigate("/planner-main");
   };
 
   const onClickAddTodoModalHandler = () => {
@@ -165,23 +165,23 @@ const Planner = ({ modalVisible, setModalVisible }) => {
 
   return (
     <StDiv>
-      <div className='header'>
+      <div className="header">
         <StHeaderBox>
-          <div className='iconBox'>
+          <div className="iconBox">
             <img
               src={leftArrowSvg}
-              alt='leftArrowIcon'
+              alt="leftArrowIcon"
               onClick={onClickBackPlannerHandler}
             />
           </div>
-          <div className='categoryTitle'>
+          <div className="categoryTitle">
             <p>{categoryName}</p>
           </div>
           <div></div>
         </StHeaderBox>
         <StCategoryProgressContainer>
-          <div className='top'>
-            <p className='title'>
+          <div className="top">
+            <p className="title">
               {todoList.length === 0
                 ? 0
                 : todoList.filter((data) => data.complete === true).length}
@@ -192,7 +192,7 @@ const Planner = ({ modalVisible, setModalVisible }) => {
           <StProgressBarBox>
             <StProgressBar
               width={isNaN(todoRate) ? 0 : todoRate}
-              backgroundColor='#74E272'
+              backgroundColor="#74E272"
             ></StProgressBar>
           </StProgressBarBox>
         </StCategoryProgressContainer>
@@ -207,20 +207,20 @@ const Planner = ({ modalVisible, setModalVisible }) => {
             ?.filter((data) => data.complete === false)
             .map((data) => (
               <StTodoItem key={data.todoId} name={data.title}>
-                <div className='top' id={data.todoId}>
+                <div className="top" id={data.todoId}>
                   <div
-                    className='content'
+                    className="content"
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <img
                       src={notDoneSvg}
-                      alt='notDoneIcon'
+                      alt="notDoneIcon"
                       onClick={onClickTodoCompleteHandler}
                     />
-                    <StTodoTitle className='title'>{data.content}</StTodoTitle>
+                    <StTodoTitle className="title">{data.content}</StTodoTitle>
                   </div>
-                  <div className='option' onClick={onClickSelectToTodoHandler}>
-                    <img src={threeDotSvg} alt='threeDotIcon' />
+                  <div className="option" onClick={onClickSelectToTodoHandler}>
+                    <img src={threeDotSvg} alt="threeDotIcon" />
                   </div>
                 </div>
               </StTodoItem>
@@ -233,22 +233,22 @@ const Planner = ({ modalVisible, setModalVisible }) => {
             ?.filter((data) => data.complete === true)
             .map((data) => (
               <StTodoItem key={data.todoId} name={data.title}>
-                <div className='top' id={data.todoId}>
+                <div className="top" id={data.todoId}>
                   <div
-                    className='content'
+                    className="content"
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <img
                       src={doneSvg}
-                      alt='doneIcon'
+                      alt="doneIcon"
                       onClick={onClickTodoCompleteHandler}
                     />
-                    <StTodoTitle className='title' color='#E8E8E8'>
+                    <StTodoTitle className="title" color="#E8E8E8">
                       {data.content}
                     </StTodoTitle>
                   </div>
-                  <div className='option'>
-                    <img src={threeDotDoneSvg} alt='threeDotDoneIcon' />
+                  <div className="option">
+                    <img src={threeDotDoneSvg} alt="threeDotDoneIcon" />
                   </div>
                 </div>
               </StTodoItem>
@@ -260,19 +260,19 @@ const Planner = ({ modalVisible, setModalVisible }) => {
         closable={true}
         maskClosable={true}
         onClose={closeModal}
-        width='290px'
-        height='180px'
-        radius='40px'
-        top='40%'
-        backgroundcolor='rgba(0, 0, 0, 0.2)'
+        width="290px"
+        height="180px"
+        radius="40px"
+        top="40%"
+        backgroundcolor="rgba(0, 0, 0, 0.2)"
       >
         <StModalBtnBox>
-          <p className='addtitle'>투두 추가</p>
+          <p className="addtitle">투두 추가</p>
           <StTodoInput
-            minLength='2'
-            maxLength='15'
-            placeholder='내용을 입력해주세요.(2-15자 이내)'
-            type='text'
+            minLength="2"
+            maxLength="15"
+            placeholder="내용을 입력해주세요.(2-15자 이내)"
+            type="text"
             value={todo}
             onChange={onChangeInputHandler}
             ref={todoInputRef}
@@ -289,20 +289,20 @@ const Planner = ({ modalVisible, setModalVisible }) => {
         closable={true}
         maskClosable={true}
         onClose={closeModal}
-        width='290px'
-        height='170px'
-        radius='40px'
-        top='40%'
-        backgroundcolor='rgba(0, 0, 0, 0.2)'
+        width="290px"
+        height="170px"
+        radius="40px"
+        top="40%"
+        backgroundcolor="rgba(0, 0, 0, 0.2)"
       >
         <StModalBtnBox>
           {!editTodoName ? (
             <StEditBtnBox>
-              <p className='edittitle'>{selectTodo?.content}</p>
-              <p onClick={onClickEditTodoName} className='updatetitle'>
+              <p className="edittitle">{selectTodo?.content}</p>
+              <p onClick={onClickEditTodoName} className="updatetitle">
                 이름 변경
               </p>
-              <div className='btnBox'>
+              <div className="btnBox">
                 <StModalDeleteBtn onClick={onClickTodoDeleteHandler}>
                   삭제
                 </StModalDeleteBtn>
@@ -311,11 +311,11 @@ const Planner = ({ modalVisible, setModalVisible }) => {
             </StEditBtnBox>
           ) : (
             <>
-              <p className='title'>투두 내용 변경</p>
+              <p className="title">투두 내용 변경</p>
               <StTodoInput
-                minLength='2'
-                maxLength='15'
-                type='text'
+                minLength="2"
+                maxLength="15"
+                type="text"
                 value={todo}
                 onChange={onChangeInputHandler}
               />
@@ -337,15 +337,15 @@ const Planner = ({ modalVisible, setModalVisible }) => {
         closable={true}
         maskClosable={true}
         onClose={closeModal}
-        width='290px'
-        height='180px'
-        radius='40px'
-        top='40%'
-        backgroundcolor='rgba(0, 0, 0, 0.2)'
+        width="290px"
+        height="180px"
+        radius="40px"
+        top="40%"
+        backgroundcolor="rgba(0, 0, 0, 0.2)"
       >
         <StModalBtnBox>
-          <p className='deletetitle'>투두를 삭제하시겠습니까?</p>
-          <p className='confirm'>삭제하면 다시 불러올 수 없습니다</p>
+          <p className="deletetitle">투두를 삭제하시겠습니까?</p>
+          <p className="confirm">삭제하면 다시 불러올 수 없습니다</p>
           <StDeleteBtnbox>
             <StModalAddBtn onClick={onClickEditTodoDeleteCheck}>
               확인
@@ -365,7 +365,7 @@ const StDiv = styled.div`
   min-width: 360px;
   background-color: #fafafa;
   height: 100%;
-  font-family: "SUIT-Regular", sans-serif;
+
   position: relative;
   margin: 0 auto;
   box-sizing: border-box;
@@ -580,7 +580,7 @@ const StTodoInput = styled.input`
   outline: none;
   resize: none;
   font-size: 15px;
-  font-family: "SUIT-Regular";
+
   &:focus {
     border-color: #ff8f27;
   }
@@ -664,7 +664,7 @@ const StModalAddBtn = styled.button`
   border-radius: 0 0 0 16px;
   background-color: white;
   color: #ff8f27;
-  font-family: "SUIT-Regular";
+
   font-weight: 600;
   font-size: 16px;
 
@@ -688,7 +688,7 @@ const StModalCancelBtn = styled.button`
   border-radius: 0 0 16px 0;
   background-color: white;
   color: black;
-  font-family: "SUIT-Regular";
+
   font-weight: 600;
   font-size: 16px;
 
@@ -714,7 +714,6 @@ const StModalDeleteBtn = styled.button`
   background-color: white;
   font-size: 16px;
   font-weight: 600;
-  font-family: "SUIT-Regular";
 `;
 
 const StbuttonSet = styled.div`

@@ -39,23 +39,23 @@ const PlannerDate = ({
 
   return (
     <StDiv display={display}>
-      <div className='header'>
+      <div className="header">
         <StHeaderBox>
-          <div className='iconBox'>
+          <div className="iconBox">
             <img
               src={leftArrowSvg}
-              alt='leftArrowIcon'
+              alt="leftArrowIcon"
               onClick={onClickBackPlannerHandler}
             />
           </div>
-          <div className='categoryTitle'>
+          <div className="categoryTitle">
             <p>{selectedCategoryName}</p>
           </div>
           <div></div>
         </StHeaderBox>
         <StCategoryProgressContainer>
-          <div className='top'>
-            <p className='title'>
+          <div className="top">
+            <p className="title">
               {todoList.filter((data) => data.complete === true).length}/
               {todoList.length}
             </p>
@@ -75,13 +75,13 @@ const PlannerDate = ({
             .filter((data) => data.complete === false)
             .map((data) => (
               <StTodoItem key={data.todoId} name={data.title}>
-                <div className='top' id={data.todoId}>
+                <div className="top" id={data.todoId}>
                   <div
-                    className='content'
+                    className="content"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <img src={notDoneSvg} alt='notDoneIcon' />
-                    <StTodoTitle className='title'>{data.content}</StTodoTitle>
+                    <img src={notDoneSvg} alt="notDoneIcon" />
+                    <StTodoTitle className="title">{data.content}</StTodoTitle>
                   </div>
                 </div>
               </StTodoItem>
@@ -94,13 +94,13 @@ const PlannerDate = ({
             .filter((data) => data.complete === true)
             .map((data) => (
               <StTodoItem key={data.todoId} name={data.title}>
-                <div className='top' id={data.todoId}>
+                <div className="top" id={data.todoId}>
                   <div
-                    className='content'
+                    className="content"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <img src={doneSvg} alt='doneIcon' />
-                    <StTodoTitle className='title' color='#E8E8E8'>
+                    <img src={doneSvg} alt="doneIcon" />
+                    <StTodoTitle className="title" color="#E8E8E8">
                       {data.content}
                     </StTodoTitle>
                   </div>
@@ -123,7 +123,7 @@ const StDiv = styled.div`
   right: 0;
   bottom: 0;
   display: ${(props) => (props.display ? "block" : "none")};
-  font-family: "SUIT-Regular", sans-serif;
+
   overflow: hidden auto;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {

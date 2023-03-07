@@ -300,7 +300,7 @@ export default Statistics;
 const StContainer = styled.div`
   height: 100%;
   width: 100%;
-  font-family: "SUIT-Regular", sans-serif;
+
   overflow: auto;
   box-sizing: border-box;
   -ms-overflow-style: none;
@@ -412,7 +412,6 @@ const StScoreBoxDiv = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
   border-radius: 12px;
-  font-family: "SpoqaHanSansNeo-Regular", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;

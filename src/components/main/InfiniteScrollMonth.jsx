@@ -162,6 +162,6 @@ const StRankingProfile = styled.img`
 const StRankingNickname = styled.div`
   margin-left: 8px;
   font-weight: 500;
-  font-family: "SUIT-Regular";
+
   font-size: 2.1vh;
 `;

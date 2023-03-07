@@ -9,7 +9,6 @@ import { useState } from "react";
 import Layout from "../utils/Layout";
 
 const Login = () => {
-
   //카카오 로그인
   const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
@@ -41,7 +40,7 @@ const Login = () => {
           <StKakaoBtn onClick={onKakaoLoginHandler}>
             <StBtnBox>
               <div>
-                <StKakaoBtnImg src={kakaoUnion} alt='kakaoUnionIcon' />
+                <StKakaoBtnImg src={kakaoUnion} alt="kakaoUnionIcon" />
               </div>
               <StKakaoBtnFont>카카오 로그인</StKakaoBtnFont>
             </StBtnBox>
@@ -50,7 +49,7 @@ const Login = () => {
           <StGoogleBtn onClick={onGoogleLoginHandler}>
             <StBtnBox>
               <div>
-                <StGoogleBtnImg src={googleUnion} alt='googleUnionIcon' />
+                <StGoogleBtnImg src={googleUnion} alt="googleUnionIcon" />
               </div>
               <StGoogleBtnFont>구글 로그인</StGoogleBtnFont>
             </StBtnBox>
@@ -84,21 +83,17 @@ const layoutShow = keyframes`
     display:block;
     opacity:1;
   }
-`
+`;
 
 const StLoginContainer = styled.div`
-  width:100%;
-  height:100vh;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "SUIT-Regular", sans-serif;
-  background-color:#fff;
+  background-color: #fff;
   /* opacity:0; */
   /* animation: ${layoutShow} 1s 5s alternate ease both; */
-
-  
-
 
   /* @media screen and (min-height: 667px) {
   height:667px;
@@ -146,8 +141,6 @@ const StLoginContainer = styled.div`
   @media screen and (min-height: 1366px) {
   height:1366px;
   } */
-
-
 `;
 
 const StLogobox = styled.div``;
@@ -172,16 +165,16 @@ const StPhrases = styled.div`
   height: 20px;
   padding-top: 180px;
   padding-bottom: 16px;
-  box-sizing:border-box;
+  box-sizing: border-box;
   /* position: relative;
   top: 150px; */
 `;
 const StLoginBtnbox = styled.div`
   margin-top: 100px;
   display: flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 const StKakaoBtn = styled.button`
   width: 280px;
@@ -199,7 +192,6 @@ const StKakaoBtnImg = styled.img`
 `;
 
 const StKakaoBtnFont = styled.span`
-  font-family: "SUIT-Regular", sans-serif;
   position: relative;
   left: 5px;
   font-size: 16px;
@@ -217,24 +209,22 @@ const StGoogleBtn = styled.button`
   border: 1px solid #e8e8e8;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
-  vertical-align:center;
+  vertical-align: center;
 `;
 
 const StBtnBox = styled.div`
   display: flex;
-  justify-content:center;
-  align-items:center;
-
-`
+  justify-content: center;
+  align-items: center;
+`;
 
 const StGoogleBtnImg = styled.img`
   position: relative;
   right: 15px;
-  vertical-align:center;
+  vertical-align: center;
 `;
 
 const StGoogleBtnFont = styled.span`
-  font-family: "SUIT-Regular", sans-serif;
   position: relative;
   left: 5px;
   font-size: 16px;

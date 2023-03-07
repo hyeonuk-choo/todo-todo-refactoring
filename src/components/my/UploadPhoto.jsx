@@ -49,14 +49,14 @@ const UploadPhoto = () => {
   return (
     <StUploadPhoto
       onClick={onClickUploadPhotoHandler}
-      display={profilePhotoBtn}
+      // display={profilePhotoBtn}
     >
-      <input
+      {/* <input
         type="file"
         accept="image/*"
         ref={uploadRef}
         onChange={onChangeUploadImageHandler}
-      />
+      /> */}
       <img src={cameraSvg} alt="camera" />
     </StUploadPhoto>
   );
@@ -64,22 +64,19 @@ const UploadPhoto = () => {
 
 const StUploadPhoto = styled.div`
   position: absolute;
-  bottom: 5.5rem;
-  right: 24px;
-  z-index: 4;
-
-  width: 55px;
-  height: 55px;
-  background-color: #ff8f27;
-  border-radius: 50%;
-  display: ${(props) => props.display};
+  bottom: 12vh;
+  right: 2vh;
+  z-index: 1;
+  width: 8vh;
+  height: 8vh;
   justify-content: center;
   align-items: center;
-  /* right: 18px; */
-  /* top: 7px; */
   cursor: pointer;
+  border-radius: 50%;
+  background-color: #ff8f27;
+  // display: ${(props) => props.display};
 
-  & input {
+  input {
     display: none;
   }
 `;

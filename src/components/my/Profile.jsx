@@ -139,7 +139,6 @@ const Profile = () => {
 };
 
 const StContainer = styled.div`
-  font-family: "SUIT-Regular", sans-serif;
   height: 100%;
   overflow: hidden auto;
   -ms-overflow-style: none;
@@ -282,7 +281,6 @@ const StBtn = styled.button`
   border-radius: 16px;
   border: none;
   margin: 16px auto;
-  font-family: "SUIT-Regular", sans-serif;
 `;
 
 export default Profile;

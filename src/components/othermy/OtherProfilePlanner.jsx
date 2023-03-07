@@ -87,7 +87,7 @@ const OtherProfilePlanner = () => {
   return (
     <>
       <StDiv>
-        <div className='header'>
+        <div className="header">
           <OtherPageCalender
             calenderdate={calenderdate}
             setCalenderdate={setCalenderdate}
@@ -108,10 +108,10 @@ const OtherProfilePlanner = () => {
                   onClick={onClickShowTodoHandler}
                 >
                   <div
-                    className='top'
+                    className="top"
                     onClick={onClickSelectCategoryToTodoListHandler}
                   >
-                    <p className='title'>{data.title}</p>
+                    <p className="title">{data.title}</p>
 
                     <p onClick={(e) => e.stopPropagation()}>
                       {categoryTodoList[index] === undefined
@@ -137,7 +137,7 @@ const OtherProfilePlanner = () => {
                       ></StProgressBar>
                     </StProgressBarBox>
                     <StToggleImgBox>
-                      <img src={toggleSvg} alt='toggleIcon' />
+                      <img src={toggleSvg} alt="toggleIcon" />
                     </StToggleImgBox>
                   </StToggleBox>
 
@@ -149,16 +149,16 @@ const OtherProfilePlanner = () => {
                             .filter((data) => data.complete === false)
                             .map((data) => (
                               <StTodoItem key={data.todoId} name={data.title}>
-                                <div className='top' id={data.todoId}>
+                                <div className="top" id={data.todoId}>
                                   <div
-                                    className='content'
+                                    className="content"
                                     style={{
                                       display: "flex",
                                       alignItems: "center",
                                     }}
                                   >
-                                    <img src={notDoneSvg} alt='notDoneIcon' />
-                                    <StTodoTitle className='title'>
+                                    <img src={notDoneSvg} alt="notDoneIcon" />
+                                    <StTodoTitle className="title">
                                       {data.content}
                                     </StTodoTitle>
                                   </div>
@@ -174,18 +174,18 @@ const OtherProfilePlanner = () => {
                             .filter((data) => data.complete === true)
                             .map((data) => (
                               <StTodoItem key={data.todoId} name={data.title}>
-                                <div className='top' id={data.todoId}>
+                                <div className="top" id={data.todoId}>
                                   <div
-                                    className='content'
+                                    className="content"
                                     style={{
                                       display: "flex",
                                       alignItems: "center",
                                     }}
                                   >
-                                    <img src={doneSvg} alt='doneIcon' />
+                                    <img src={doneSvg} alt="doneIcon" />
                                     <StTodoTitle
-                                      className='title'
-                                      color='#E8E8E8'
+                                      className="title"
+                                      color="#E8E8E8"
                                     >
                                       {data.content}
                                     </StTodoTitle>
@@ -211,7 +211,6 @@ const StDiv = styled.div`
   background-color: #fafafa;
   height: auto;
   min-height: 50vh;
-  font-family: "SUIT-Regular", sans-serif;
 
   & div {
     box-sizing: border-box;

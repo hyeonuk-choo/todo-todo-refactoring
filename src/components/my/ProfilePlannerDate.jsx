@@ -102,11 +102,11 @@ const ProfilePlannerDate = () => {
                 onClick={onClickShowTodoHandler}
               >
                 <div
-                  className='top'
+                  className="top"
                   title={data}
                   onClick={onClickSelectCategoryToTodoListHandler}
                 >
-                  <p className='title'>{data}</p>
+                  <p className="title">{data}</p>
                   {category.length > 0 && (
                     <p onClick={(e) => e.stopPropagation()}>
                       {categoryTodoComplete[`${category[index]}`] === undefined
@@ -122,18 +122,18 @@ const ProfilePlannerDate = () => {
                       width={
                         isNaN(
                           categoryTodoComplete[`${category[index]}`] /
-                          dateTodoObj[`${category[index]}`]
+                            dateTodoObj[`${category[index]}`]
                         )
                           ? 0
                           : (categoryTodoComplete[`${category[index]}`] /
-                            dateTodoObj[`${category[index]}`]) *
-                          100
+                              dateTodoObj[`${category[index]}`]) *
+                            100
                       }
-                      backgroundColor='#74E272'
+                      backgroundColor="#74E272"
                     ></StProgressBar>
                   </StProgressBarBox>
                   <StToggleImgBox>
-                    <img src={toggleSvg} alt='toggleIcon' />
+                    <img src={toggleSvg} alt="toggleIcon" />
                   </StToggleImgBox>
                 </StToggleBox>
 
@@ -144,16 +144,16 @@ const ProfilePlannerDate = () => {
                         .filter((data) => data.complete === false)
                         .map((data) => (
                           <StTodoItem key={data.todoId} name={data.title}>
-                            <div className='top' id={data.todoId}>
+                            <div className="top" id={data.todoId}>
                               <div
-                                className='content'
+                                className="content"
                                 style={{
                                   display: "flex",
                                   alignItems: "center",
                                 }}
                               >
-                                <img src={notDoneSvg} alt='notDoneIcon' />
-                                <StTodoTitle className='title'>
+                                <img src={notDoneSvg} alt="notDoneIcon" />
+                                <StTodoTitle className="title">
                                   {data.content}
                                 </StTodoTitle>
                               </div>
@@ -168,16 +168,16 @@ const ProfilePlannerDate = () => {
                         .filter((data) => data.complete === true)
                         .map((data) => (
                           <StTodoItem key={data.todoId} name={data.title}>
-                            <div className='top' id={data.todoId}>
+                            <div className="top" id={data.todoId}>
                               <div
-                                className='content'
+                                className="content"
                                 style={{
                                   display: "flex",
                                   alignItems: "center",
                                 }}
                               >
-                                <img src={doneSvg} alt='doneIcon' />
-                                <StTodoTitle className='title' color='#E8E8E8'>
+                                <img src={doneSvg} alt="doneIcon" />
+                                <StTodoTitle className="title" color="#E8E8E8">
                                   {data.content}
                                 </StTodoTitle>
                               </div>
@@ -206,7 +206,6 @@ const StDiv = styled.div`
   background-color: #fafafa;
   height: auto;
   min-height: 45vh;
-  font-family: "SUIT-Regular", sans-serif;
 
   & div.header {
     /* width: 100%; */
@@ -311,9 +310,9 @@ const StTodoToggleBox = styled.div`
 `;
 
 const StTodoContainer = styled.div`
-  width:100%;
+  width: 100%;
   &:first-child {
-    margin-bottom:16px;
+    margin-bottom: 16px;
   }
 `;
 
