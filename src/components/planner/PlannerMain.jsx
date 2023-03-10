@@ -3,11 +3,83 @@ import styled, { css } from "styled-components";
 import categorySvg from "../../assets/img/categorySvg.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 import Navbar from "../utils/Navbar";
 import TodoAddBtn from "./TodoAddBtn";
 
-const PlannerCategory = () => {
+const PlannerMain = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const [todos, setTodos] = useState([]);
+  const [toggle, setToggle] = useState(false);
+
+  const onClickUpdateHandler = (id) => {
+    let newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.mode = !todo.mode;
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  // get요청 코드 입니다.
+  function getTodos() {
+    axios
+      .get(`${BASE_URL}/planner-main`, {
+        params: {
+          timestamp: new Date().getTime(),
+        },
+      })
+      .then((data) => {
+        setTodos(data.data);
+      })
+      .catch((e) => console.log(e));
+  }
+
+  useEffect(getTodos, []);
+  console.log(todos);
+
+  // 투두 Update하는 코드 입니다.
+  const onClickUpdate = async (id) => {
+    await axios
+      .delete(`${BASE_URL}/todo-update`, {
+        data: {
+          id,
+          todos,
+        },
+      })
+      .then((response) => {
+        // 비동기 이슈, 서버에 delete가 된 이후에 get요청
+        console.log(response.data);
+        getTodos();
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
+  };
+
+  // 투두 delete를 하는 코드 입니다.
+  const onClickDelete = async (id) => {
+    await axios
+      .delete(`${BASE_URL}/todo-delete`, {
+        data: {
+          id,
+        },
+      })
+      .then((response) => {
+        // 비동기 이슈, 서버에 delete가 된 이후에 get요청
+        // Handle success
+        console.log(response.data);
+        getTodos();
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
+  };
+
   return (
     <>
       <StDiv>
@@ -31,7 +103,40 @@ const PlannerCategory = () => {
         </div>
 
         {/* -------- 투두 바디부분 시작 ---------*/}
-        <StCategoryContainer></StCategoryContainer>
+        <StCategoryContainer>
+          {todos?.map((each) => (
+            <div className="todo" key={each.id}>
+              <div>{each.title}</div>
+              <div>{each.content}</div>
+              {each.mode ? (
+                <button
+                  onClick={() => {
+                    // onClickUpdate(each.id);
+                    onClickUpdateHandler(each.id);
+                  }}
+                >
+                  수정완료
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    // onClickUpdate(each.id);
+                    onClickUpdateHandler(each.id);
+                  }}
+                >
+                  수정
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  onClickDelete(each.id);
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          ))}
+        </StCategoryContainer>
         {/* --------- 투두 바디부분 끝 ----------*/}
 
         {/* --------- 네비게이션바 ----------*/}
@@ -79,6 +184,10 @@ const StDiv = styled.div`
 const StCategoryContainer = styled.div`
   box-sizing: border-box;
   height: 80vh;
+
+  .todo {
+    display: flex;
+  }
 `;
 
 const StCategoryItem = styled.div`
@@ -115,4 +224,4 @@ const StDateInput = styled.input`
   font-size: 2.5vh;
 `;
 
-export default PlannerCategory;
+export default PlannerMain;

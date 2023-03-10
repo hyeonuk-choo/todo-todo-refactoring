@@ -6,11 +6,11 @@ import axios from "axios";
 const TodoAdd = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
-  const [todo, setTodo] = useState({ title: "", content: "" });
+  const [todo, setTodo] = useState({});
 
   const onChangeInput = async (e) => {
     const { name, value } = await e.target;
-    setTodo({ ...todo, [name]: value });
+    setTodo({ ...todo, [name]: value, mode: false });
   };
   console.log(todo);
 
@@ -25,6 +25,8 @@ const TodoAdd = () => {
         console.error(error);
         // Handle error
       });
+
+    navigate("/planner-main");
   };
 
   return (
