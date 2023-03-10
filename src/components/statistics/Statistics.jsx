@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import info from "../../assets/img/mainpage/info.svg";
 import LineChart from "./LineChart";
-import Modal from "../utils/Modal";
 import trophy from "../../assets/img/mainpage/trophy.svg";
 import {
   __getRankScoreData,
@@ -170,7 +169,7 @@ const Statistics = () => {
       </div>
 
       {/* ------------- 모달창 ------------ */}
-      {modalView && (
+      {/* {modalView && (
         <Modal
           visible={modalView}
           closable={true}
@@ -239,16 +238,12 @@ const Statistics = () => {
                     gap: "3%",
                   }}
                 >
-                  {/* <img src={trophy} /> */}
+            
                   주간 랭킹 점수란?
                 </span>
                 <div style={{ marginTop: "3%" }}>
                   아래 그래프는 매주 요일별 누적 점수 추이를 보여줍니다.
-                  {/* <span style={{ color: "#D34C4C", fontWeight: "bold" }}>
-                    {" "}
-                    붉은색
-                  </span>
-                  은 상위랭커, */}
+                  
                   <div style={{ marginTop: "10px", width: "360px" }}>
                     <span style={{ color: "#618AF2", fontWeight: "bold" }}>
                       파란색
@@ -287,7 +282,7 @@ const Statistics = () => {
             <StModalCloseDiv onClick={modalToggleHandler}>닫기</StModalCloseDiv>
           </StModalBottom>
         </Modal>
-      )}
+      )} */}
       {/* ------------- 모달창 끝 ------------ */}
 
       {/* ----------- 네비게이션바 ----------- */}

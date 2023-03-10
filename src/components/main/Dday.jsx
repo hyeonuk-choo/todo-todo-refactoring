@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { __getDday, __updateDday } from "../../redux/modules/mainSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "../utils/Modal";
 
 const Dday = () => {
   const dispatch = useDispatch();
@@ -70,7 +69,7 @@ const Dday = () => {
       </StDdayBox>
 
       {/* --------- 모달창 시작 --------- */}
-      {modalVisible && (
+      {/* {modalVisible && (
         <Modal
           visible={modalVisible}
           closable={true}
@@ -91,13 +90,13 @@ const Dday = () => {
               <option value="중간고사">중간고사</option>
               <option value="기말고사">기말고사</option>
             </select>
-            {/* <input
+            <input
               type="text"
               maxLength="8"
               placeholder="8자 이내로 입력해주세요."
               onChange={onChangeHandler}
               name="title"
-            /> */}
+            />
           </StInputbox>
           <StDate>목표 날짜</StDate>
           <StDateInput
@@ -136,7 +135,7 @@ const Dday = () => {
             )}
           </StModalBottom>
         </Modal>
-      )}
+      )} */}
       {/* --------- 모달창 끝 ---------- */}
     </>
   );

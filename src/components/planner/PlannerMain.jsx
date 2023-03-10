@@ -13,7 +13,17 @@ const PlannerMain = () => {
   const [todos, setTodos] = useState([]);
   const [toggle, setToggle] = useState(false);
 
-  const onClickUpdateHandler = (id) => {
+  const onChangeInput = (e) => {
+    const { name, value, id } = e.target;
+    const updatedTodo = todos.find((todo) => todo.mode && todo.id === id);
+
+    if (updatedTodo) {
+      updatedTodo[name] = value;
+      setTodos([...todos]);
+    }
+  };
+
+  const onClickToggleBtn = (id) => {
     let newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.mode = !todo.mode;
@@ -42,15 +52,19 @@ const PlannerMain = () => {
 
   // 투두 Update하는 코드 입니다.
   const onClickUpdate = async (id) => {
+    const newTodos = todos.filter((todo) => {
+      if ((todo.mode = true && todo.id == id)) {
+        todo.mode = false;
+      }
+      return todo;
+    });
+
     await axios
-      .delete(`${BASE_URL}/todo-update`, {
-        data: {
-          id,
-          todos,
-        },
+      .put(`${BASE_URL}/todo-update`, {
+        todos: newTodos,
       })
       .then((response) => {
-        // 비동기 이슈, 서버에 delete가 된 이후에 get요청
+        // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
         console.log(response.data);
         getTodos();
       })
@@ -106,26 +120,41 @@ const PlannerMain = () => {
         <StCategoryContainer>
           {todos?.map((each) => (
             <div className="todo" key={each.id}>
-              <div>{each.title}</div>
-              <div>{each.content}</div>
               {each.mode ? (
-                <button
-                  onClick={() => {
-                    // onClickUpdate(each.id);
-                    onClickUpdateHandler(each.id);
-                  }}
-                >
-                  수정완료
-                </button>
+                <>
+                  <input
+                    value={each.title}
+                    name="title"
+                    id={each.id}
+                    onChange={onChangeInput}
+                  ></input>
+                  <input
+                    value={each.content}
+                    name="content"
+                    id={each.id}
+                    onChange={onChangeInput}
+                  ></input>
+                  <button
+                    onClick={() => {
+                      onClickUpdate(each.id);
+                      onClickToggleBtn(each.id);
+                    }}
+                  >
+                    수정완료
+                  </button>
+                </>
               ) : (
-                <button
-                  onClick={() => {
-                    // onClickUpdate(each.id);
-                    onClickUpdateHandler(each.id);
-                  }}
-                >
-                  수정
-                </button>
+                <>
+                  <div>{each.title}</div>
+                  <div>{each.content}</div>
+                  <button
+                    onClick={() => {
+                      onClickToggleBtn(each.id);
+                    }}
+                  >
+                    수정
+                  </button>
+                </>
               )}
               <button
                 onClick={() => {
