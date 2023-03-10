@@ -1,22 +1,19 @@
+// ----- 이미지 파일 -----
+import largeTrophy from "../../assets/img/mainpage/bigTrophy.svg";
+import plannerCntSvg from "../../assets/img/mainpage/plannerCntSvg.svg";
+import todoCntSvg from "../../assets/img/mainpage/todoCntSvg.svg";
+import info from "../../assets/img/mainpage/info.svg";
+import smallTrophy from "../../assets/img/mainpage/trophy.svg";
+// -------------------------------------------------------
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
-import info from "../../assets/img/mainpage/info.svg";
-import trophy from "../../assets/img/mainpage/trophy.svg";
-import bigTrophy from "../../assets/img/mainpage/bigTrophy.svg";
-import plannerCntSvg from "../../assets/img/mainpage/plannerCntSvg.svg";
-import todoCntSvg from "../../assets/img/mainpage/todoCntSvg.svg";
-import Modal from "../utils/Modal";
 import InfiniteScroll from "./InfiniteScroll";
 import InfiniteScrollMonth from "./InfiniteScrollMonth";
-import {
-  __getThisMonthRate,
-  __getTotalRate,
-  __getTotalTodo,
-} from "../../redux/modules/mainSlice";
 import { __getMyInfo } from "../../redux/modules/mySlice";
 import Dday from "./Dday";
 import Navbar from "../utils/Navbar";
+import ModalBasic from "../utils/ModalBasic";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -27,9 +24,8 @@ const Main = () => {
   }, []);
 
   const { userinfo } = useSelector((state) => state.my);
-
   const [toggleValue, setToggleValue] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalWindow, setModalWindow] = useState(false);
 
   // let nickname = localStorage.getItem("nickname");
 
@@ -39,13 +35,6 @@ const Main = () => {
 
   const onClickMonth = () => {
     setToggleValue(false);
-  };
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
   };
 
   return (
@@ -120,12 +109,14 @@ const Main = () => {
       {/* ------------- 랭킹 --------------*/}
       <StSubDiv3>
         <StRankingPhrases>
-          <img src={trophy} alt="trophyImg" />
+          <img src={smallTrophy} alt="smallTrophyImg" />
           <span>랭킹</span>
           <img
             src={info}
             id="exclamationMark"
-            onClick={openModal}
+            onClick={() => {
+              setModalWindow(true);
+            }}
             alt="infoImg"
           />
         </StRankingPhrases>
@@ -158,36 +149,18 @@ const Main = () => {
       <Navbar home={true} />
 
       {/* -------------- 모달창 ---------------*/}
-      <Modal
-        visible={modalVisible}
-        closable={true}
-        maskClosable={true}
-        onClose={closeModal}
-        width="290px"
-        height="320px"
-        radius="48px"
-        top="40%"
-        backgroundcolor="rgba(17, 17, 17, 0.6)"
-      >
-        <StModalTop>
-          <span>투두투두 랭킹 산정 방법</span>
-        </StModalTop>
-
-        <StModalBottom>
-          <StModalExplainDiv>
-            <span>주간/월간 랭킹</span>
-            <img src={bigTrophy} alt="bigTrophyImg" />
-            <div>
-              주간 랭킹은 일주일/한달 간 측정한 투두 달성률 평균이 높은 순으로
-              순위가 결정됩니다.
-            </div>
-          </StModalExplainDiv>
-        </StModalBottom>
-
-        <StCloseBtnContainer>
-          <StModalCloseBtn onClick={closeModal}>확인</StModalCloseBtn>
-        </StCloseBtnContainer>
-      </Modal>
+      {modalWindow ? (
+        <ModalBasic
+          modalWidth={50 + "%"}
+          modalHeight={40 + "%"}
+          modalTop={(100 - 40) / 2 + "%"}
+          modalLeft={25 + "%"}
+          setModalWindow={setModalWindow}
+          modalTitle="랭킹 산정 방법"
+          modalImage={largeTrophy}
+          modalContent="주간 랭킹은 일주일/한달간 측정한 투두 달성률 평균이 높은 순으로 순위가 결정됩니다."
+        />
+      ) : null}
     </StRootDiv>
   );
 };
@@ -298,7 +271,9 @@ const StSubDiv3 = styled.div`
 `;
 
 const StSubDiv4 = styled.div`
-  height: 38vh;
+  // calc사용시 연산기호 양쪽 띄어쓰기(-마이너스 부호 유의)
+  // Navbar 10vh도 계산
+  height: calc(100vh - 12vh - 27vh - 13vh - 10vh);
   width: 100%;
   box-sizing: border-box;
   overflow: auto;
@@ -434,64 +409,4 @@ const StMonthRankingBtn2nd = styled.button`
   span {
     color: #9f9e9e;
   }
-`;
-
-const StModalTop = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 85px;
-  border-radius: 48px 48px 0 0;
-  background-color: #ffe9d5;
-  color: #ff7b00;
-  font-weight: 600;
-  font-size: 17px;
-`;
-
-const StModalBottom = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
-  height: 12em;
-  margin: 5% 0 0 5%;
-  span {
-    font-size: 16px;
-  }
-`;
-const StModalExplainDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-
-  span {
-    font-weight: bold;
-  }
-
-  div {
-    width: 83%;
-    text-align: center;
-  }
-`;
-
-const StCloseBtnContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 8rem;
-`;
-
-const StModalCloseBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  width: 93px;
-  border: none;
-  background-color: transparent;
-  color: #ffffff;
-  font-size: 16px;
-  padding: 1em;
 `;
