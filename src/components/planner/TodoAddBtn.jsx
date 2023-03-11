@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import whitePlusSvg from "../../assets/img/whitePlusSvg.svg";
+import axios from "axios";
 
-const TodoAddBtn = () => {
+const TodoAddBtn = ({ todos, onClickAdd }) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { profilePhotoBtn } = useSelector((state) => state.my);
@@ -14,7 +16,9 @@ const TodoAddBtn = () => {
   return (
     <StTodoAddBtn
       onClick={() => {
-        navigate("/planner-add");
+        onClickAdd();
+        // navigate("/planner-add");
+        // console.log(todos);
       }}
     >
       <img src={whitePlusSvg} alt="whitePlusSvg" />

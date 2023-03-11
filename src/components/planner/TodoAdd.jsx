@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const TodoAdd = () => {
+  // 투두항목 추가를 다른 페이지에서 할 경우, 사용하는 컴포넌트
+  // 지금은 미사용 컴포넌트입니다.
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   const [todo, setTodo] = useState({});
@@ -28,6 +30,10 @@ const TodoAdd = () => {
 
     navigate("/planner-main");
   };
+
+  useEffect(() => {
+    return;
+  }, []);
 
   return (
     <>

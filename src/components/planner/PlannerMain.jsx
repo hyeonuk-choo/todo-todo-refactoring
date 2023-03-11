@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import categorySvg from "../../assets/img/categorySvg.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
+import categorySvg from "../../assets/img/categorySvg.svg";
 import Navbar from "../utils/Navbar";
 import TodoAddBtn from "./TodoAddBtn";
 
@@ -12,10 +13,13 @@ const PlannerMain = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const [todos, setTodos] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const uniqueId = uuidv4();
 
   const onChangeInput = (e) => {
     const { name, value, id } = e.target;
-    const updatedTodo = todos.find((todo) => todo.mode && todo.id === id);
+    const updatedTodo = todos.find(
+      (todo) => todo.addMode || (todo.updateMode && todo.id === id)
+    );
 
     if (updatedTodo) {
       updatedTodo[name] = value;
@@ -23,14 +27,55 @@ const PlannerMain = () => {
     }
   };
 
-  const onClickToggleBtn = (id) => {
+  // 투두 추가하기 토글버튼 + post요청
+  const onClickAddToggleBtn = (id) => {
     let newTodos = todos.map((todo) => {
       if (todo.id === id) {
-        todo.mode = !todo.mode;
+        todo.addMode = !todo.addMode;
+      }
+      return todo;
+    });
+
+    setTodos(newTodos);
+
+    axios
+      .put(`${BASE_URL}/todo-update`, {
+        todos: newTodos,
+      })
+      .then((response) => {
+        // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
+        console.log(response.data);
+        getTodos();
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
+  };
+
+  // 투두 수정하기 토글버튼
+  const onClickUpdateToggleBtn = (id) => {
+    let newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.updateMode = !todo.updateMode;
       }
       return todo;
     });
     setTodos(newTodos);
+  };
+
+  // 투두추가'+'버튼을 눌렀을 때, 데이터추가
+  const onClickAdd = () => {
+    setTodos([
+      {
+        title: "",
+        content: "",
+        updateMode: false,
+        addMode: true,
+        id: uniqueId,
+      },
+      ...todos,
+    ]);
   };
 
   // get요청 코드 입니다.
@@ -48,13 +93,14 @@ const PlannerMain = () => {
   }
 
   useEffect(getTodos, []);
+
   console.log(todos);
 
   // 투두 Update하는 코드 입니다.
   const onClickUpdate = async (id) => {
     const newTodos = todos.filter((todo) => {
-      if ((todo.mode = true && todo.id == id)) {
-        todo.mode = false;
+      if ((todo.updateMode = true && todo.id == id)) {
+        todo.updateMode = false;
       }
       return todo;
     });
@@ -76,6 +122,7 @@ const PlannerMain = () => {
 
   // 투두 delete를 하는 코드 입니다.
   const onClickDelete = async (id) => {
+    // todos.filter((todo) => todo.updateMode === true && todo.id === id);
     await axios
       .delete(`${BASE_URL}/todo-delete`, {
         data: {
@@ -120,7 +167,30 @@ const PlannerMain = () => {
         <StCategoryContainer>
           {todos?.map((each) => (
             <div className="todo" key={each.id}>
-              {each.mode ? (
+              {each.addMode ? (
+                <>
+                  <input
+                    value={each.title}
+                    name="title"
+                    id={each.id}
+                    onChange={onChangeInput}
+                  ></input>
+                  <input
+                    value={each.content}
+                    name="content"
+                    id={each.id}
+                    onChange={onChangeInput}
+                  ></input>
+                  <button
+                    onClick={() => {
+                      // onClickUpdate(each.id);
+                      onClickAddToggleBtn(each.id);
+                    }}
+                  >
+                    추가하기
+                  </button>
+                </>
+              ) : each.updateMode ? (
                 <>
                   <input
                     value={each.title}
@@ -137,7 +207,7 @@ const PlannerMain = () => {
                   <button
                     onClick={() => {
                       onClickUpdate(each.id);
-                      onClickToggleBtn(each.id);
+                      onClickUpdateToggleBtn(each.id);
                     }}
                   >
                     수정완료
@@ -149,7 +219,7 @@ const PlannerMain = () => {
                   <div>{each.content}</div>
                   <button
                     onClick={() => {
-                      onClickToggleBtn(each.id);
+                      onClickUpdateToggleBtn(each.id);
                     }}
                   >
                     수정
@@ -157,7 +227,7 @@ const PlannerMain = () => {
                 </>
               )}
               <button
-                onClick={() => {
+                onClick={(e) => {
                   onClickDelete(each.id);
                 }}
               >
@@ -171,7 +241,7 @@ const PlannerMain = () => {
         {/* --------- 네비게이션바 ----------*/}
         <Navbar planner={true} />
         {/* --------- 투두 추가 고정버튼 ----------*/}
-        <TodoAddBtn />
+        <TodoAddBtn todos={todos} setTodos={setTodos} onClickAdd={onClickAdd} />
       </StDiv>
     </>
   );
