@@ -1,24 +1,28 @@
+// 라이브러리
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-import categorySvg from "../../assets/img/categorySvg.svg";
+// 컴포넌트
 import Navbar from "../utils/Navbar";
 import TodoAddBtn from "./TodoAddBtn";
 
+// 이미지
+import categorySvg from "../../assets/img/categorySvg.svg";
+
 const PlannerMain = () => {
+  // 상태관리 라이브러리 사용하지 않고 구현
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const [todos, setTodos] = useState([]);
-  const [toggle, setToggle] = useState(false);
   const uniqueId = uuidv4();
 
+  // onChange 핸들러
   const onChangeInput = (e) => {
     const { name, value, id } = e.target;
     const updatedTodo = todos.find(
-      (todo) => todo.addMode || (todo.updateMode && todo.id === id)
+      (todo) =>
+        (todo.addMode && todo.id === id) || (todo.updateMode && todo.id === id)
     );
 
     if (updatedTodo) {
@@ -36,11 +40,29 @@ const PlannerMain = () => {
       return todo;
     });
 
-    setTodos(newTodos);
-
+    // 서버와 바로 연동
     axios
       .put(`${BASE_URL}/todo-update`, {
         todos: newTodos,
+      })
+      .then((response) => {
+        // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
+        console.log(response.data);
+        getTodos();
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
+  };
+
+  // 투두추가를 취소하는 버튼
+  const onClickCancel = (id) => {
+    const filterTodo = todos.filter((todo) => todo.id !== id);
+    // 서버와 바로 연동
+    axios
+      .put(`${BASE_URL}/todo-update`, {
+        todos: filterTodo,
       })
       .then((response) => {
         // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
@@ -79,7 +101,7 @@ const PlannerMain = () => {
   };
 
   // get요청 코드 입니다.
-  function getTodos() {
+  const getTodos = () => {
     axios
       .get(`${BASE_URL}/planner-main`, {
         params: {
@@ -90,7 +112,7 @@ const PlannerMain = () => {
         setTodos(data.data);
       })
       .catch((e) => console.log(e));
-  }
+  };
 
   useEffect(getTodos, []);
 
@@ -122,7 +144,8 @@ const PlannerMain = () => {
 
   // 투두 delete를 하는 코드 입니다.
   const onClickDelete = async (id) => {
-    // todos.filter((todo) => todo.updateMode === true && todo.id === id);
+    // const filteredTodos = todosData.todos.filter((todo) => todo.id !== id);
+    // 해당 제거로직은 서버코드에서 작성
     await axios
       .delete(`${BASE_URL}/todo-delete`, {
         data: {
@@ -226,13 +249,23 @@ const PlannerMain = () => {
                   </button>
                 </>
               )}
-              <button
-                onClick={(e) => {
-                  onClickDelete(each.id);
-                }}
-              >
-                삭제
-              </button>
+              {each.addMode ? (
+                <button
+                  onClick={() => {
+                    onClickCancel(each.id);
+                  }}
+                >
+                  취소
+                </button>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    onClickDelete(each.id);
+                  }}
+                >
+                  삭제
+                </button>
+              )}
             </div>
           ))}
         </StCategoryContainer>
@@ -250,10 +283,6 @@ const PlannerMain = () => {
 const StDiv = styled.div`
   background-color: #fafafa;
   overflow: hidden auto;
-
-  // -ms-overflow-style: none;
-  // &::-webkit-scrollbar {
-  // }
 
   & .header {
     box-sizing: border-box;
