@@ -10,12 +10,26 @@ import TodoAddBtn from "./TodoAddBtn";
 
 // 이미지
 import categorySvg from "../../assets/img/categorySvg.svg";
+import threeDotSvg from "../../assets/img/threeDotSvg.svg";
+import ModalBasic from "../utils/ModalBasic";
 
 const PlannerMain = () => {
   // 상태관리 라이브러리 사용하지 않고 구현
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const [todos, setTodos] = useState([]);
   const uniqueId = uuidv4();
+  const [todos, setTodos] = useState([]);
+  const [modalWindow, setModalWindow] = useState(false);
+  const [modalId, setModalId] = useState(null);
+
+  // 클릭한 DOM요소의 id를 state값으로 가져오기
+  const handleDivClick = (id) => {
+    setModalId(id);
+  };
+
+  // setModalId state값으로 모달창 토글
+  const handleCloseModal = () => {
+    setModalId(null);
+  };
 
   // onChange 핸들러
   const onChangeInput = (e) => {
@@ -146,6 +160,7 @@ const PlannerMain = () => {
   const onClickDelete = async (id) => {
     // const filteredTodos = todosData.todos.filter((todo) => todo.id !== id);
     // 해당 제거로직은 서버코드에서 작성
+
     await axios
       .delete(`${BASE_URL}/todo-delete`, {
         data: {
@@ -169,7 +184,8 @@ const PlannerMain = () => {
       <StDiv>
         {/* ------------ 투두 헤더 -------------*/}
         <div className="header">
-          <div className="categoryBox">
+          <span>OOO님의 플래너</span>
+          {/* <div className="categoryBox">
             <StDateInput
               type="date"
               min={1}
@@ -183,35 +199,50 @@ const PlannerMain = () => {
             src={categorySvg}
             alt="categoryIcon"
             onClick={() => {}}
-          />
+          /> */}
         </div>
 
         {/* -------- 투두 바디부분 시작 ---------*/}
         <StCategoryContainer>
           {todos?.map((each) => (
-            <div className="todo" key={each.id}>
+            <div id="todo" key={each.id}>
               {each.addMode ? (
                 <>
-                  <input
-                    value={each.title}
-                    name="title"
-                    id={each.id}
-                    onChange={onChangeInput}
-                  ></input>
-                  <input
-                    value={each.content}
-                    name="content"
-                    id={each.id}
-                    onChange={onChangeInput}
-                  ></input>
-                  <button
-                    onClick={() => {
-                      // onClickUpdate(each.id);
-                      onClickAddToggleBtn(each.id);
-                    }}
-                  >
-                    추가하기
-                  </button>
+                  <div className="titleDivBox">
+                    <input
+                      value={each.title}
+                      name="title"
+                      id={each.id}
+                      onChange={onChangeInput}
+                    ></input>
+                  </div>
+
+                  <div className="contentDiv">
+                    <input
+                      value={each.content}
+                      name="content"
+                      id={each.id}
+                      onChange={onChangeInput}
+                    ></input>
+                  </div>
+
+                  <div className="buttonBox">
+                    <button
+                      onClick={() => {
+                        // onClickUpdate(each.id);
+                        onClickAddToggleBtn(each.id);
+                      }}
+                    >
+                      추가하기
+                    </button>
+                    <button
+                      onClick={() => {
+                        onClickCancel(each.id);
+                      }}
+                    >
+                      취소
+                    </button>
+                  </div>
                 </>
               ) : each.updateMode ? (
                 <>
@@ -238,33 +269,19 @@ const PlannerMain = () => {
                 </>
               ) : (
                 <>
-                  <div>{each.title}</div>
-                  <div>{each.content}</div>
-                  <button
-                    onClick={() => {
-                      onClickUpdateToggleBtn(each.id);
-                    }}
-                  >
-                    수정
-                  </button>
+                  <div className="titleDivBox">
+                    <div className="titleDiv">{each.title}</div>
+                    <img
+                      src={threeDotSvg}
+                      alt="threeDotSvg"
+                      onClick={() => {
+                        handleDivClick(each.id);
+                      }}
+                    />
+                  </div>
+
+                  <div className="contentDiv">{each.content}</div>
                 </>
-              )}
-              {each.addMode ? (
-                <button
-                  onClick={() => {
-                    onClickCancel(each.id);
-                  }}
-                >
-                  취소
-                </button>
-              ) : (
-                <button
-                  onClick={(e) => {
-                    onClickDelete(each.id);
-                  }}
-                >
-                  삭제
-                </button>
               )}
             </div>
           ))}
@@ -275,6 +292,19 @@ const PlannerMain = () => {
         <Navbar planner={true} />
         {/* --------- 투두 추가 고정버튼 ----------*/}
         <TodoAddBtn todos={todos} setTodos={setTodos} onClickAdd={onClickAdd} />
+        {/* --------- 수정/삭제 모달창 ----------*/}
+        {modalId ? (
+          <ModalBasic
+            modalWidth={30 + "%"}
+            modalHeight={30 + "%"}
+            modalTop={(100 - 30) / 2 + "%"}
+            modalLeft={(100 - 30) / 2 + "%"}
+            onClickUpdateToggleBtn={onClickUpdateToggleBtn}
+            handleCloseModal={handleCloseModal}
+            onClickDelete={onClickDelete}
+            id={modalId}
+          />
+        ) : null}
       </StDiv>
     </>
   );
@@ -289,10 +319,16 @@ const StDiv = styled.div`
     width: 100%;
     height: 10vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
+
     background-color: #ffffff;
-    justify-content: space-between;
-    padding: 10px;
     border-bottom: 1px solid #f1f3f5;
+
+    span {
+      font-size: 3vh;
+      font-weight: 600;
+    }
 
     .categoryBox {
       cursor: pointer;
@@ -311,34 +347,63 @@ const StDiv = styled.div`
 
 const StCategoryContainer = styled.div`
   box-sizing: border-box;
-  height: 80vh;
+  height: calc(100vh - 10vh - 10vh);
+  padding-top: 1.3rem;
 
-  .todo {
+  overflow: auto;
+
+  #todo {
     display: flex;
-  }
-`;
-
-const StCategoryItem = styled.div`
-  width: 100%;
-  height: auto;
-  border-radius: 16px;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-  padding: 15px 20px;
-  -webkit-box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1);
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1);
-
-  & .top {
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding-bottom: 5px;
-    font-weight: 600;
-    p {
-      margin: 0;
+    gap: 1rem;
+
+    box-sizing: border-box;
+    width: 85%;
+    height: 15%;
+    // 위아래 마진을 주면, border-box인데도 공간을 더 밀어낸다.
+    margin: 0 auto 1rem auto;
+    box-shadow: 0px 4px 15px rgba(19, 19, 19, 0.15);
+    border-radius: 1rem;
+    background-color: white;
+
+    .titleDivBox {
+      width: 90%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+
+      .titleDiv {
+        width: 100%;
+      }
+
+      img {
+        cursor: pointer;
+        position: absolute;
+        right: -1rem;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+
+    .contentDiv {
+      width: 90%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    button {
     }
   }
 `;
@@ -346,7 +411,6 @@ const StCategoryItem = styled.div`
 const StDateInput = styled.input`
   background-color: #ffffff;
   border: none;
-  focus: none;
   width: 20vh;
   box-sizing: border-box;
   font-size: 2.5vh;

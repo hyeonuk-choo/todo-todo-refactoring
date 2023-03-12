@@ -8,9 +8,13 @@ const ModalBasic = ({
   modalTop,
   modalLeft,
   setModalWindow,
+  handleCloseModal,
   modalTitle,
   modalImage,
   modalContent,
+  onClickUpdateToggleBtn,
+  onClickDelete,
+  id,
 }) => {
   const modalRef = useRef();
 
@@ -19,7 +23,8 @@ const ModalBasic = ({
     const handler = (e) => {
       // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(e.target)) {
-        setModalWindow(false);
+        if (handleCloseModal) handleCloseModal(null);
+        if (setModalWindow) setModalWindow(false);
       }
     };
 
@@ -47,11 +52,41 @@ const ModalBasic = ({
           modalTop={modalTop}
           modalLeft={modalLeft}
         >
-          <div id="upper">{modalTitle}</div>
-          <div id="lower">
-            <img src={modalImage} alt="largeTrophy"></img>
-            <div id="modalContent">{modalContent}</div>
-          </div>
+          {/* -- 모달제목 텍스트가 있는 경우만 표시 -- */}
+          {modalTitle ? <div id="upper">{modalTitle}</div> : null}
+
+          {/* -- 모달내용 텍스트가 있는 경우만 표시 -- */}
+          {modalContent ? (
+            <div id="lower">
+              {/* -- 이미지가 있을 경우만 표시 -- */}
+              {modalImage ? <img src={modalImage} alt="largeTrophy" /> : null}
+
+              <div id="modalContent">{modalContent}</div>
+            </div>
+          ) : null}
+
+          {id ? (
+            <div id="menuBox">
+              <div
+                id="modifyMenu"
+                onClick={() => {
+                  onClickUpdateToggleBtn(id);
+                  handleCloseModal(null);
+                }}
+              >
+                수정
+              </div>
+              <div
+                id="deleteMenu"
+                onClick={() => {
+                  onClickDelete(id);
+                  handleCloseModal(null);
+                }}
+              >
+                삭제
+              </div>
+            </div>
+          ) : null}
         </StModalContainer>
       </StModalBackground>
     </>
@@ -84,7 +119,7 @@ const StModalContainer = styled.div`
   top: ${(p) => p.modalTop};
   left: ${(p) => p.modalLeft};
 
-  z-index: 1;
+  z-index: 2;
 
   #upper {
     width: 100%;
@@ -118,6 +153,38 @@ const StModalContainer = styled.div`
       width: 77%;
       height: 30%;
       font-size: 2vh;
+    }
+  }
+
+  #menuBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 3vh;
+    font-weight: 600;
+
+    #modifyMenu {
+      cursor: pointer;
+      width: 100%;
+      height: 50%;
+
+      border-bottom: 1px solid gray;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #deleteMenu {
+      cursor: pointer;
+      width: 100%;
+      height: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 `;
