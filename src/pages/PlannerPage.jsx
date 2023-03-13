@@ -1,6 +1,6 @@
 import React from "react";
-import PlannerMain from "../components/planner/PlannerMain";
 import styled from "styled-components";
+import PlannerMain from "../components/planner/PlannerMain";
 
 const PlannerPage = () => {
   return (

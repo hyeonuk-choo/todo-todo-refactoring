@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
+// 라이브러리
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+// 이미지
 import homeSvg from "../../assets/img/homeSvg.svg";
 import statisticsSvg from "../../assets/img/statisticsSvg.svg";
-
 import plannerSvg from "../../assets/img/plannerSvg.svg";
 import clickHomeSvg from "../../assets/img/clickHomeSvg.svg";
 import clickStatisticsSvg from "../../assets/img/clickStatisticsSvg.svg";
 import clickPlannerSvg from "../../assets/img/clickPlannerSvg.svg";
 
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { __getDday } from "../../redux/modules/mainSlice";
-import { displayNone } from "../../redux/modules/mySlice";
-
 const Navbar = (props) => {
-  const dispatch = useDispatch();
-
   const [home, setHome] = useState(props.home);
   const [statistics, setStatistics] = useState(props.statistics);
   const [planner, setPlanner] = useState(props.planner);
@@ -26,7 +22,6 @@ const Navbar = (props) => {
     setHome(true);
     setStatistics(false);
     setPlanner(false);
-    // dispatch(displayNone("flex"));
   };
   const onClickStatisticsMenu = async () => {
     navigate("/statistics");
@@ -40,7 +35,6 @@ const Navbar = (props) => {
     setHome(false);
     setStatistics(false);
     setPlanner(true);
-    // dispatch(displayNone("flex"));
   };
 
   return (
@@ -92,11 +86,6 @@ const StStatistics = styled.img`
   cursor: pointer;
 `;
 const StPlanner = styled.img`
-  width: 45px;
-  height: 100%;
-  cursor: pointer;
-`;
-const StMypage = styled.img`
   width: 45px;
   height: 100%;
   cursor: pointer;

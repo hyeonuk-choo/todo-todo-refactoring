@@ -4,8 +4,6 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const StatisticsPage = () => {
-  useEffect(() => {}, []);
-
   return (
     <StContainer>
       <Statistics />

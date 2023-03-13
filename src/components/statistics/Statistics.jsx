@@ -1,19 +1,17 @@
+// 라이브러리
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import info from "../../assets/img/mainpage/info.svg";
-import LineChart from "./LineChart";
-import trophy from "../../assets/img/mainpage/trophy.svg";
-import {
-  __getRankScoreData,
-  __getLineChartData,
-} from "../../redux/modules/statisticsSlice";
 import axios from "axios";
+// 이미지
+import trophy from "../../assets/img/mainpage/trophy.svg";
+import info from "../../assets/img/mainpage/info.svg";
+// 컴포넌트
+import LineChart from "./LineChart";
 import Navbar from "../utils/Navbar";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 const Statistics = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const nickname = localStorage.getItem("nickname");
 
   const dispatch = useDispatch();
@@ -21,44 +19,12 @@ const Statistics = () => {
   const [modal, setModal] = useState(null);
   const [month, setMonth] = useState(null);
 
-  const { rankScoreData } = useSelector((state) => state.statistics);
   const modalToggleHandler = (parameter) => {
     setModalView(!modalView);
     setModal(parameter);
   };
 
-  let lastweekScore = rankScoreData[0].score;
-
-  let lastweekScore2 = lastweekScore === 0 ? 0 : lastweekScore / 7;
-
-  let weeklyScore = rankScoreData[1].score;
-  let weeklyScore2 = weeklyScore === 0 ? 0 : weeklyScore / 7;
-
-  let monthlyScore =
-    month !== null
-      ? (rankScoreData[2].score / month) * 10
-      : rankScoreData[2].score;
-  let monthlyScore2 = isNaN(monthlyScore) ? 0 : monthlyScore;
-
-  let weeklyRank = isNaN(rankScoreData[1].ranking)
-    ? 0
-    : rankScoreData[1].ranking;
-  let monthlyRank = isNaN(rankScoreData[2].ranking)
-    ? 0
-    : rankScoreData[2].ranking;
-
-  const monthFunc = async () => {
-    const { data } = await axios.get(`${BASE_URL}/month`);
-    setMonth(() => data);
-  };
-
-  useEffect(() => {
-    monthFunc();
-  }, []);
-
-  useEffect(() => {
-    dispatch(__getRankScoreData(nickname));
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <StContainer>
@@ -79,15 +45,13 @@ const Statistics = () => {
           <StScoreBoxDiv>
             <div>주간점수</div>
             <div>
-              {weeklyScore2 === 0 ? "-" : weeklyScore2.toFixed(2)}점 /{" "}
-              <span>{weeklyRank === 0 ? "-" : weeklyRank}위</span>
+              {null}점 / <span>{null}위</span>
             </div>
           </StScoreBoxDiv>
           <StScoreBoxDiv>
             <div>월간점수</div>
             <div>
-              {monthlyScore2 === 0 ? "-" : monthlyScore2.toFixed(2)}점 /{" "}
-              <span>{monthlyRank === 0 ? "-" : monthlyRank}위</span>
+              {null}점 / <span>{null}위</span>
             </div>
           </StScoreBoxDiv>
         </StScoreBoxContainer>
@@ -111,10 +75,8 @@ const Statistics = () => {
               }}
             >
               <div className="barBox">
-                <p className="lastScore">{lastweekScore2.toFixed(0)}</p>
-                <StLastWeekChart
-                  height={parseInt(lastweekScore2.toFixed(2))}
-                ></StLastWeekChart>
+                <p className="lastScore">{null}</p>
+                <StLastWeekChart height={parseInt(0)}></StLastWeekChart>
               </div>
             </div>
             <div
@@ -126,38 +88,20 @@ const Statistics = () => {
               }}
             >
               <div className="barBox">
-                <p className="thisScore">{weeklyScore2.toFixed(0)}</p>
-                <StThisWeekChart
-                  height={parseInt(weeklyScore2.toFixed(0))}
-                ></StThisWeekChart>
+                <p className="thisScore">{null}</p>
+                <StThisWeekChart height={parseInt(0)}></StThisWeekChart>
               </div>
             </div>
           </StBarchartBox>
         </StScoreChangeBoxDiv>
 
         <StThisWeekStatus>
-          <div>
-            {weeklyScore2 === 0
-              ? "이번 주도 시작해볼까요"
-              : lastweekScore2 > 0 && lastweekScore2 * 0.5 > weeklyScore2
-              ? "이번 주도 화이팅이에요"
-              : lastweekScore2 * 0.5 < weeklyScore2 &&
-                lastweekScore2 * 0.9 > weeklyScore2
-              ? "저번 주의 절반 이상 왔어요!"
-              : lastweekScore2 * 0.9 < weeklyScore2 &&
-                lastweekScore2 > weeklyScore2
-              ? "곧 저번 주 점수를 넘기겠어요!"
-              : lastweekScore2 === weeklyScore2
-              ? "저번 주 점수랑 동점이에요!"
-              : lastweekScore2 < weeklyScore2
-              ? "저번 주 점수를 넘으셨어요!!"
-              : null}
-          </div>
+          <div>{null}</div>
         </StThisWeekStatus>
 
         <StTopSubjectDiv>
           <div className="weekRank">
-            <div cl>주간 랭킹 점수</div>
+            <div>주간 랭킹 점수</div>
             <img
               src={info}
               onClick={() => modalToggleHandler("rank")}
@@ -165,127 +109,12 @@ const Statistics = () => {
             />
           </div>
         </StTopSubjectDiv>
-        <LineChart />
+        {/* <LineChart /> */}
       </div>
 
       {/* ------------- 모달창 ------------ */}
-      {/* {modalView && (
-        <Modal
-          visible={modalView}
-          closable={true}
-          maskClosable={true}
-          onClose={modalToggleHandler}
-          width="350px"
-          height={
-            modal === "score" ? "22em" : modal === "rank" ? "20em" : "21em"
-          }
-          radius="48px"
-          top="40%"
-          backgroundcolor="#11111180 "
-        >
-          <StModalTop>
-            {modal === "score" ? (
-              <span>나의 점수</span>
-            ) : modal === "rank" ? (
-              <span>주간 랭킹 점수</span>
-            ) : (
-              <span>나의 투두 달성률</span>
-            )}
-          </StModalTop>
 
-          <StModalBottom>
-            {modal === "score" ? (
-              <>
-                <StModalExplainTop>
-                  <span
-                    style={{
-                      margin: "8% 0 5% 0",
-                      fontWeight: "bold",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: "3%",
-                    }}
-                  >
-                    <img src={trophy} alt="trophyImg" /> 주간점수
-                  </span>
-                  <div>
-                    이번주에 쌓은 점수입니다.
-                    <br />
-                    (이번주 플래너 수 * 플래너별 달성률)
-                  </div>
-                </StModalExplainTop>
-                <StModalExplainBottom>
-                  <span>
-                    <img src={trophy} alt="trophyImg" /> 월간 점수
-                  </span>
-                  <div>
-                    이번 달에 쌓은 점수입니다.
-                    <br />
-                    (이번 달 플래너 수 * 플래너별 달성률)
-                  </div>
-                </StModalExplainBottom>
-              </>
-            ) : modal === "rank" ? (
-              <StModalExplainTop>
-                <span
-                  style={{
-                    marginTop: "8%",
-                    fontWeight: "bold",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "3%",
-                  }}
-                >
-            
-                  주간 랭킹 점수란?
-                </span>
-                <div style={{ marginTop: "3%" }}>
-                  아래 그래프는 매주 요일별 누적 점수 추이를 보여줍니다.
-                  
-                  <div style={{ marginTop: "10px", width: "360px" }}>
-                    <span style={{ color: "#618AF2", fontWeight: "bold" }}>
-                      파란색
-                    </span>
-                    선은 유저님의 이번주 점수 추이입니다.
-                  </div>
-                </div>
-              </StModalExplainTop>
-            ) : (
-              <StModalExplainTop>
-                <StTemp>
-                  <span>낮음</span>
-                  <div style={{ backgroundColor: "#F3F3F3" }}></div>
-                  <div style={{ backgroundColor: "rgba(255,143,39,.2)" }}></div>
-                  <div style={{ backgroundColor: "rgba(255,143,39,.4)" }}></div>
-                  <div style={{ backgroundColor: "rgba(255,143,39,.6)" }}></div>
-                  <div style={{ backgroundColor: "rgba(255,143,39,.8)" }}></div>
-                  <div style={{ backgroundColor: "rgba(255,143,39,1)" }}></div>
-                  <span>높음</span>
-                </StTemp>
-
-                <div>
-                  <div> 나의 투두 달성률은 주차별(가로축), </div>
-                  요일별(세로축) 달성률에 따라 색깔의 옅고 진함을 표시합니다.
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    달성률이 높을 수록 색깔이 진해집니다.
-                  </div>
-                </div>
-              </StModalExplainTop>
-            )}
-            <StModalCloseDiv onClick={modalToggleHandler}>닫기</StModalCloseDiv>
-          </StModalBottom>
-        </Modal>
-      )} */}
-      {/* ------------- 모달창 끝 ------------ */}
-
-      {/* ----------- 네비게이션바 ----------- */}
+      {/* ---------- 네비게이션바 --------- */}
       <Navbar statistics={true} />
     </StContainer>
   );
@@ -315,30 +144,6 @@ const StContainer = styled.div`
 
   #body {
     height: 80vh;
-  }
-`;
-
-const StHeader = styled.div``;
-
-const StTemp = styled.div`
-  width: 100%;
-  height: 80px;
-  margin: 2% auto;
-  /* background-color: gray; */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  div {
-    width: 25px;
-    height: 25px;
-    border-radius: 4px;
-    /* background-color: #c2ffbe; */
-  }
-  span {
-    font-weight: 700;
-    font-size: 15px;
   }
 `;
 
@@ -534,69 +339,4 @@ const StThisWeekChart = styled.div`
   height: ${(props) => `${props.height}%` || "3px"};
   background: #ff7b00;
   border-radius: 6px 6px 0px 0px;
-`;
-
-// ----------- 모달 -------------
-
-const StModalTop = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-  height: 85px;
-
-  border-radius: 48px 48px 0 0;
-  background-color: #ffe9d5;
-  color: #ff7b00;
-  font-weight: bold;
-  font-size: 1.2em;
-`;
-
-const StModalBottom = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 70%;
-  width: 80%;
-  margin: auto;
-  gap: 1.3em;
-
-  div {
-  }
-`;
-const StModalExplainTop = styled.div``;
-
-const StModalExplainBottom = styled.div`
-  span {
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 3%;
-  }
-  div {
-    margin-top: 5%;
-  }
-`;
-
-const StCloseBtnContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StModalCloseDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  width: 80%;
-  height: 2em;
-  margin: 0 auto;
-
-  border: none;
-  background-color: none;
-  color: #ff8f27;
-  font-weight: bold;
 `;
