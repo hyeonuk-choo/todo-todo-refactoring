@@ -9,7 +9,6 @@ import Navbar from "../utils/Navbar";
 import TodoAddBtn from "./TodoAddBtn";
 
 // 이미지
-import categorySvg from "../../assets/img/categorySvg.svg";
 import threeDotSvg from "../../assets/img/threeDotSvg.svg";
 import ModalBasic from "../utils/ModalBasic";
 
@@ -18,7 +17,6 @@ const PlannerMain = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const uniqueId = uuidv4();
   const [todos, setTodos] = useState([]);
-  const [modalWindow, setModalWindow] = useState(false);
   const [modalId, setModalId] = useState(null);
 
   // 클릭한 DOM요소의 id를 state값으로 가져오기
@@ -45,8 +43,8 @@ const PlannerMain = () => {
     }
   };
 
-  // 투두 추가하기 토글버튼 + post요청
-  const onClickAddToggleBtn = (id) => {
+  // 투두 추가하기 버튼 + post요청
+  const onClickAddButton = (id) => {
     let newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.addMode = !todo.addMode;
@@ -89,26 +87,16 @@ const PlannerMain = () => {
       });
   };
 
-  // 투두 수정하기 토글버튼
-  const onClickUpdateToggleBtn = (id) => {
-    let newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.updateMode = !todo.updateMode;
-      }
-      return todo;
-    });
-    setTodos(newTodos);
-  };
-
   // 투두추가'+'버튼을 눌렀을 때, 데이터추가
   const onClickAdd = () => {
     setTodos([
       {
+        id: uniqueId,
         title: "",
         content: "",
         updateMode: false,
         addMode: true,
-        id: uniqueId,
+        isCompleted: false,
       },
       ...todos,
     ]);
@@ -132,10 +120,21 @@ const PlannerMain = () => {
 
   console.log(todos);
 
+  // 투두 수정하기 토글버튼
+  const onClickUpdateToggleBtn = (id) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.updateMode = !todo.updateMode;
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
   // 투두 Update하는 코드 입니다.
   const onClickUpdate = async (id) => {
     const newTodos = todos.filter((todo) => {
-      if ((todo.updateMode = true && todo.id == id)) {
+      if (todo.id === id) {
         todo.updateMode = false;
       }
       return todo;
@@ -179,6 +178,16 @@ const PlannerMain = () => {
       });
   };
 
+  const checkBoxHandler = (e) => {
+    const anotherTodos = todos.map((todo) => {
+      if (todo.id === e.target.id) {
+        todo.isCompleted = !todo.isCompleted;
+      }
+      return todo;
+    });
+    setTodos(anotherTodos);
+  };
+
   return (
     <>
       <StDiv>
@@ -203,7 +212,7 @@ const PlannerMain = () => {
         </div>
 
         {/* -------- 투두 바디부분 시작 ---------*/}
-        <StCategoryContainer>
+        <StBody>
           {todos?.map((each) => (
             <div id="todo" key={each.id}>
               {each.addMode ? (
@@ -229,8 +238,7 @@ const PlannerMain = () => {
                   <div className="buttonBox">
                     <button
                       onClick={() => {
-                        // onClickUpdate(each.id);
-                        onClickAddToggleBtn(each.id);
+                        onClickAddButton(each.id);
                       }}
                     >
                       추가하기
@@ -261,7 +269,6 @@ const PlannerMain = () => {
                   <button
                     onClick={() => {
                       onClickUpdate(each.id);
-                      onClickUpdateToggleBtn(each.id);
                     }}
                   >
                     수정완료
@@ -269,23 +276,32 @@ const PlannerMain = () => {
                 </>
               ) : (
                 <>
-                  <div className="titleDivBox">
-                    <div className="titleDiv">{each.title}</div>
-                    <img
-                      src={threeDotSvg}
-                      alt="threeDotSvg"
-                      onClick={() => {
-                        handleDivClick(each.id);
-                      }}
-                    />
-                  </div>
+                  <input
+                    type="checkbox"
+                    name=""
+                    value=""
+                    id={each.id}
+                    onChange={checkBoxHandler}
+                  />
+                  <div id="titleDivBoxAndContentDiv">
+                    <div className="titleDivBox">
+                      <div className="titleDiv">{each.title}</div>
+                      <img
+                        src={threeDotSvg}
+                        alt="threeDotSvg"
+                        onClick={() => {
+                          handleDivClick(each.id);
+                        }}
+                      />
+                    </div>
 
-                  <div className="contentDiv">{each.content}</div>
+                    <div className="contentDiv">{each.content}</div>
+                  </div>
                 </>
               )}
             </div>
           ))}
-        </StCategoryContainer>
+        </StBody>
         {/* --------- 투두 바디부분 끝 ----------*/}
 
         {/* --------- 네비게이션바 ----------*/}
@@ -345,7 +361,7 @@ const StDiv = styled.div`
   }
 `;
 
-const StCategoryContainer = styled.div`
+const StBody = styled.div`
   box-sizing: border-box;
   height: calc(100vh - 10vh - 10vh);
   padding-top: 1.3rem;
@@ -354,10 +370,9 @@ const StCategoryContainer = styled.div`
 
   #todo {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
 
     box-sizing: border-box;
     width: 85%;
@@ -368,8 +383,21 @@ const StCategoryContainer = styled.div`
     border-radius: 1rem;
     background-color: white;
 
+    input[type="checkbox"] {
+      width: 13%;
+      height: 20%;
+    }
+
+    #titleDivBoxAndContentDiv {
+      /* display: flex; */
+      /* flex-direction: column; */
+      width: calc(100% - 13%);
+      height: 50%;
+      box-sizing: border-box;
+    }
+
     .titleDivBox {
-      width: 90%;
+      width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -383,7 +411,7 @@ const StCategoryContainer = styled.div`
       img {
         cursor: pointer;
         position: absolute;
-        right: -1rem;
+        right: 2%;
       }
 
       input {
@@ -392,7 +420,7 @@ const StCategoryContainer = styled.div`
     }
 
     .contentDiv {
-      width: 90%;
+      width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
