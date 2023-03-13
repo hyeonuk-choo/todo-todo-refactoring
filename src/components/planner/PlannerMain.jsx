@@ -217,62 +217,71 @@ const PlannerMain = () => {
             <div id="todo" key={each.id}>
               {each.addMode ? (
                 <>
+                  <input
+                    type="checkbox"
+                    name=""
+                    value=""
+                    id={each.id}
+                    onChange={checkBoxHandler}
+                  />
                   <div className="titleDivBox">
-                    <input
-                      value={each.title}
-                      name="title"
-                      id={each.id}
-                      onChange={onChangeInput}
-                    ></input>
-                  </div>
-
-                  <div className="contentDiv">
-                    <input
-                      value={each.content}
-                      name="content"
-                      id={each.id}
-                      onChange={onChangeInput}
-                    ></input>
-                  </div>
-
-                  <div className="buttonBox">
-                    <button
-                      onClick={() => {
-                        onClickAddButton(each.id);
-                      }}
-                    >
-                      추가하기
-                    </button>
-                    <button
-                      onClick={() => {
-                        onClickCancel(each.id);
-                      }}
-                    >
-                      취소
-                    </button>
+                    <label>
+                      <input
+                        value={each.title}
+                        name="title"
+                        id={each.id}
+                        onChange={onChangeInput}
+                        autoFocus
+                      />
+                      <div className="buttonBox">
+                        <button
+                          className="leftButton"
+                          onClick={() => {
+                            onClickAddButton(each.id);
+                          }}
+                        >
+                          추가하기
+                        </button>
+                        <button
+                          className="rightButton"
+                          onClick={() => {
+                            onClickCancel(each.id);
+                          }}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </label>
                   </div>
                 </>
               ) : each.updateMode ? (
                 <>
                   <input
-                    value={each.title}
-                    name="title"
+                    type="checkbox"
+                    name=""
+                    value=""
                     id={each.id}
-                    onChange={onChangeInput}
-                  ></input>
-                  <input
-                    value={each.content}
-                    name="content"
-                    id={each.id}
-                    onChange={onChangeInput}
-                  ></input>
-                  <button
-                    onClick={() => {
-                      onClickUpdate(each.id);
-                    }}
-                  >
-                    수정완료
-                  </button>
+                    onChange={checkBoxHandler}
+                  />
+                  <div className="titleDivBox">
+                    <label>
+                      <input
+                        value={each.title}
+                        name="title"
+                        id={each.id}
+                        onChange={onChangeInput}
+                        autoFocus
+                      />
+                      <button
+                        className="rightButton"
+                        onClick={() => {
+                          onClickUpdate(each.id);
+                        }}
+                      >
+                        수정완료
+                      </button>
+                    </label>
+                  </div>
                 </>
               ) : (
                 <>
@@ -283,20 +292,19 @@ const PlannerMain = () => {
                     id={each.id}
                     onChange={checkBoxHandler}
                   />
-                  <div id="titleDivBoxAndContentDiv">
-                    <div className="titleDivBox">
-                      <div className="titleDiv">{each.title}</div>
-                      <img
-                        src={threeDotSvg}
-                        alt="threeDotSvg"
-                        onClick={() => {
-                          handleDivClick(each.id);
-                        }}
-                      />
-                    </div>
 
-                    <div className="contentDiv">{each.content}</div>
+                  <div className="titleDivBox">
+                    <div className="titleDiv">{each.title}</div>
+                    <img
+                      src={threeDotSvg}
+                      alt="threeDotSvg"
+                      onClick={() => {
+                        handleDivClick(each.id);
+                      }}
+                    />
                   </div>
+
+                  {/* <div className="contentDiv">{each.content}</div> */}
                 </>
               )}
             </div>
@@ -376,7 +384,7 @@ const StBody = styled.div`
 
     box-sizing: border-box;
     width: 85%;
-    height: 15%;
+    height: 14%;
     // 위아래 마진을 주면, border-box인데도 공간을 더 밀어낸다.
     margin: 0 auto 1rem auto;
     box-shadow: 0px 4px 15px rgba(19, 19, 19, 0.15);
@@ -388,21 +396,66 @@ const StBody = styled.div`
       height: 20%;
     }
 
-    #titleDivBoxAndContentDiv {
-      /* display: flex; */
-      /* flex-direction: column; */
-      width: calc(100% - 13%);
-      height: 50%;
-      box-sizing: border-box;
-    }
-
     .titleDivBox {
-      width: 100%;
+      // calc 빼기할 때, -마이너스 양옆 공백중요
+      width: calc(100% - 13%);
+      height: 100%;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       align-items: center;
       position: relative;
+
+      label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        height: 40%;
+        width: 95%;
+      }
+
+      input {
+        height: 100%;
+        width: 100%;
+        font-size: 100%;
+        border: 0.5vh solid rgb(255, 233, 213);
+        border-radius: 0.5rem;
+        font-family: "Gowun Dodum", sans-serif;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      .rightButton {
+        position: absolute;
+        top: 0;
+        right: 0.6vh;
+
+        background-color: rgb(255, 143, 39);
+        border: none;
+        height: 100%;
+        width: 17%;
+        color: white;
+        border-radius: 0.5rem;
+
+        font-family: "Gowun Dodum", sans-serif;
+      }
+
+      .leftButton {
+        position: absolute;
+        top: 0;
+        right: calc(0.8vh + 17%);
+
+        background-color: rgb(255, 143, 39);
+        border: none;
+        height: 100%;
+        width: 17%;
+        color: white;
+        border-radius: 0.5rem;
+
+        font-family: "Gowun Dodum", sans-serif;
+      }
 
       .titleDiv {
         width: 100%;
@@ -413,35 +466,8 @@ const StBody = styled.div`
         position: absolute;
         right: 2%;
       }
-
-      input {
-        width: 100%;
-      }
-    }
-
-    .contentDiv {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-
-      input {
-        width: 100%;
-      }
-    }
-
-    button {
     }
   }
-`;
-
-const StDateInput = styled.input`
-  background-color: #ffffff;
-  border: none;
-  width: 20vh;
-  box-sizing: border-box;
-  font-size: 2.5vh;
 `;
 
 export default PlannerMain;
