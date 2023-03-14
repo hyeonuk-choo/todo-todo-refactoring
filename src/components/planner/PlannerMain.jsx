@@ -178,6 +178,7 @@ const PlannerMain = () => {
       });
   };
 
+  // checkbox, 투두 완료여부 상태변경
   const checkBoxHandler = (e) => {
     const anotherTodos = todos.map((todo) => {
       if (todo.id === e.target.id) {
@@ -185,7 +186,20 @@ const PlannerMain = () => {
       }
       return todo;
     });
-    setTodos(anotherTodos);
+
+    axios
+      .put(`${BASE_URL}/todo-update`, {
+        todos: anotherTodos,
+      })
+      .then((response) => {
+        // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
+        console.log(response.data);
+        getTodos();
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
   };
 
   return (
@@ -214,7 +228,7 @@ const PlannerMain = () => {
         {/* -------- 투두 바디부분 시작 ---------*/}
         <StBody>
           {todos?.map((each) => (
-            <div id="todo" key={each.id}>
+            <StTodo key={each.id} isCompleted={each.isCompleted}>
               {each.addMode ? (
                 <>
                   <input
@@ -223,6 +237,8 @@ const PlannerMain = () => {
                     value=""
                     id={each.id}
                     onChange={checkBoxHandler}
+                    // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
+                    checked={each.isCompleted}
                   />
                   <div className="titleDivBox">
                     <label>
@@ -262,6 +278,8 @@ const PlannerMain = () => {
                     value=""
                     id={each.id}
                     onChange={checkBoxHandler}
+                    // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
+                    checked={each.isCompleted}
                   />
                   <div className="titleDivBox">
                     <label>
@@ -291,10 +309,18 @@ const PlannerMain = () => {
                     value=""
                     id={each.id}
                     onChange={checkBoxHandler}
+                    // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
+                    checked={each.isCompleted}
                   />
 
                   <div className="titleDivBox">
-                    <div className="titleDiv">{each.title}</div>
+                    <div
+                      className={`titleDiv ${
+                        each.isCompleted ? "complete" : ""
+                      }`}
+                    >
+                      {each.title}
+                    </div>
                     <img
                       src={threeDotSvg}
                       alt="threeDotSvg"
@@ -307,7 +333,7 @@ const PlannerMain = () => {
                   {/* <div className="contentDiv">{each.content}</div> */}
                 </>
               )}
-            </div>
+            </StTodo>
           ))}
         </StBody>
         {/* --------- 투두 바디부분 끝 ----------*/}
@@ -333,6 +359,115 @@ const PlannerMain = () => {
     </>
   );
 };
+
+const StTodo = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+  width: 85%;
+  height: 14%;
+  // 위아래 마진을 주면, border-box인데도 공간을 더 밀어낸다.
+  margin: 0 auto 1rem auto;
+  box-shadow: 0px 4px 15px rgba(19, 19, 19, 0.15);
+  border-radius: 1rem;
+  background-color: ${(props) =>
+    props.isCompleted ? "rgb(250, 250, 250)" : "white"};
+
+  input[type="checkbox"] {
+    width: 13%;
+    height: 20%;
+  }
+
+  .titleDivBox {
+    // calc 빼기할 때, -마이너스 양옆 공백중요
+    width: calc(100% - 13%);
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    label {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      height: 40%;
+      width: 95%;
+    }
+
+    input {
+      height: 100%;
+      width: 100%;
+      font-size: 100%;
+      border: 0.5vh solid rgb(255, 233, 213);
+      border-radius: 0.5rem;
+      font-family: "Gowun Dodum", sans-serif;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    .rightButton {
+      position: absolute;
+      top: 0;
+      right: 0.6vh;
+
+      background-color: rgb(255, 143, 39);
+      border: none;
+      height: 100%;
+      width: 17%;
+      color: white;
+      border-radius: 0.5rem;
+
+      font-family: "Gowun Dodum", sans-serif;
+    }
+
+    .leftButton {
+      position: absolute;
+      top: 0;
+      right: calc(0.8vh + 17%);
+
+      background-color: rgb(255, 143, 39);
+      border: none;
+      height: 100%;
+      width: 17%;
+      color: white;
+      border-radius: 0.5rem;
+
+      font-family: "Gowun Dodum", sans-serif;
+    }
+
+    .titleDiv {
+      width: 100%;
+    }
+
+    .complete {
+      text-decoration: line-through;
+    }
+
+    img {
+      cursor: pointer;
+      position: absolute;
+      right: 2%;
+    }
+  }
+`;
+
+const StBody = styled.div`
+  box-sizing: border-box;
+  height: calc(100vh - 10vh - 10vh);
+  padding-top: 1.3rem;
+
+  overflow: auto;
+  .completeBackground {
+    background-color: gray;
+  }
+`;
 
 const StDiv = styled.div`
   background-color: #fafafa;
@@ -364,107 +499,6 @@ const StDiv = styled.div`
       img.category {
         width: 24px;
         height: 24px;
-      }
-    }
-  }
-`;
-
-const StBody = styled.div`
-  box-sizing: border-box;
-  height: calc(100vh - 10vh - 10vh);
-  padding-top: 1.3rem;
-
-  overflow: auto;
-
-  #todo {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-    box-sizing: border-box;
-    width: 85%;
-    height: 14%;
-    // 위아래 마진을 주면, border-box인데도 공간을 더 밀어낸다.
-    margin: 0 auto 1rem auto;
-    box-shadow: 0px 4px 15px rgba(19, 19, 19, 0.15);
-    border-radius: 1rem;
-    background-color: white;
-
-    input[type="checkbox"] {
-      width: 13%;
-      height: 20%;
-    }
-
-    .titleDivBox {
-      // calc 빼기할 때, -마이너스 양옆 공백중요
-      width: calc(100% - 13%);
-      height: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      position: relative;
-
-      label {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        position: relative;
-        height: 40%;
-        width: 95%;
-      }
-
-      input {
-        height: 100%;
-        width: 100%;
-        font-size: 100%;
-        border: 0.5vh solid rgb(255, 233, 213);
-        border-radius: 0.5rem;
-        font-family: "Gowun Dodum", sans-serif;
-      }
-
-      input:focus {
-        outline: none;
-      }
-
-      .rightButton {
-        position: absolute;
-        top: 0;
-        right: 0.6vh;
-
-        background-color: rgb(255, 143, 39);
-        border: none;
-        height: 100%;
-        width: 17%;
-        color: white;
-        border-radius: 0.5rem;
-
-        font-family: "Gowun Dodum", sans-serif;
-      }
-
-      .leftButton {
-        position: absolute;
-        top: 0;
-        right: calc(0.8vh + 17%);
-
-        background-color: rgb(255, 143, 39);
-        border: none;
-        height: 100%;
-        width: 17%;
-        color: white;
-        border-radius: 0.5rem;
-
-        font-family: "Gowun Dodum", sans-serif;
-      }
-
-      .titleDiv {
-        width: 100%;
-      }
-
-      img {
-        cursor: pointer;
-        position: absolute;
-        right: 2%;
       }
     }
   }
