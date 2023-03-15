@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import whitePlusSvg from "../../assets/img/whitePlusSvg.svg";
@@ -9,7 +9,6 @@ const TodoAddBtn = ({ todos, onClickAdd }) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { profilePhotoBtn } = useSelector((state) => state.my);
   const nickname = localStorage.getItem("nickname");
   const uploadRef = useRef(null);
 

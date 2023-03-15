@@ -3,14 +3,6 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const initialState = {
-  userinfo: [],
-  images: [],
-  profileImage: [],
-  motto: [],
-  followcnt: [],
-};
-
 export const __getMyInfo = createAsyncThunk(
   "getMyInfo", // extraReducer 미동작 이유: 다른 Thunk함수의 이름과 중복!
   async (payload, thunkAPI) => {
@@ -247,6 +239,14 @@ export const __getFollowCnt = createAsyncThunk(
     }
   }
 );
+
+const initialState = {
+  userinfo: [],
+  images: [],
+  profileImage: [],
+  motto: [],
+  followcnt: [],
+};
 
 export const mySlice = createSlice({
   name: "mySlice",

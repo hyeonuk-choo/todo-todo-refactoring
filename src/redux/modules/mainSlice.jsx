@@ -3,19 +3,7 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const nickname = localStorage.getItem("nickname");
-
-const initialState = {
-  dday: [],
-  thisMonthRate: [],
-  totalRate: [],
-  totalTodo: [],
-  mainRankList: [],
-  mainRankListMonthly: [],
-  mainRankListSchool: [],
-  isLoading: false,
-  error: null,
-};
+// const nickname = localStorage.getItem("nickname");
 
 export const __getThisMonthRate = createAsyncThunk(
   "getThisMonthRate",
@@ -208,10 +196,30 @@ export const __updateDday = createAsyncThunk(
   }
 );
 
+const initialState = {
+  userInfo: [],
+  dday: [],
+  thisMonthRate: [],
+  totalRate: [],
+  totalTodo: [],
+  mainRankList: [],
+  mainRankListMonthly: [],
+  mainRankListSchool: [],
+  isLoading: false,
+  error: null,
+};
+
 export const mainSlice = createSlice({
   name: "mainSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    getUserAction: (state, action) => {
+      state.userInfo = action.payload[0];
+    },
+    errorAction: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: {
     [__getThisMonthRate.pending]: (state) => {
       state.isLoading = true;
@@ -282,7 +290,6 @@ export const mainSlice = createSlice({
     },
     [__getDday.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.dday = action.payload[0];
     },
     [__getDday.rejected]: (state, action) => {
@@ -334,4 +341,5 @@ export const mainSlice = createSlice({
   },
 });
 
+export const { getUserAction, errorAction } = mainSlice.actions;
 export default mainSlice.reducer;

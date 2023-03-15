@@ -11,10 +11,12 @@ import TodoAddBtn from "./TodoAddBtn";
 // 이미지
 import threeDotSvg from "../../assets/img/threeDotSvg.svg";
 import ModalBasic from "../utils/ModalBasic";
+import { useSelector } from "react-redux";
 
 const PlannerMain = () => {
   // 상태관리 라이브러리 사용하지 않고 구현
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const { userInfo } = useSelector((state) => state.main); // mainSlice
   const uniqueId = uuidv4();
   const [todos, setTodos] = useState([]);
   const [modalId, setModalId] = useState(null);
@@ -207,7 +209,9 @@ const PlannerMain = () => {
       <StDiv>
         {/* ------------ 투두 헤더 -------------*/}
         <div className="header">
-          <span>OOO님의 플래너</span>
+          {/* 새로고침하면 얘가 빈값이다.*/}
+          {console.log(userInfo)}
+          <span>{userInfo.nickname}님의 플래너</span>
           {/* <div className="categoryBox">
             <StDateInput
               type="date"
@@ -379,6 +383,7 @@ const StTodo = styled.div`
   input[type="checkbox"] {
     width: 13%;
     height: 20%;
+    cursor: pointer;
   }
 
   .titleDivBox {

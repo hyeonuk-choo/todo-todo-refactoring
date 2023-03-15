@@ -12,12 +12,12 @@ import Navbar from "../utils/Navbar";
 
 const Statistics = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const nickname = localStorage.getItem("nickname");
-
+  const { userInfo } = useSelector((state) => state.main);
   const dispatch = useDispatch();
   const [modalView, setModalView] = useState(false);
   const [modal, setModal] = useState(null);
   const [month, setMonth] = useState(null);
+  // const nickname = localStorage.getItem("nickname");
 
   const modalToggleHandler = (parameter) => {
     setModalView(!modalView);
@@ -29,7 +29,7 @@ const Statistics = () => {
   return (
     <StContainer>
       <div id="header">
-        <span>통계</span>
+        <span>{userInfo.nickname}님의 통계</span>
       </div>
       <div id="body">
         <StTopSubjectDiv>

@@ -1,33 +1,49 @@
-// ----- 이미지 파일 -----
+// 라이브러리
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import styled, { css } from "styled-components";
+import axios from "axios";
+// 이미지
 import largeTrophy from "../../assets/img/mainpage/bigTrophy.svg";
 import plannerCntSvg from "../../assets/img/mainpage/plannerCntSvg.svg";
 import todoCntSvg from "../../assets/img/mainpage/todoCntSvg.svg";
 import info from "../../assets/img/mainpage/info.svg";
 import smallTrophy from "../../assets/img/mainpage/trophy.svg";
-// -------------------------------------------------------
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styled, { css } from "styled-components";
+// 컴포넌트
 import InfiniteScroll from "./InfiniteScroll";
 import InfiniteScrollMonth from "./InfiniteScrollMonth";
-import { __getMyInfo } from "../../redux/modules/mySlice";
-import Dday from "./Dday";
-import Navbar from "../utils/Navbar";
 import ModalBasic from "../utils/ModalBasic";
+import Navbar from "../utils/Navbar";
+import Dday from "./Dday";
+// Action
+import { getUserAction, errorAction } from "../../redux/modules/mainSlice";
 
 const Main = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(__getMyInfo());
-    // dispatch(__getTotalRate());
-  }, []);
-
-  const { userinfo } = useSelector((state) => state.my);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const { userInfo } = useSelector((state) => state.main); // mainSlice
   const [toggleValue, setToggleValue] = useState(true);
   const [modalWindow, setModalWindow] = useState(false);
+  const dispatch = useDispatch();
 
-  // let nickname = localStorage.getItem("nickname");
+  // userinfo 중앙상태값에 대한 서버 비동기통신도 reducer파일(Slice)에 createAsyncThunk에서 실행하는데 UI컴포넌트에서 이Thunk함수를 import해서 dispatch를 사용해서 다시 Thunk로 보내서 Thunk함수내 비동기 통신이 처리되게 하고, 응답데이터를 받으면 extraReducers로 보내지고 extraReducers의 pending, fulfilled, rejected 3가지 상태에 따라 reducer의 state값을 달리하는 설계이다.
+
+  // 굳이, 비동기통신 로직도 Thunk함수를 Slice에 정의해서 써야하는가? 에 대한 의문으로 비동기 통신 로직을 UI컴포넌트에 바로 작성해보겠습니다.
+
+  // 그냥 비동기통신 로직을 UI컴포넌트에 구현 해도 되나, 다른 컴포넌트에서 구독할 때, 해당컴포넌트에서 새로고침시 이슈발생
+
+  const getUserInfo = async () => {
+    try {
+      const data = await axios.get(`${BASE_URL}/userinfo`);
+      dispatch(getUserAction(data.data));
+    } catch (e) {
+      console.error(e);
+      dispatch(errorAction("An error occurred."));
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const onClickWeekly = () => {
     setToggleValue(true);
@@ -43,9 +59,9 @@ const Main = () => {
         <div className="mainTopSentenceBox">
           <span>투두투두</span>
           <div className="mainTopSentence">
-            {userinfo?.nickname === undefined
+            {userInfo?.nickname === undefined
               ? "닉네임을 설정해주세요^^"
-              : `${userinfo.nickname}님, 오늘도 힘내세요!`}
+              : `${userInfo.nickname}님, 오늘도 힘내세요!`}
           </div>
         </div>
 
@@ -54,18 +70,18 @@ const Main = () => {
       <StSubDiv2>
         <div className="achievementBox">
           <div className="nicknamePart">
-            {userinfo?.nickname === undefined
+            {userInfo?.nickname === undefined
               ? "닉네임이 미설정 상태입니다."
-              : `${userinfo.nickname}님의 기록`}
+              : `${userInfo.nickname}님의 기록`}
           </div>
           <div className="todoCnt">
             <img src={plannerCntSvg} alt="todoCntSvgImg" />
             <span>
-              {userinfo?.totalCnt === undefined ? 0 : userinfo?.totalCnt}
+              {userInfo?.totalCnt === undefined ? 0 : userInfo?.totalCnt}
             </span>
             <img src={todoCntSvg} alt="todoCntSvgImg" />
             <span>
-              {userinfo?.completeCnt === undefined ? 0 : userinfo?.completeCnt}
+              {userInfo?.completeCnt === undefined ? 0 : userInfo?.completeCnt}
             </span>
           </div>
         </div>
@@ -73,15 +89,15 @@ const Main = () => {
           <div className="thisMonthGauge">
             <div className="gaugeText">
               이번달 플래너 달성률
-              <div>{Math.round(userinfo.achievementRate?.thisMonthRate)} %</div>
+              <div>{Math.round(userInfo.achievementRate?.thisMonthRate)} %</div>
             </div>
 
             <StProgressBarBox>
               <StProgressBar
                 width={
-                  userinfo.achievementRate?.thisMonthRate === undefined
+                  userInfo.achievementRate?.thisMonthRate === undefined
                     ? 0
-                    : Math.round(userinfo.achievementRate?.thisMonthRate)
+                    : Math.round(userInfo.achievementRate?.thisMonthRate)
                 }
               ></StProgressBar>
             </StProgressBarBox>
@@ -90,15 +106,15 @@ const Main = () => {
           <div className="totalGauge">
             <div className="gaugeText">
               플래너 총 달성률
-              <div>{Math.round(userinfo.achievementRate?.totalRate)} %</div>
+              <div>{Math.round(userInfo.achievementRate?.totalRate)} %</div>
             </div>
 
             <StProgressBarBox>
               <StProgressBar
                 width={
-                  userinfo.achievementRate?.totalRate === undefined
+                  userInfo.achievementRate?.totalRate === undefined
                     ? 0
-                    : Math.round(userinfo.achievementRate?.totalRate)
+                    : Math.round(userInfo.achievementRate?.totalRate)
                 }
               ></StProgressBar>
             </StProgressBarBox>
