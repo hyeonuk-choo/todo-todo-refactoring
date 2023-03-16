@@ -49,58 +49,39 @@ const Statistics = () => {
             <div id="weekScore">
               <div>주간점수</div>
               <div>
-                {null}점 / <span>{null}위</span>
+                {null}점 / {null}위
               </div>
             </div>
             <div id="monthScore">
               <div>월간점수</div>
               <div>
-                {null}점 / <span>{null}위</span>
+                {null}점 /{null}위
               </div>
             </div>
           </div>
-          <div className="firstGraph">
-            <div className="weekText">
+          <div className="graphContainer">
+            <div id="graphContainerText">
+              <div className="change-weekRank"> 주간 랭킹 점수 변화</div>
               <div>
                 <span className="lastweek">저번 주</span>
                 <span className="thisweek"> 이번 주</span>
               </div>
-              <p className="change-weekRank"> 주간 랭킹 점수 변화</p>
+              <div id="thisWeekStatus">
+                <div>{null}</div>
+              </div>
             </div>
 
-            <StBarchartBox>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "25px",
-                  marginRight: "16px",
-                }}
-              >
-                <div className="barBox">
-                  <p className="lastScore">{null}</p>
-                  <StLastWeekChart height={parseInt(0)}></StLastWeekChart>
-                </div>
+            <div id="fistBarChart">
+              <div className="eachBar">
+                <p className="lastScore">{null}</p>
+                <StLastWeekChart height={parseInt(0)}></StLastWeekChart>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "25px",
-                }}
-              >
-                <div className="barBox">
-                  <p className="thisScore">{null}</p>
-                  <StThisWeekChart height={parseInt(0)}></StThisWeekChart>
-                </div>
-              </div>
-            </StBarchartBox>
-          </div>
 
-          <div id="thisWeekStatus">
-            <div>{null}</div>
+              <div className="eachBar">
+                <p className="thisScore">{null}</p>
+                <StThisWeekChart height={parseInt(0)}></StThisWeekChart>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -156,10 +137,9 @@ const StRootDiv = styled.div`
         box-sizing: border-box;
         padding: 3% 0 0 4%;
         gap: 1%;
-        font-size: 2.3vh;
+        font-size: 2.2vh;
         font-weight: 600;
-
-        height: 13%;
+        height: 15%;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -169,14 +149,14 @@ const StRootDiv = styled.div`
           margin: 0;
         }
         img {
-          height: 80%;
+          height: 60%;
         }
       }
 
       // 주간점수, 월간점수 컨테이너
       .scoreContainer {
         box-sizing: border-box;
-        height: 40%;
+        height: calc((100% - 15%) / 2);
         width: 100%;
 
         display: flex;
@@ -185,6 +165,11 @@ const StRootDiv = styled.div`
         justify-content: space-evenly;
 
         #weekScore {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
           width: 45%;
           height: 80%;
 
@@ -194,6 +179,11 @@ const StRootDiv = styled.div`
         }
 
         #monthScore {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
           width: 45%;
           height: 80%;
 
@@ -204,65 +194,93 @@ const StRootDiv = styled.div`
       }
 
       // 첫번째, 막대그래프
-      .firstGraph {
+      .graphContainer {
         box-sizing: border-box;
-        height: 40%;
+        height: calc((100% - 15%) / 2);
         width: 93%;
         margin: auto;
 
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: center;
 
         background: #ffffff;
         box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
         border-radius: 12px;
 
-        div {
-          width: 100%;
-          span {
-            color: #111111;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 22px;
-            font-weight: 400;
+        #graphContainerText {
+          width: 50%;
+          height: 80%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          div {
+            height: calc(100% / 3);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
           }
-          p {
-            display: inline-block;
-            margin: 0;
-            color: #111111;
-            font-size: 15px;
-            line-height: 24px;
-            font-weight: 500;
+
+          #thisWeekStatus {
+            box-sizing: border-box;
+            width: 93%;
+            div {
+              box-sizing: border-box;
+              border-radius: 2rem;
+              padding: 1%;
+              width: 30%;
+              height: 100%;
+              margin: 0;
+              font-size: 1rem;
+              color: #ff7b00;
+              font-weight: 600;
+
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              background: #ffe9d5;
+            }
           }
         }
-      }
 
-      #thisWeekStatus {
-        box-sizing: border-box;
-        height: calc(100% - 13% - 40% - 40%);
-        display: flex;
-        width: 93%;
-        margin: auto;
-        justify-content: flex-end;
-        box-sizing: border-box;
-
-        div {
+        #fistBarChart {
+          width: 50%;
+          height: 100%;
           display: flex;
           flex-direction: row;
           justify-content: center;
-          align-items: center;
-          padding: 5px;
-          // 글씨 사이즈때문에 width값 조금 키움
-          width: 190px;
-          height: 28px;
-          background: #ffe9d5;
-          border-radius: 49px;
-          box-sizing: border-box;
-          margin: 0;
-          font-size: 14px;
-          color: #ff7b00;
-          font-weight: 600;
+          align-items: flex-end;
+          gap: 1rem;
+
+          .eachBar {
+            width: 20%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+          }
+
+          p {
+            width: 100%;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 17px;
+          }
+
+          p.lastScore {
+            color: #d7d5d5;
+          }
+
+          p.thisScore {
+            color: #ff7b00;
+          }
         }
       }
     }
@@ -270,41 +288,26 @@ const StRootDiv = styled.div`
     #lowerPart {
       box-sizing: border-box;
       height: 50%;
-    }
-  }
-`;
 
-const StBarchartBox = styled.div`
-  width: 40%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+      .subTitle {
+        box-sizing: border-box;
+        padding: 3% 0 0 4%;
+        gap: 1%;
+        font-size: 2.2vh;
+        font-weight: 600;
+        height: 15%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-  .barBox {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  div {
-    p {
-      width: 100%;
-      text-align: center;
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 17px;
-    }
-
-    p.lastScore {
-      color: #d7d5d5;
-    }
-
-    p.thisScore {
-      color: #ff7b00;
+        p {
+          margin: 0;
+        }
+        img {
+          height: 60%;
+        }
+      }
     }
   }
 `;
