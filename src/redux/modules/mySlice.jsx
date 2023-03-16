@@ -3,19 +3,6 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const __getMyInfo = createAsyncThunk(
-  "getMyInfo", // extraReducer 미동작 이유: 다른 Thunk함수의 이름과 중복!
-  async (payload, thunkAPI) => {
-    try {
-      const data = await axios.get(`${BASE_URL}/userinfo`);
-      console.log(data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const __getOtherInfo = createAsyncThunk(
   "getOtherInfo", // 이름 중요! 다른 Thunk함수 이름과 중복되지 않도록 주의!
   async (payload, thunkAPI) => {
@@ -41,7 +28,6 @@ export const __postProfileImg = createAsyncThunk(
   "postProfileImg",
   async (payload, thunkAPI) => {
     let accessToken = localStorage.getItem("accessToken");
-
     const config = {
       headers: {
         "Content-type": false,
@@ -78,7 +64,6 @@ export const __getImages = createAsyncThunk(
         `${BASE_URL}/image/boast/${payload}`,
         config
       );
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
@@ -97,7 +82,6 @@ export const __postImages = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
       const data = await axios.post(`${BASE_URL}/image/boast`, payload, config);
       // return thunkAPI.fulfillWithValue(data); // data는 완료 메세지, images에 반영됨
     } catch (error) {
@@ -117,7 +101,6 @@ export const __deleteImages = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
       const data = await axios.delete(
         `${BASE_URL}/image/boast/${payload}`,
         config
@@ -134,14 +117,12 @@ export const __getFollowInfo = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       let accessToken = localStorage.getItem("accessToken");
-
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
       const data = await axios.post(
         `${BASE_URL}/follow/${payload}`,
         null,
@@ -159,7 +140,6 @@ export const __getFollowingList = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       let accessToken = localStorage.getItem("accessToken");
-
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -201,16 +181,7 @@ export const __getFollowerList = createAsyncThunk(
   "getFollowerList",
   async (payload, thunkAPI) => {
     try {
-      // let accessToken = localStorage.getItem("accessToken");
-      // const config = {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // };
-
       const data = await axios.get(`${BASE_URL}/followers/${payload}`);
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
@@ -223,16 +194,13 @@ export const __getFollowCnt = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       let accessToken = localStorage.getItem("accessToken");
-
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
       const data = await axios.get(`${BASE_URL}/follow/${payload}`, config);
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
@@ -251,25 +219,8 @@ const initialState = {
 export const mySlice = createSlice({
   name: "mySlice",
   initialState,
-  reducers: {
-    // displayNone: (state, action) => {
-    //   state.profilePhotoBtn = action.payload;
-    // },
-  },
+  reducers: {},
   extraReducers: {
-    [__getMyInfo.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__getMyInfo.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      console.log(action.payload[0]);
-      state.userinfo = action.payload[0];
-    },
-    [__getMyInfo.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-
     [__getOtherInfo.pending]: (state) => {
       state.isLoading = true;
     },
@@ -281,7 +232,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__postProfileImg.pending]: (state) => {
       state.isLoading = true;
     },
@@ -293,7 +243,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__getImages.pending]: (state) => {
       state.isLoading = true;
     },
@@ -315,7 +264,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__deleteImages.pending]: (state) => {
       state.isLoading = true;
     },
@@ -329,7 +277,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__getFollowInfo.pending]: (state) => {
       state.isLoading = true;
     },
@@ -340,7 +287,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__getFollowingList.pending]: (state) => {
       state.isLoading = true;
     },
@@ -352,7 +298,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__getFollowerList.pending]: (state) => {
       state.isLoading = true;
     },
@@ -364,7 +309,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__getOtherFollowingList.pending]: (state) => {
       state.isLoading = true;
     },
@@ -376,7 +320,6 @@ export const mySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__getFollowCnt.pending]: (state) => {
       state.isLoading = true;
     },
