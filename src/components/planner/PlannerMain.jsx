@@ -206,14 +206,11 @@ const PlannerMain = () => {
   };
 
   return (
-    <>
-      <StDiv>
-        {/* ------------ 투두 헤더 -------------*/}
-        <div className="header">
-          {/* 새로고침하면 얘가 빈값이다.*/}
-          {console.log(userInfo)}
-          <span>{userInfo.nickname}님의 플래너</span>
-          {/* <div className="categoryBox">
+    <StRootDiv>
+      {/* ------------ 투두 헤더 -------------*/}
+      <div className="header">
+        <span>{userInfo.nickname}님의 플래너</span>
+        {/* <div className="categoryBox">
             <StDateInput
               type="date"
               min={1}
@@ -228,140 +225,137 @@ const PlannerMain = () => {
             alt="categoryIcon"
             onClick={() => {}}
           /> */}
-        </div>
+      </div>
 
-        {/* -------- 투두 바디부분 시작 ---------*/}
-        <StBody>
-          {todos?.map((each) => (
-            <StTodo key={each.id} isCompleted={each.isCompleted}>
-              {each.addMode ? (
-                <>
-                  <input
-                    type="checkbox"
-                    name=""
-                    value=""
-                    id={each.id}
-                    onChange={checkBoxHandler}
-                    // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
-                    checked={each.isCompleted}
-                  />
-                  <div className="titleDivBox">
-                    <label>
-                      <input
-                        value={each.title}
-                        name="title"
-                        id={each.id}
-                        onChange={onChangeInput}
-                        autoFocus
-                      />
-                      <div className="buttonBox">
-                        <button
-                          className="leftButton"
-                          onClick={() => {
-                            onClickAddButton(each.id);
-                          }}
-                        >
-                          추가하기
-                        </button>
-                        <button
-                          className="rightButton"
-                          onClick={() => {
-                            onClickCancel(each.id);
-                          }}
-                        >
-                          취소
-                        </button>
-                      </div>
-                    </label>
-                  </div>
-                </>
-              ) : each.updateMode ? (
-                <>
-                  <input
-                    type="checkbox"
-                    name=""
-                    value=""
-                    id={each.id}
-                    onChange={checkBoxHandler}
-                    // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
-                    checked={each.isCompleted}
-                  />
-                  <div className="titleDivBox">
-                    <label>
-                      <input
-                        value={each.title}
-                        name="title"
-                        id={each.id}
-                        onChange={onChangeInput}
-                        autoFocus
-                      />
+      {/* -------- 투두 바디부분 시작 ---------*/}
+      <StBody>
+        {todos?.map((each) => (
+          <StTodo key={each.id} isCompleted={each.isCompleted}>
+            {each.addMode ? (
+              <>
+                <input
+                  type="checkbox"
+                  name=""
+                  value=""
+                  id={each.id}
+                  onChange={checkBoxHandler}
+                  // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
+                  checked={each.isCompleted}
+                />
+                <div className="titleDivBox">
+                  <label>
+                    <input
+                      value={each.title}
+                      name="title"
+                      id={each.id}
+                      onChange={onChangeInput}
+                      autoFocus
+                    />
+                    <div className="buttonBox">
+                      <button
+                        className="leftButton"
+                        onClick={() => {
+                          onClickAddButton(each.id);
+                        }}
+                      >
+                        추가하기
+                      </button>
                       <button
                         className="rightButton"
                         onClick={() => {
-                          onClickUpdate(each.id);
+                          onClickCancel(each.id);
                         }}
                       >
-                        수정완료
+                        취소
                       </button>
-                    </label>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <input
-                    type="checkbox"
-                    name=""
-                    value=""
-                    id={each.id}
-                    onChange={checkBoxHandler}
-                    // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
-                    checked={each.isCompleted}
-                  />
-
-                  <div className="titleDivBox">
-                    <div
-                      className={`titleDiv ${
-                        each.isCompleted ? "complete" : ""
-                      }`}
-                    >
-                      {each.title}
                     </div>
-                    <img
-                      src={threeDotSvg}
-                      alt="threeDotSvg"
-                      onClick={() => {
-                        handleDivClick(each.id);
-                      }}
+                  </label>
+                </div>
+              </>
+            ) : each.updateMode ? (
+              <>
+                <input
+                  type="checkbox"
+                  name=""
+                  value=""
+                  id={each.id}
+                  onChange={checkBoxHandler}
+                  // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
+                  checked={each.isCompleted}
+                />
+                <div className="titleDivBox">
+                  <label>
+                    <input
+                      value={each.title}
+                      name="title"
+                      id={each.id}
+                      onChange={onChangeInput}
+                      autoFocus
                     />
+                    <button
+                      className="rightButton"
+                      onClick={() => {
+                        onClickUpdate(each.id);
+                      }}
+                    >
+                      수정완료
+                    </button>
+                  </label>
+                </div>
+              </>
+            ) : (
+              <>
+                <input
+                  type="checkbox"
+                  name=""
+                  value=""
+                  id={each.id}
+                  onChange={checkBoxHandler}
+                  // 렌더링 이전의input, 이후의input 모두에 속성을 넣어야한다.
+                  checked={each.isCompleted}
+                />
+
+                <div className="titleDivBox">
+                  <div
+                    className={`titleDiv ${each.isCompleted ? "complete" : ""}`}
+                  >
+                    {each.title}
                   </div>
+                  <img
+                    src={threeDotSvg}
+                    alt="threeDotSvg"
+                    onClick={() => {
+                      handleDivClick(each.id);
+                    }}
+                  />
+                </div>
 
-                  {/* <div className="contentDiv">{each.content}</div> */}
-                </>
-              )}
-            </StTodo>
-          ))}
-        </StBody>
-        {/* --------- 투두 바디부분 끝 ----------*/}
+                {/* <div className="contentDiv">{each.content}</div> */}
+              </>
+            )}
+          </StTodo>
+        ))}
+      </StBody>
+      {/* --------- 투두 바디부분 끝 ----------*/}
 
-        {/* --------- 네비게이션바 ----------*/}
-        <Navbar planner={true} />
-        {/* --------- 투두 추가 고정버튼 ----------*/}
-        <TodoAddBtn todos={todos} setTodos={setTodos} onClickAdd={onClickAdd} />
-        {/* --------- 수정/삭제 모달창 ----------*/}
-        {modalId ? (
-          <ModalBasic
-            modalWidth={30 + "%"}
-            modalHeight={30 + "%"}
-            modalTop={(100 - 30) / 2 + "%"}
-            modalLeft={(100 - 30) / 2 + "%"}
-            onClickUpdateToggleBtn={onClickUpdateToggleBtn}
-            handleCloseModal={handleCloseModal}
-            onClickDelete={onClickDelete}
-            id={modalId}
-          />
-        ) : null}
-      </StDiv>
-    </>
+      {/* --------- 네비게이션바 ----------*/}
+      <Navbar planner={true} />
+      {/* --------- 투두 추가 고정버튼 ----------*/}
+      <TodoAddBtn todos={todos} setTodos={setTodos} onClickAdd={onClickAdd} />
+      {/* --------- 수정/삭제 모달창 ----------*/}
+      {modalId ? (
+        <ModalBasic
+          modalWidth={30 + "%"}
+          modalHeight={30 + "%"}
+          modalTop={(100 - 30) / 2 + "%"}
+          modalLeft={(100 - 30) / 2 + "%"}
+          onClickUpdateToggleBtn={onClickUpdateToggleBtn}
+          handleCloseModal={handleCloseModal}
+          onClickDelete={onClickDelete}
+          id={modalId}
+        />
+      ) : null}
+    </StRootDiv>
   );
 };
 
@@ -475,7 +469,7 @@ const StBody = styled.div`
   }
 `;
 
-const StDiv = styled.div`
+const StRootDiv = styled.div`
   background-color: #fafafa;
   overflow: hidden auto;
 
@@ -493,19 +487,6 @@ const StDiv = styled.div`
     span {
       font-size: 3vh;
       font-weight: 600;
-    }
-
-    .categoryBox {
-      cursor: pointer;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      img.category {
-        width: 24px;
-        height: 24px;
-      }
     }
   }
 `;

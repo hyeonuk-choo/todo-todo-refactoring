@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Statistics from "../components/statistics/Statistics";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const StatisticsPage = () => {
@@ -12,15 +11,7 @@ const StatisticsPage = () => {
 };
 
 const StContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   background-color: #fafafa;
-  /* border:1px solid red; */
-  justify-content: center;
-  box-sizing: border-box;
 
   @media screen and (min-width: 768px) {
     width: 100%;
