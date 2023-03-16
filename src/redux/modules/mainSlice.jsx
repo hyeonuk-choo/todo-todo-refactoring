@@ -2,8 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 // const nickname = localStorage.getItem("nickname");
+
+export const __getUserInfo = createAsyncThunk(
+  // extraReducer 미동작 이유: 다른 Thunk함수의 이름과 중복!
+  "getUserInfo",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.get(`${BASE_URL}/userinfo`);
+      console.log(data.data[0]);
+      return thunkAPI.fulfillWithValue(data.data[0]);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const __getThisMonthRate = createAsyncThunk(
   "getThisMonthRate",
@@ -122,55 +135,8 @@ export const __getDday = createAsyncThunk(
   "getDday",
   async (payload, thunkAPI) => {
     try {
-      // let accessToken = localStorage.getItem("accessToken");
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // };
-
       const data = await axios.get(`${BASE_URL}/dday`);
-      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const __reset = createAsyncThunk("reset", async (payload, thunkAPI) => {
-  try {
-    let accessToken = localStorage.getItem("accessToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-
-    const data = await axios.get(`${BASE_URL}/reset`, config);
-    return thunkAPI.fulfillWithValue(data.data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-export const __getMainRankSchool = createAsyncThunk(
-  "getMainRankSchool",
-  async (payload, thunkAPI) => {
-    try {
-      let accessToken = localStorage.getItem("accessToken");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const data = await axios.get(
-        `${BASE_URL}/rank/monthly?page=${payload}&size=${3}`,
-        // payload,
-        config
-      );
-      return thunkAPI.fulfillWithValue(data.data.content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -212,15 +178,19 @@ const initialState = {
 export const mainSlice = createSlice({
   name: "mainSlice",
   initialState,
-  reducers: {
-    getUserAction: (state, action) => {
-      state.userInfo = action.payload[0];
-    },
-    errorAction: (state, action) => {
-      state.error = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
+    [__getUserInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getUserInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.userInfo = action.payload;
+    },
+    [__getUserInfo.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.message;
+    },
     [__getThisMonthRate.pending]: (state) => {
       state.isLoading = true;
     },
@@ -230,7 +200,6 @@ export const mainSlice = createSlice({
     },
     [__getThisMonthRate.rejected]: (state, action) => {
       state.isLoading = false;
-
       state.error = action.payload.message;
     },
     [__getTotalRate.pending]: (state) => {
@@ -297,20 +266,7 @@ export const mainSlice = createSlice({
 
       state.error = action.payload;
     },
-    [__reset.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__reset.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.mainRankList = [];
-      state.mainRankListMonthly = [];
-      state.mainRankListSchool = [];
-    },
-    [__reset.rejected]: (state, action) => {
-      state.isLoading = false;
 
-      state.error = action.payload;
-    },
     [__updateDday.pending]: (state) => {
       state.isLoading = true;
     },
@@ -323,23 +279,7 @@ export const mainSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    [__getMainRankSchool.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__getMainRankSchool.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.mainRankListSchool.push(...action.payload);
-      state.mainRankList = [];
-      state.mainRankListMonthly = [];
-    },
-    [__getMainRankSchool.rejected]: (state, action) => {
-      state.isLoading = false;
-
-      state.error = action.payload.message;
-    },
   },
 });
 
-export const { getUserAction, errorAction } = mainSlice.actions;
 export default mainSlice.reducer;

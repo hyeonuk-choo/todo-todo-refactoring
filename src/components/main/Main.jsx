@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
-import axios from "axios";
 // 이미지
 import largeTrophy from "../../assets/img/mainpage/bigTrophy.svg";
 import plannerCntSvg from "../../assets/img/mainpage/plannerCntSvg.svg";
@@ -15,34 +14,18 @@ import InfiniteScrollMonth from "./InfiniteScrollMonth";
 import ModalBasic from "../utils/ModalBasic";
 import Navbar from "../utils/Navbar";
 import Dday from "./Dday";
-// Action
-import { getUserAction, errorAction } from "../../redux/modules/mainSlice";
+import { __getUserInfo } from "../../redux/modules/mainSlice";
 
 const Main = () => {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const { userInfo } = useSelector((state) => state.main); // mainSlice
   const [toggleValue, setToggleValue] = useState(true);
   const [modalWindow, setModalWindow] = useState(false);
   const dispatch = useDispatch();
 
-  // userinfo 중앙상태값에 대한 서버 비동기통신도 reducer파일(Slice)에 createAsyncThunk에서 실행하는데 UI컴포넌트에서 이Thunk함수를 import해서 dispatch를 사용해서 다시 Thunk로 보내서 Thunk함수내 비동기 통신이 처리되게 하고, 응답데이터를 받으면 extraReducers로 보내지고 extraReducers의 pending, fulfilled, rejected 3가지 상태에 따라 reducer의 state값을 달리하는 설계이다.
-
-  // 굳이, 비동기통신 로직도 Thunk함수를 Slice에 정의해서 써야하는가? 에 대한 의문으로 비동기 통신 로직을 UI컴포넌트에 바로 작성해보겠습니다.
-
-  // 그냥 비동기통신 로직을 UI컴포넌트에 구현 해도 되나, 다른 컴포넌트에서 구독할 때, 해당컴포넌트에서 새로고침시 이슈발생
-
-  const getUserInfo = async () => {
-    try {
-      const data = await axios.get(`${BASE_URL}/userinfo`);
-      dispatch(getUserAction(data.data));
-    } catch (e) {
-      console.error(e);
-      dispatch(errorAction("An error occurred."));
-    }
-  };
+  // 비동기통신 로직을 왜 Thunk함수를 Slice에 정의해서 써야하는가? 에 대한 의문으로 비동기 통신 로직을 UI컴포넌트에 바로 작성해보았고 비동기통신 로직을 UI컴포넌트에 구현 해도 동작에 이상없으나, 다른 컴포넌트에서 해당state를 구독할 때, 새로고침시 이슈발생
 
   useEffect(() => {
-    getUserInfo();
+    dispatch(__getUserInfo());
   }, []);
 
   const onClickWeekly = () => {

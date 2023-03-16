@@ -9,6 +9,7 @@ import info from "../../assets/img/mainpage/info.svg";
 // 컴포넌트
 import LineChart from "./LineChart";
 import Navbar from "../utils/Navbar";
+import { __getUserInfo } from "../../redux/modules/mainSlice";
 
 const Statistics = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -24,7 +25,9 @@ const Statistics = () => {
     setModal(parameter);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(__getUserInfo());
+  }, []);
 
   return (
     <StContainer>

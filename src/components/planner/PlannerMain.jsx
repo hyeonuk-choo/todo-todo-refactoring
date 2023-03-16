@@ -1,21 +1,21 @@
 // 라이브러리
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-
-// 컴포넌트
-import Navbar from "../utils/Navbar";
-import TodoAddBtn from "./TodoAddBtn";
-
 // 이미지
 import threeDotSvg from "../../assets/img/threeDotSvg.svg";
 import ModalBasic from "../utils/ModalBasic";
-import { useSelector } from "react-redux";
+// 컴포넌트
+import Navbar from "../utils/Navbar";
+import TodoAddBtn from "./TodoAddBtn";
+import { __getUserInfo } from "../../redux/modules/mainSlice";
 
 const PlannerMain = () => {
   // 상태관리 라이브러리 사용하지 않고 구현
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.main); // mainSlice
   const uniqueId = uuidv4();
   const [todos, setTodos] = useState([]);
@@ -119,8 +119,9 @@ const PlannerMain = () => {
   };
 
   useEffect(getTodos, []);
-
-  console.log(todos);
+  useEffect(() => {
+    dispatch(__getUserInfo());
+  }, []);
 
   // 투두 수정하기 토글버튼
   const onClickUpdateToggleBtn = (id) => {
