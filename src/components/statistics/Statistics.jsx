@@ -30,80 +30,83 @@ const Statistics = () => {
   }, []);
 
   return (
-    <StContainer>
+    <StRootDiv>
       <div id="header">
         <span>{userInfo.nickname}님의 통계</span>
       </div>
       <div id="body">
-        <StTopSubjectDiv>
-          <div className="my-score">나의 점수</div>
-          <img
-            className="my-score-img"
-            src={info}
-            onClick={() => modalToggleHandler("score")}
-            alt="infoImg"
-          />
-        </StTopSubjectDiv>
-        <StScoreBoxContainer>
-          <StScoreBoxDiv>
-            <div>주간점수</div>
-            <div>
-              {null}점 / <span>{null}위</span>
+        {/* -- 바디의 상단 파트 -- */}
+        <div id="upperPart">
+          <div className="subTitle">
+            <p>나의 점수</p>
+            <img
+              src={info}
+              onClick={() => modalToggleHandler("score")}
+              alt="infoImg"
+            />
+          </div>
+          <div className="scoreContainer">
+            <div id="weekScore">
+              <div>주간점수</div>
+              <div>
+                {null}점 / <span>{null}위</span>
+              </div>
             </div>
-          </StScoreBoxDiv>
-          <StScoreBoxDiv>
-            <div>월간점수</div>
-            <div>
-              {null}점 / <span>{null}위</span>
+            <div id="monthScore">
+              <div>월간점수</div>
+              <div>
+                {null}점 / <span>{null}위</span>
+              </div>
             </div>
-          </StScoreBoxDiv>
-        </StScoreBoxContainer>
-        <StScoreChangeBoxDiv>
-          <div className="weekText">
-            <div>
-              <span className="lastweek">저번 주</span>
-              <span className="thisweek"> 이번 주</span>
+          </div>
+          <div className="firstGraph">
+            <div className="weekText">
+              <div>
+                <span className="lastweek">저번 주</span>
+                <span className="thisweek"> 이번 주</span>
+              </div>
+              <p className="change-weekRank"> 주간 랭킹 점수 변화</p>
             </div>
-            <p className="change-weekRank"> 주간 랭킹 점수 변화</p>
+
+            <StBarchartBox>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "25px",
+                  marginRight: "16px",
+                }}
+              >
+                <div className="barBox">
+                  <p className="lastScore">{null}</p>
+                  <StLastWeekChart height={parseInt(0)}></StLastWeekChart>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "25px",
+                }}
+              >
+                <div className="barBox">
+                  <p className="thisScore">{null}</p>
+                  <StThisWeekChart height={parseInt(0)}></StThisWeekChart>
+                </div>
+              </div>
+            </StBarchartBox>
           </div>
 
-          <StBarchartBox>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "25px",
-                marginRight: "16px",
-              }}
-            >
-              <div className="barBox">
-                <p className="lastScore">{null}</p>
-                <StLastWeekChart height={parseInt(0)}></StLastWeekChart>
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "25px",
-              }}
-            >
-              <div className="barBox">
-                <p className="thisScore">{null}</p>
-                <StThisWeekChart height={parseInt(0)}></StThisWeekChart>
-              </div>
-            </div>
-          </StBarchartBox>
-        </StScoreChangeBoxDiv>
+          <div id="thisWeekStatus">
+            <div>{null}</div>
+          </div>
+        </div>
 
-        <StThisWeekStatus>
-          <div>{null}</div>
-        </StThisWeekStatus>
-
-        <StTopSubjectDiv>
-          <div className="weekRank">
+        {/* -- 바디의 하단파트 -- */}
+        <div id="lowerPart">
+          <div className="subTitle">
             <div>주간 랭킹 점수</div>
             <img
               src={info}
@@ -111,161 +114,162 @@ const Statistics = () => {
               alt="infoImg"
             />
           </div>
-        </StTopSubjectDiv>
-        {/* <LineChart /> */}
+          {/* <LineChart /> */}
+        </div>
       </div>
 
       {/* ------------- 모달창 ------------ */}
 
       {/* ---------- 네비게이션바 --------- */}
       <Navbar statistics={true} />
-    </StContainer>
+    </StRootDiv>
   );
 };
 export default Statistics;
 
-const StContainer = styled.div`
-  height: 100%;
-  width: 100%;
-
-  overflow: auto;
+const StRootDiv = styled.div`
   box-sizing: border-box;
-  -ms-overflow-style: none;
 
   #header {
+    box-sizing: border-box;
     height: 10vh;
-    display: flex;
-    align-items: center;
     background-color: #ffff;
     border-bottom: 1px solid #f1f3f5;
-    box-sizing: border-box;
     font-weight: 600;
     font-size: 3vh;
     color: black;
-    padding-left: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #body {
     height: 80vh;
-  }
-`;
 
-const StTopSubjectDiv = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
+    #upperPart {
+      box-sizing: border-box;
+      height: 50%;
 
-  & .my-score {
-    padding-left: 22px;
-    padding-top: 18px;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 26px;
-    font-weight: bold;
-    color: #111;
-  }
+      // 소제목
+      .subTitle {
+        box-sizing: border-box;
+        padding: 3% 0 0 4%;
+        gap: 1%;
+        font-size: 2.3vh;
+        font-weight: 600;
 
-  & .my-score-img {
-    width: 17.5px;
-    height: 17.5px;
-    padding-left: 7.25px;
-    padding-top: 22.25px;
-    color: #d7d5d5;
-  }
+        height: 13%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-  & .weekRank {
-    padding-top: 29px;
-    padding-bottom: 16px;
-    padding-left: 22px;
-    display: flex;
-    gap: 7.25px;
-    font-size: 20px;
-    line-height: 26px;
-    font-weight: 600;
-  }
+        p {
+          margin: 0;
+        }
+        img {
+          height: 80%;
+        }
+      }
 
-  & .todoRate {
-    padding-top: 40px;
-    padding-bottom: 16px;
-    padding-left: 22px;
-    display: flex;
-    gap: 7.25px;
-    font-size: 20px;
-    line-height: 26px;
-    font-weight: 600;
-  }
-`;
+      // 주간점수, 월간점수 컨테이너
+      .scoreContainer {
+        box-sizing: border-box;
+        height: 40%;
+        width: 100%;
 
-const StScoreBoxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 12px 22px 18px 22px;
-  gap: 16px;
-  width: calc(100%-44px);
-  box-sizing: border-box;
-`;
+        display: flex;
+        align-items: center;
 
-const StScoreBoxDiv = styled.div`
-  flex: 1;
-  height: 90px;
-  background: #ffffff;
-  box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 21px;
-  box-sizing: border-box;
-  margin: 0;
+        justify-content: space-evenly;
 
-  & div {
-    height: auto;
-    color: #111;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 17px;
-    & span {
-      color: #ff7b00;
+        #weekScore {
+          width: 45%;
+          height: 80%;
+
+          background: rgb(255, 255, 255);
+          box-shadow: rgba(17, 17, 17, 0.05) 0px 4px 15px;
+          border-radius: 12px;
+        }
+
+        #monthScore {
+          width: 45%;
+          height: 80%;
+
+          background: rgb(255, 255, 255);
+          box-shadow: rgba(17, 17, 17, 0.05) 0px 4px 15px;
+          border-radius: 12px;
+        }
+      }
+
+      // 첫번째, 막대그래프
+      .firstGraph {
+        box-sizing: border-box;
+        height: 40%;
+        width: 93%;
+        margin: auto;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        background: #ffffff;
+        box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
+        border-radius: 12px;
+
+        div {
+          width: 100%;
+          span {
+            color: #111111;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+          }
+          p {
+            display: inline-block;
+            margin: 0;
+            color: #111111;
+            font-size: 15px;
+            line-height: 24px;
+            font-weight: 500;
+          }
+        }
+      }
+
+      #thisWeekStatus {
+        box-sizing: border-box;
+        height: calc(100% - 13% - 40% - 40%);
+        display: flex;
+        width: 93%;
+        margin: auto;
+        justify-content: flex-end;
+        box-sizing: border-box;
+
+        div {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 5px;
+          // 글씨 사이즈때문에 width값 조금 키움
+          width: 190px;
+          height: 28px;
+          background: #ffe9d5;
+          border-radius: 49px;
+          box-sizing: border-box;
+          margin: 0;
+          font-size: 14px;
+          color: #ff7b00;
+          font-weight: 600;
+        }
+      }
     }
-  }
-`;
 
-const StScoreChangeBoxDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 0 22px;
-  width: calc(100%-44px);
-  box-sizing: border-box;
-  height: 90px;
-  background: #ffffff;
-  box-shadow: 0px 4px 15px rgba(17, 17, 17, 0.05);
-  border-radius: 12px;
-  padding-left: 22px;
-
-  & div {
-    width: 100%;
-
-    span {
-      color: #111111;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 22px;
-      font-weight: 400;
-    }
-
-    p {
-      display: inline-block;
-      margin: 0;
-      color: #111111;
-      font-size: 15px;
-      line-height: 24px;
-      font-weight: 500;
+    #lowerPart {
+      box-sizing: border-box;
+      height: 50%;
     }
   }
 `;
@@ -276,9 +280,8 @@ const StBarchartBox = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding-right: 24px;
 
-  & .barBox {
+  .barBox {
     width: 100%;
     height: 80px;
     display: flex;
@@ -287,7 +290,7 @@ const StBarchartBox = styled.div`
     justify-content: flex-end;
   }
 
-  & div {
+  div {
     p {
       width: 100%;
       text-align: center;
@@ -303,31 +306,6 @@ const StBarchartBox = styled.div`
     p.thisScore {
       color: #ff7b00;
     }
-  }
-`;
-
-const StThisWeekStatus = styled.div`
-  margin: 12px 22px 0 22px;
-  display: flex;
-  justify-content: flex-end;
-  box-sizing: border-box;
-
-  & div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    // 글씨 사이즈때문에 width값 조금 키움
-    width: 190px;
-    height: 28px;
-    background: #ffe9d5;
-    border-radius: 49px;
-    box-sizing: border-box;
-    margin: 0;
-    font-size: 14px;
-    color: #ff7b00;
-    font-weight: 600;
   }
 `;
 
