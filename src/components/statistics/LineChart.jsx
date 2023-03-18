@@ -31,13 +31,13 @@ const LineChart = () => {
         name: "상위랭커",
         data: [100, 200, 300, 300, 370, 550, 620],
         type: "line",
-        color: "#D34C4C",
+        color: "#38aded",
       },
       {
         name: "이번주",
         data: [200, 300, 500, 400, 170, 650, 820],
         type: "line",
-        color: "#618AF2",
+        color: "rgb(255, 123, 0)",
       },
     ],
 
