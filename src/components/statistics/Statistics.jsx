@@ -85,9 +85,9 @@ const Statistics = () => {
                       lastWeekRate > thisWeekRate
                     ? "곧 저번주 점수를 넘기겠어요!"
                     : lastWeekRate === thisWeekRate
-                    ? "저번 주 점수랑 동점이에요!"
+                    ? "저번주 점수랑 동점이에요!"
                     : lastWeekRate < thisWeekRate
-                    ? "저번 주 점수를 넘었어요!"
+                    ? "저번주 점수를 넘었어요!"
                     : null}
                 </div>
               </div>
