@@ -6,23 +6,25 @@ import axios from "axios";
 // 이미지
 import trophy from "../../assets/img/mainpage/trophy.svg";
 import info from "../../assets/img/mainpage/info.svg";
+import school from "../../assets/img/mainpage/school.svg";
+import infoSvg from "../../assets/img/mainpage/info.svg";
 // 컴포넌트
 import LineChart from "./LineChart";
 import Navbar from "../utils/Navbar";
 import { __getUserInfo } from "../../redux/modules/mainSlice";
+import ModalBasic from "../utils/ModalBasic";
 
 const Statistics = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const { userInfo } = useSelector((state) => state.main);
   const dispatch = useDispatch();
-  const [modalView, setModalView] = useState(false);
-  const [modal, setModal] = useState(null);
-  const [month, setMonth] = useState(null);
+  const [scoreExplain, setScoreExplain] = useState(false);
+  const [graphExplain, setGraphExplain] = useState(false);
   // const nickname = localStorage.getItem("nickname");
 
-  const modalToggleHandler = (parameter) => {
-    setModalView(!modalView);
-    setModal(parameter);
+  const modalHandler = (param) => {
+    if (param === "score") setScoreExplain(true);
+    if (param === "graph") setGraphExplain(true);
   };
 
   useEffect(() => {
@@ -44,21 +46,21 @@ const Statistics = () => {
             <p>나의 점수</p>
             <img
               src={info}
-              onClick={() => modalToggleHandler("score")}
+              onClick={() => modalHandler("score")}
               alt="infoImg"
             />
           </div>
           <div className="scoreContainer">
             <div id="weekScore">
               <div>주간점수</div>
-              <div>
+              <div className="scoreText">
                 {userInfo.weekScore?.weekScore}점&nbsp;/&nbsp;
                 {userInfo.weekScore?.weekRank}위
               </div>
             </div>
             <div id="monthScore">
               <div>월간점수</div>
-              <div>
+              <div className="scoreText">
                 {userInfo.monthScore?.monthScore}점&nbsp;/&nbsp;
                 {userInfo.monthScore?.monthRank}위
               </div>
@@ -68,9 +70,9 @@ const Statistics = () => {
             <div id="graphContainerText">
               <div className="change-weekRank"> 지난주대비 달성률 변화</div>
               <div>
-                <span className="lastweek">지난주 : {lastWeekRate}</span>
-                &nbsp;vs&nbsp;
-                <span className="thisweek">이번주 : {thisWeekRate}</span>
+                <span className="lastweek">지난주 {lastWeekRate}</span>
+                &nbsp;&nbsp;
+                <span className="thisweek">이번주 {thisWeekRate}</span>
               </div>
               <div id="thisWeekStatus">
                 <div>
@@ -120,10 +122,10 @@ const Statistics = () => {
         {/* -- 바디의 하단파트 -- */}
         <div id="lowerPart">
           <div className="subTitle">
-            <div>주간 랭킹 점수</div>
+            <div>주간 그래프</div>
             <img
               src={info}
-              onClick={() => modalToggleHandler("rank")}
+              onClick={() => modalHandler("graph")}
               alt="infoImg"
             />
           </div>
@@ -134,7 +136,30 @@ const Statistics = () => {
       </div>
 
       {/* ------------- 모달창 ------------ */}
-
+      {scoreExplain ? (
+        <ModalBasic
+          setScoreExplain={setScoreExplain}
+          modalWidth={50 + "%"}
+          modalHeight={40 + "%"}
+          modalTop={(100 - 40) / 2 + "%"}
+          modalLeft={(100 - 50) / 2 + "%"}
+          modalTitle="나의 점수란?"
+          modalImage={school}
+          modalContent="나의 점수는 주간점수/월간점수로 나뉘며 지난주(회색)대비 금주(주황색)의 달성률을 나타냅니다."
+        />
+      ) : null}
+      {graphExplain ? (
+        <ModalBasic
+          setGraphExplain={setGraphExplain}
+          modalWidth={50 + "%"}
+          modalHeight={40 + "%"}
+          modalTop={(100 - 40) / 2 + "%"}
+          modalLeft={(100 - 50) / 2 + "%"}
+          modalTitle="주간 그래프란?"
+          modalImage={school}
+          modalContent="주간 그래프는 금주 월요일~일요일까지의 달성률 추이를 나타냅니다."
+        />
+      ) : null}
       {/* ---------- 네비게이션바 --------- */}
       <Navbar statistics={true} />
     </StRootDiv>
@@ -160,6 +185,10 @@ const StRootDiv = styled.div`
   }
 
   #body {
+    img {
+      cursor: pointer;
+    }
+
     height: 80vh;
     font-size: 2.2vh;
 
@@ -198,6 +227,10 @@ const StRootDiv = styled.div`
         align-items: center;
 
         justify-content: space-evenly;
+
+        & .scoreText {
+          font-weight: 600;
+        }
 
         #weekScore {
           display: flex;
@@ -252,6 +285,14 @@ const StRootDiv = styled.div`
           align-items: center;
           justify-content: center;
 
+          & .lastweek {
+            color: rgb(110 196 255);
+          }
+
+          & .thisweek {
+            color: rgb(255, 123, 0);
+          }
+
           div {
             height: calc(100% / 3);
             display: flex;
@@ -272,7 +313,7 @@ const StRootDiv = styled.div`
               margin: 0;
               font-size: 2vh;
               color: #ff7b00;
-              font-weight: 600;
+              font-weight: bold;
 
               display: flex;
               flex-direction: row;
@@ -355,7 +396,7 @@ const StLastWeekChart = styled.div`
   position: relative;
   width: 100%;
   height: ${(props) => `${props.height}%` || "1%"};
-  background: #d9d9d9;
+  background: rgb(110 196 255);
   border-radius: 6px 6px 0px 0px;
 `;
 const StThisWeekChart = styled.div`
@@ -377,7 +418,7 @@ const StChartScore = styled.div`
   font-weight: 600;
 
   &.lastScore {
-    color: #d7d5d5;
+    color: rgb(110 196 255);
   }
 
   &.thisScore {

@@ -8,6 +8,8 @@ const ModalBasic = ({
   modalTop,
   modalLeft,
   setModalWindow,
+  setScoreExplain,
+  setGraphExplain,
   handleCloseModal,
   modalTitle,
   modalImage,
@@ -23,8 +25,10 @@ const ModalBasic = ({
     const handler = (e) => {
       // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(e.target)) {
-        if (handleCloseModal) handleCloseModal(null);
+        if (handleCloseModal) handleCloseModal();
         if (setModalWindow) setModalWindow(false);
+        if (setScoreExplain) setScoreExplain(false);
+        if (setGraphExplain) setGraphExplain(false);
       }
     };
 
@@ -143,15 +147,14 @@ const StModalContainer = styled.div`
     align-items: center;
 
     img {
-      width: 30%;
-      height: 30%;
       box-sizing: border-box;
-      margin-bottom: 3vh;
+      width: 30%;
+      height: 100%;
     }
 
     #modalContent {
       width: 77%;
-      height: 30%;
+      height: 100%;
       font-size: 2vh;
     }
   }
