@@ -5,15 +5,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const nickname = localStorage.getItem("nickname");
 
-const initialState = {
-  rankScoreData: [{}, {}, {}],
-  barData: [{}, {}],
-  lineData: [{}, {}],
-  heatmapData: [],
-  isLoading: false,
-  error: null,
-};
-
 export const __getRankScoreData = createAsyncThunk(
   "__getRankScoreData",
   async (payload, thunkAPI) => {
@@ -44,14 +35,7 @@ export const __getLineChartData = createAsyncThunk(
   "getLineChartData",
   async (payload, thunkAPI) => {
     try {
-      // let accessToken = localStorage.getItem("accessToken");
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // };
-
-      const data = await axios.get(`${BASE_URL}/todo/achievement/thisweek`);
+      const data = await axios.get(`${BASE_URL}/achievement/thisweek`);
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -64,13 +48,6 @@ export const __getHeatMapData = createAsyncThunk(
   "getHeatMapData",
   async (payload, thunkAPI) => {
     try {
-      // let accessToken = localStorage.getItem("accessToken");
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // };
-
       const data = await axios.get(`${BASE_URL}/todo/achievement/dayly`);
 
       return thunkAPI.fulfillWithValue(data.data);
@@ -79,6 +56,15 @@ export const __getHeatMapData = createAsyncThunk(
     }
   }
 );
+
+const initialState = {
+  rankScoreData: [{}, {}, {}],
+  barData: [{}, {}],
+  lineData: [{}, {}],
+  heatmapData: [],
+  isLoading: false,
+  error: null,
+};
 
 export const statisticsSlice = createSlice({
   name: "statisticsSlice",

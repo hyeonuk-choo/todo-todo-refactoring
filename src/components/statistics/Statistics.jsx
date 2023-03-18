@@ -29,6 +29,9 @@ const Statistics = () => {
     dispatch(__getUserInfo());
   }, []);
 
+  const lastWeekRate = userInfo.achievementRate?.lastWeekRate;
+  const thisWeekRate = userInfo.achievementRate?.thisWeekRate;
+
   return (
     <StRootDiv>
       <div id="header">
@@ -49,37 +52,66 @@ const Statistics = () => {
             <div id="weekScore">
               <div>주간점수</div>
               <div>
-                {null}점 / {null}위
+                {userInfo.weekScore?.weekScore}점&nbsp;/&nbsp;
+                {userInfo.weekScore?.weekRank}위
               </div>
             </div>
             <div id="monthScore">
               <div>월간점수</div>
               <div>
-                {null}점 /{null}위
+                {userInfo.monthScore?.monthScore}점&nbsp;/&nbsp;
+                {userInfo.monthScore?.monthRank}위
               </div>
             </div>
           </div>
           <div className="graphContainer">
             <div id="graphContainerText">
-              <div className="change-weekRank"> 주간 랭킹 점수 변화</div>
+              <div className="change-weekRank"> 지난주대비 달성률 변화</div>
               <div>
-                <span className="lastweek">저번 주</span>
-                <span className="thisweek"> 이번 주</span>
+                <span className="lastweek">지난주 : {lastWeekRate}</span>
+                &nbsp;vs&nbsp;
+                <span className="thisweek">이번주 : {thisWeekRate}</span>
               </div>
               <div id="thisWeekStatus">
-                <div>{null}</div>
+                <div>
+                  {thisWeekRate === 0
+                    ? "이번주도 시작해볼까요?"
+                    : lastWeekRate > 0 && lastWeekRate * 0.5 > thisWeekRate
+                    ? "조금 더 열심히 해봅시다!"
+                    : lastWeekRate * 0.5 < thisWeekRate &&
+                      lastWeekRate * 0.9 > thisWeekRate
+                    ? "저번주의 절반 이상 왔어요!"
+                    : lastWeekRate * 0.9 < thisWeekRate &&
+                      lastWeekRate > thisWeekRate
+                    ? "곧 저번주 점수를 넘기겠어요!"
+                    : lastWeekRate === thisWeekRate
+                    ? "저번 주 점수랑 동점이에요!"
+                    : lastWeekRate < thisWeekRate
+                    ? "저번 주 점수를 넘었어요!"
+                    : null}
+                </div>
               </div>
             </div>
 
             <div id="fistBarChart">
-              <div className="eachBar">
-                <p className="lastScore">{null}</p>
-                <StLastWeekChart height={parseInt(0)}></StLastWeekChart>
+              <div className="eachBarContainer">
+                <div className="eachBar">
+                  <StLastWeekChart height={lastWeekRate}>
+                    <StChartScore className="lastScore">
+                      {lastWeekRate}
+                    </StChartScore>
+                  </StLastWeekChart>
+                </div>
               </div>
 
-              <div className="eachBar">
-                <p className="thisScore">{null}</p>
-                <StThisWeekChart height={parseInt(0)}></StThisWeekChart>
+              <div className="eachBarContainer">
+                <div className="eachBar">
+                  <StThisWeekChart height={thisWeekRate}>
+                    <StChartScore className="thisScore">
+                      {thisWeekRate}
+                    </StChartScore>
+                  </StThisWeekChart>
+                </div>
               </div>
             </div>
           </div>
@@ -95,7 +127,9 @@ const Statistics = () => {
               alt="infoImg"
             />
           </div>
-          {/* <LineChart /> */}
+          <div id="chartContainer">
+            <LineChart />
+          </div>
         </div>
       </div>
 
@@ -127,6 +161,7 @@ const StRootDiv = styled.div`
 
   #body {
     height: 80vh;
+    font-size: 2.2vh;
 
     #upperPart {
       box-sizing: border-box;
@@ -137,7 +172,7 @@ const StRootDiv = styled.div`
         box-sizing: border-box;
         padding: 3% 0 0 4%;
         gap: 1%;
-        font-size: 2.2vh;
+
         font-weight: 600;
         height: 15%;
         width: 100%;
@@ -156,7 +191,7 @@ const StRootDiv = styled.div`
       // 주간점수, 월간점수 컨테이너
       .scoreContainer {
         box-sizing: border-box;
-        height: calc((100% - 15%) / 2);
+        height: 35%;
         width: 100%;
 
         display: flex;
@@ -196,7 +231,7 @@ const StRootDiv = styled.div`
       // 첫번째, 막대그래프
       .graphContainer {
         box-sizing: border-box;
-        height: calc((100% - 15%) / 2);
+        height: calc(100% - 15% - 35%);
         width: 93%;
         margin: auto;
 
@@ -227,15 +262,15 @@ const StRootDiv = styled.div`
 
           #thisWeekStatus {
             box-sizing: border-box;
-            width: 93%;
+            width: 100%;
             div {
               box-sizing: border-box;
-              border-radius: 2rem;
+              border-radius: 12px;
               padding: 1%;
-              width: 30%;
+              width: 90%;
               height: 100%;
               margin: 0;
-              font-size: 1rem;
+              font-size: 2vh;
               color: #ff7b00;
               font-weight: 600;
 
@@ -255,31 +290,27 @@ const StRootDiv = styled.div`
           flex-direction: row;
           justify-content: center;
           align-items: flex-end;
-          gap: 1rem;
+          gap: 2rem;
 
-          .eachBar {
+          .eachBarContainer {
             width: 20%;
-            height: 80%;
+            height: 100%;
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-          }
 
-          p {
-            width: 100%;
-            text-align: center;
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 17px;
-          }
+            .eachBar {
+              width: 100%;
+              height: 75%;
+              background-color: transparent;
 
-          p.lastScore {
-            color: #d7d5d5;
-          }
-
-          p.thisScore {
-            color: #ff7b00;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: flex-end;
+            }
           }
         }
       }
@@ -308,19 +339,48 @@ const StRootDiv = styled.div`
           height: 60%;
         }
       }
+
+      #chartContainer {
+        box-sizing: border-box;
+        height: calc(100% - 15%);
+        width: 92%;
+        margin: auto;
+        padding: 2vh 0;
+      }
     }
   }
 `;
 
 const StLastWeekChart = styled.div`
-  width: 25px;
-  height: ${(props) => `${props.height}%` || "3px"};
+  position: relative;
+  width: 100%;
+  height: ${(props) => `${props.height}%` || "1%"};
   background: #d9d9d9;
   border-radius: 6px 6px 0px 0px;
 `;
 const StThisWeekChart = styled.div`
-  width: 25px;
-  height: ${(props) => `${props.height}%` || "3px"};
+  position: relative;
+  width: 100%;
+  height: ${(props) => `${props.height}%` || "1%"};
   background: #ff7b00;
   border-radius: 6px 6px 0px 0px;
+`;
+
+const StChartScore = styled.div`
+  position: absolute;
+  top: -4vh;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-weight: 600;
+
+  &.lastScore {
+    color: #d7d5d5;
+  }
+
+  &.thisScore {
+    color: #ff7b00;
+  }
 `;
