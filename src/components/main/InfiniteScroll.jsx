@@ -19,8 +19,6 @@ const InfiniteScroll = () => {
       const { data } = await axios.get(
         `${BASE_URL}/rank/week?page=${page.current}`
       );
-      console.log(data);
-      console.log(page.current);
 
       setAllUser((prev) => prev.concat(data));
     } catch (error) {}
@@ -42,10 +40,7 @@ const InfiniteScroll = () => {
       threshold: 0.5,
     });
     observer.observe(targetRef.current);
-    console.log(targetRef.current);
   }, []);
-
-  // console.log(targetRef.current);
 
   return (
     <Stdiv>

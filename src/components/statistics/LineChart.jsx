@@ -55,6 +55,21 @@ const LineChart = () => {
   return (
     <ECharts
       option={options}
+      // console [Violation]메세지 관련
+      onEvents={{
+        wheel: {
+          // wheel 이벤트 핸들러 함수
+          handler: () => {},
+          // passive: true 옵션 추가
+          passive: true,
+        },
+        mousewheel: {
+          // mousewheel 이벤트 핸들러 함수
+          handler: () => {},
+          // passive: true 옵션 추가
+          passive: true,
+        },
+      }}
       opts={{ width: "580%" }}
       style={{
         boxSizing: "border-box",

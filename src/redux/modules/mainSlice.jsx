@@ -22,7 +22,7 @@ export const getUserInfo = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(`${BASE_URL}/userinfo`);
-      console.log(data.data[0]);
+
       return thunkAPI.fulfillWithValue(data.data[0]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -35,7 +35,7 @@ export const getDday = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(`${BASE_URL}/dday`);
-      console.log(data.data[0]);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -51,7 +51,7 @@ export const updateDday = createAsyncThunk(
         title,
         selectedDate,
       });
-      console.log(data);
+
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

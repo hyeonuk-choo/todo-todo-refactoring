@@ -61,7 +61,7 @@ const PlannerMain = () => {
       })
       .then((response) => {
         // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
-        console.log(response.data);
+
         getTodos();
       })
       .catch((error) => {
@@ -80,7 +80,7 @@ const PlannerMain = () => {
       })
       .then((response) => {
         // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
-        console.log(response.data);
+
         getTodos();
       })
       .catch((error) => {
@@ -149,7 +149,7 @@ const PlannerMain = () => {
       })
       .then((response) => {
         // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
-        console.log(response.data);
+
         getTodos();
       })
       .catch((error) => {
@@ -172,7 +172,7 @@ const PlannerMain = () => {
       .then((response) => {
         // 비동기 이슈, 서버에 delete가 된 이후에 get요청
         // Handle success
-        console.log(response.data);
+
         getTodos();
       })
       .catch((error) => {
@@ -196,7 +196,7 @@ const PlannerMain = () => {
       })
       .then((response) => {
         // 비동기 이슈, 서버에 업데이트가 되고 resolve되서 응답올 때, get요청
-        console.log(response.data);
+
         getTodos();
       })
       .catch((error) => {

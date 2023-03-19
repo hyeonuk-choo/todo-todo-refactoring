@@ -14,13 +14,11 @@ const TodoAdd = () => {
     const { name, value } = await e.target;
     setTodo({ ...todo, [name]: value, mode: false });
   };
-  console.log(todo);
 
   const onClickAdd = () => {
     axios
       .post(`${BASE_URL}/todo-add`, todo)
       .then((response) => {
-        console.log(response.data);
         // Handle success
       })
       .catch((error) => {

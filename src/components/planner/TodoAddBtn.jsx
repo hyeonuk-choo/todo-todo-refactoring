@@ -16,8 +16,6 @@ const TodoAddBtn = ({ todos, onClickAdd }) => {
     <StTodoAddBtn
       onClick={() => {
         onClickAdd();
-        // navigate("/planner-add");
-        // console.log(todos);
       }}
     >
       <img src={whitePlusSvg} alt="whitePlusSvg" />
