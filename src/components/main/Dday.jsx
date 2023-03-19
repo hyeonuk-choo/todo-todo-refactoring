@@ -1,147 +1,36 @@
 // 라이브러리
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-// 컴포넌트
-import { getDday, updateDday } from "../../redux/modules/mainSlice";
 
 const Dday = () => {
-  const dispatch = useDispatch();
-  const [complete, setComplete] = useState({
-    ok: false,
-  });
+  // 11월 3째주 목요일 계산
+  function getThirdThursdayDate(year) {
+    const novFirstDay = new Date(year, 10, 1).getDay();
+    const daysUntilThursday = (4 - novFirstDay + 7) % 7;
+    const thirdThursday = new Date(year, 10, 1 + (daysUntilThursday + 14));
+    return thirdThursday;
+  }
 
-  const [ddate, setDdate] = useState({
-    title: "목표",
-    selectedDate: "",
-    dday: 0,
-  });
+  const currentYear = new Date().getFullYear();
+  const thirdThursday = getThirdThursdayDate(currentYear);
 
-  const onChangeHandler = (e) => {
-    const { value, name } = e.target;
-    setDdate({
-      ...ddate,
-      [name]: value,
-    });
-  };
+  // 오늘
+  const currentDate = new Date();
 
-  const today = new Date().toISOString().split("T")[0];
-
-  const onSubmitHandler = () => {
-    const startDate = new Date().getDate();
-    const endDate = new Date(ddate.selectedDate).getDate();
-    const difference = endDate - startDate;
-    setDdate({ ...ddate, dday: difference });
-  };
-
-  const onCompleteHandler = () => {
-    setComplete({
-      ...complete,
-      ok: true,
-    });
-  };
-
-  useEffect(() => {
-    dispatch(getDday());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (ddate.title.length > 0 && ddate.selectedDate !== "") {
-      setComplete({
-        ...complete,
-        ok: false,
-      });
-    }
-  }, [ddate]);
-
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
+  // 차이
+  const differenceInMs = Math.abs(
+    currentDate.getTime() - thirdThursday.getTime()
+  );
+  const differenceInDays = Math.ceil(differenceInMs / (1000 * 60 * 60 * 24));
+  console.log(differenceInDays);
   return (
     <>
-      {/* --- 메인 첫페이지 D-day UI --- */}
-      <StDdayBox onClick={openModal}>
-        {ddate.title + "\u00A0-\u00A0" + ddate.dday}
-      </StDdayBox>
-
-      {/* --------- 모달창 시작 --------- */}
-      {/* {modalVisible && (
-        <Modal
-          visible={modalVisible}
-          closable={true}
-          maskClosable={true}
-          onClose={closeModal}
-          width="350px"
-          height="330px"
-          top="45%"
-          radius="48px"
-          backgroundcolor="rgba(31, 31, 31, 0.116)"
-        >
-          <StModalTop>Let's Set D-day!</StModalTop>
-          <StInputbox>
-            <select name="title" onChange={onChangeHandler} placeholder="dd">
-              <option value={ddate.title}>목표를 선택해주세요!</option>
-              <option value="수능">수능</option>
-              <option value="모의고사">모의고사</option>
-              <option value="중간고사">중간고사</option>
-              <option value="기말고사">기말고사</option>
-            </select>
-            <input
-              type="text"
-              maxLength="8"
-              placeholder="8자 이내로 입력해주세요."
-              onChange={onChangeHandler}
-              name="title"
-            />
-          </StInputbox>
-          <StDate>목표 날짜</StDate>
-          <StDateInput
-            type="date"
-            min={today}
-            max="2030-12-31"
-            name="selectedDate"
-            onChange={onChangeHandler}
-          ></StDateInput>
-          {complete.ok === true ? (
-            <Stalert>입력하지 않은 항목이 있는지 확인해주세요!</Stalert>
-          ) : (
-            <div></div>
-          )}
-
-          <StModalBottom>
-            <StCancelBtn onClick={closeModal}>취소</StCancelBtn>
-
-            {ddate.title.length == 0 || ddate.selectedDate.length == 0 ? (
-              <StNotCompleteBtn
-                onClick={() => {
-                  onCompleteHandler();
-                }}
-              >
-                완료
-              </StNotCompleteBtn>
-            ) : (
-              <StCompleteBtn
-                onClick={() => {
-                  onSubmitHandler();
-                  closeModal();
-                }}
-              >
-                완료
-              </StCompleteBtn>
-            )}
-          </StModalBottom>
-        </Modal>
-      )} */}
-      {/* --------- 모달창 끝 ---------- */}
+      <StDdayBox onClick={() => {}}>수능 - {differenceInDays}</StDdayBox>
     </>
   );
 };
+
+export default Dday;
 
 const StDdayBox = styled.div`
   width: 9rem;
@@ -158,46 +47,6 @@ const StDdayBox = styled.div`
   box-shadow: 0px 2px 4px -2px rgba(16, 24, 40, 0.06),
     0px 4px 8px -2px rgba(16, 24, 40, 0.1);
   border-radius: 16px;
-`;
-
-const StModalTop = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-  height: 85px;
-
-  border-radius: 48px 48px 0 0;
-  font-weight: bold;
-  font-size: 1.2em;
-`;
-
-const StInputbox = styled.div`
-  display: flex;
-  justify-content: center;
-  select {
-    appearance: none;
-    width: 300px;
-    height: 50px;
-    border: 1px solid #e8e8e8;
-    border-radius: 16px;
-    padding: 0 1rem 0 1rem;
-    box-sizing: border-box;
-    font-size: 15px;
-
-    option {
-      border: none;
-    }
-  }
-  // input {
-  //   width: 300px;
-  //   height: 50px;
-  //   border: 1px solid #e8e8e8;
-  //   border-radius: 16px;
-  //   padding-left: 10px;
-  //   box-sizing: border-box;
-  //   font-size: 15px;
-  // }
 `;
 
 const StDate = styled.div`
@@ -261,4 +110,3 @@ const Stalert = styled.div`
   margin-left: 25px;
   padding-top: 10px;
 `;
-export default Dday;
