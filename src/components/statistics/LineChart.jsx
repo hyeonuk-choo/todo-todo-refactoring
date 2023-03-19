@@ -7,12 +7,12 @@ import { __getLineChartData } from "../../redux/modules/statisticsSlice";
 const LineChart = () => {
   const { lineData } = useSelector((state) => state?.statistics);
   const dispatch = useDispatch();
-  const [lineDataRate, setLineDataRate] = useState([]);
 
-  console.log(lineData);
+  const newArr = lineData.map((each) => each.achievementRate);
+
   const options = {
     legend: {
-      data: ["상위랭커", "이번주"],
+      data: ["상위권", "이번주"],
     },
 
     xAxis: {
@@ -28,14 +28,14 @@ const LineChart = () => {
 
     series: [
       {
-        name: "상위랭커",
-        data: [100, 200, 300, 300, 370, 550, 620],
+        name: "상위권",
+        data: [55, 70, 95, 100, 85, 90, 100],
         type: "line",
         color: "#38aded",
       },
       {
         name: "이번주",
-        data: [200, 300, 500, 400, 170, 650, 820],
+        data: newArr,
         type: "line",
         color: "rgb(255, 123, 0)",
       },
@@ -47,26 +47,6 @@ const LineChart = () => {
       bottom: "13%",
     },
   };
-
-  // useEffect(() => {
-  //   const arr = [];
-
-  //   if (lineData.length > 0) {
-  //     for (let i = 0; i < lineData.length; i++) {
-  //       const data = (lineData[i].achievementRate / 7).toFixed(2);
-  //       arr.push(data);
-  //     }
-  //   }
-
-  //   setLineDataRate(arr);
-  // }, [lineData]);
-
-  useEffect(() => {
-    const newData = lineData?.map((each) => {
-      return (each.achievementRate / 7).toFixed(2);
-    });
-    setLineDataRate(...lineDataRate, newData);
-  }, []);
 
   useEffect(() => {
     dispatch(__getLineChartData());
