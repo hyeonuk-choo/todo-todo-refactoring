@@ -59,13 +59,9 @@ const Main = () => {
           </div>
           <div className="todoCnt">
             <img src={plannerCntSvg} alt="todoCntSvgImg" />
-            <span>
-              {userInfo?.totalCnt === undefined ? 0 : userInfo?.totalCnt}
-            </span>
+            <span>{userInfo ? userInfo.totalCnt : 0}</span>
             <img src={todoCntSvg} alt="todoCntSvgImg" />
-            <span>
-              {userInfo?.completeCnt === undefined ? 0 : userInfo?.completeCnt}
-            </span>
+            <span>{userInfo ? userInfo.completeCnt : 0}</span>
           </div>
         </div>
         <div className="achievementSecondBox">
@@ -78,9 +74,9 @@ const Main = () => {
             <StProgressBarBox>
               <StProgressBar
                 width={
-                  userInfo.achievementRate?.thisMonthRate === undefined
-                    ? 0
-                    : Math.round(userInfo.achievementRate?.thisMonthRate)
+                  userInfo.achievementRate
+                    ? Math.round(userInfo.achievementRate.thisMonthRate)
+                    : 0
                 }
               ></StProgressBar>
             </StProgressBarBox>
@@ -95,9 +91,9 @@ const Main = () => {
             <StProgressBarBox>
               <StProgressBar
                 width={
-                  userInfo.achievementRate?.totalRate === undefined
-                    ? 0
-                    : Math.round(userInfo.achievementRate?.totalRate)
+                  userInfo.achievementRate
+                    ? Math.round(userInfo.achievementRate.totalRate)
+                    : 0
                 }
               ></StProgressBar>
             </StProgressBarBox>
@@ -157,7 +153,7 @@ const Main = () => {
           setModalWindow={setModalWindow}
           modalTitle="랭킹 산정 방법"
           modalImage={largeTrophy}
-          modalContent="주간 랭킹은 일주일/한달간 측정한 투두 달성률 평균이 높은 순으로 순위가 결정됩니다."
+          modalContent="주간/월간 랭킹은 일주일/한달간 측정한 투두 달성률 누적합계가 높은 순으로 순위가 결정됩니다."
         />
       ) : null}
     </StRootDiv>
@@ -318,7 +314,7 @@ const StProgressBar = styled.div`
   }};
   height: 2vh;
   border-radius: 10px;
-  transition: all 1.5s;
+  transition: 1.5s;
 `;
 
 const StRankingPhrases = styled.div`

@@ -31,8 +31,12 @@ const Statistics = () => {
     dispatch(getUserInfo());
   }, []);
 
-  const lastWeekRate = userInfo.achievementRate?.lastWeekRate;
-  const thisWeekRate = userInfo.achievementRate?.thisWeekRate;
+  const lastWeekRate = userInfo.achievementRate
+    ? userInfo.achievementRate?.lastWeekRate
+    : 0;
+  const thisWeekRate = userInfo.achievementRate
+    ? userInfo.achievementRate?.thisWeekRate
+    : 0;
 
   return (
     <StRootDiv>
@@ -85,11 +89,11 @@ const Statistics = () => {
                     ? "저번주의 절반 이상 왔어요!"
                     : lastWeekRate * 0.9 < thisWeekRate &&
                       lastWeekRate > thisWeekRate
-                    ? "곧 저번주 점수를 넘기겠어요!"
+                    ? "곧 저번주 달성률을 넘기겠어요!"
                     : lastWeekRate === thisWeekRate
-                    ? "저번주 점수랑 동점이에요!"
+                    ? "저번주와 달성률이 같네요!"
                     : lastWeekRate < thisWeekRate
-                    ? "저번주 점수를 넘었어요!"
+                    ? "저번주 달성률을 넘었어요!"
                     : null}
                 </div>
               </div>
@@ -145,7 +149,7 @@ const Statistics = () => {
           modalLeft={(100 - 50) / 2 + "%"}
           modalTitle="나의 점수란?"
           modalImage={school}
-          modalContent="나의 점수는 주간점수/월간점수로 나뉘며 지난주(회색)대비 금주(주황색)의 달성률을 나타냅니다."
+          modalContent="나의 점수는 주간점수/월간점수로 나뉘며, 지난주대비 금주의 달성률을 나타냅니다."
         />
       ) : null}
       {graphExplain ? (
@@ -398,6 +402,7 @@ const StLastWeekChart = styled.div`
   height: ${(props) => `${props.height}%` || "1%"};
   background: rgb(110 196 255);
   border-radius: 6px 6px 0px 0px;
+  transition: height 1.5s;
 `;
 const StThisWeekChart = styled.div`
   position: relative;
@@ -405,6 +410,7 @@ const StThisWeekChart = styled.div`
   height: ${(props) => `${props.height}%` || "1%"};
   background: #ff7b00;
   border-radius: 6px 6px 0px 0px;
+  transition: height 1.5s;
 `;
 
 const StChartScore = styled.div`
