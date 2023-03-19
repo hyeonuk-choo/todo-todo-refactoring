@@ -14,7 +14,7 @@ import InfiniteScrollMonth from "./InfiniteScrollMonth";
 import ModalBasic from "../utils/ModalBasic";
 import Navbar from "../utils/Navbar";
 import Dday from "./Dday";
-import { __getUserInfo } from "../../redux/modules/mainSlice";
+import { getUserInfo } from "../../redux/modules/mainSlice";
 
 const Main = () => {
   const { userInfo } = useSelector((state) => state.main); // mainSlice
@@ -25,7 +25,7 @@ const Main = () => {
   // 비동기통신 로직을 왜 Thunk함수를 Slice에 정의해서 써야하는가? 에 대한 의문으로 비동기 통신 로직을 UI컴포넌트에 바로 작성해보았고 비동기통신 로직을 UI컴포넌트에 구현 해도 동작에 이상없으나, 다른 컴포넌트에서 해당state를 구독할 때, 새로고침시 이슈발생
 
   useEffect(() => {
-    dispatch(__getUserInfo());
+    dispatch(getUserInfo());
   }, []);
 
   const onClickWeekly = () => {

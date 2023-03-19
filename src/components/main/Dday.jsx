@@ -1,7 +1,9 @@
+// 라이브러리
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { __getDday, __updateDday } from "../../redux/modules/mainSlice";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+// 컴포넌트
+import { getDday, updateDday } from "../../redux/modules/mainSlice";
 
 const Dday = () => {
   const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const Dday = () => {
   };
 
   useEffect(() => {
-    dispatch(__getDday());
+    dispatch(getDday());
   }, [dispatch]);
 
   useEffect(() => {

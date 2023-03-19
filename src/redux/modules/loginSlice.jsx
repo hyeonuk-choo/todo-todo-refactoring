@@ -107,70 +107,66 @@ export const loginSlice = createSlice({
   name: "loginSlice",
   initialState,
   reducers: {},
-  extraReducers: {
-    // 카카오 소셜 로그인
-    [__kakaoLogin.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__kakaoLogin.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.user = action.payload;
-      state.token = true;
-    },
-    [__kakaoLogin.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    // 구글 소셜 로그인
-    [__googleLogin.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__googleLogin.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.user = action.payload;
-      state.nickname = action.payload.nickname;
-      state.token = true;
-    },
-    [__googleLogin.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    // nickname check
-    [__nicknameCheck.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__nicknameCheck.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.nicknameCheck = action.payload;
-    },
-    [__nicknameCheck.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.nicknameCheck = action.payload;
-    },
-    // userInfoRegister
-    [__userInfoRegister.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__userInfoRegister.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      // state.user
-      // state.nickname
-    },
-    [__userInfoRegister.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    // __loginReissue
-    [__loginReissue.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__loginReissue.fulfilled]: (state, action) => {
-      state.isLoading = false;
-    },
-    [__loginReissue.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
+  builder: (builder) => {
+    builder
+      .addCase(__kakaoLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__kakaoLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.token = true;
+      })
+      .addCase(__kakaoLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(__googleLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__googleLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.nickname = action.payload.nickname;
+        state.token = true;
+      })
+      .addCase(__googleLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(__nicknameCheck.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__nicknameCheck.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.nicknameCheck = action.payload;
+      })
+      .addCase(__nicknameCheck.rejected, (state, action) => {
+        state.isLoading = false;
+        state.nicknameCheck = action.payload;
+      })
+      .addCase(__userInfoRegister.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__userInfoRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // state.user
+        // state.nickname
+      })
+      .addCase(__userInfoRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(__loginReissue.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__loginReissue.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(__loginReissue.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 

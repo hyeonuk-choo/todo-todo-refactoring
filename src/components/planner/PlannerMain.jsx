@@ -10,7 +10,7 @@ import ModalBasic from "../utils/ModalBasic";
 // 컴포넌트
 import Navbar from "../utils/Navbar";
 import TodoAddBtn from "./TodoAddBtn";
-import { __getUserInfo } from "../../redux/modules/mainSlice";
+import { getUserInfo } from "../../redux/modules/mainSlice";
 
 const PlannerMain = () => {
   // 상태관리 라이브러리 사용하지 않고 구현
@@ -120,7 +120,7 @@ const PlannerMain = () => {
 
   useEffect(getTodos, []);
   useEffect(() => {
-    dispatch(__getUserInfo());
+    dispatch(getUserInfo());
   }, []);
 
   // 투두 수정하기 토글버튼

@@ -11,7 +11,7 @@ import infoSvg from "../../assets/img/mainpage/info.svg";
 // 컴포넌트
 import LineChart from "./LineChart";
 import Navbar from "../utils/Navbar";
-import { __getUserInfo } from "../../redux/modules/mainSlice";
+import { getUserInfo } from "../../redux/modules/mainSlice";
 import ModalBasic from "../utils/ModalBasic";
 
 const Statistics = () => {
@@ -28,7 +28,7 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    dispatch(__getUserInfo());
+    dispatch(getUserInfo());
   }, []);
 
   const lastWeekRate = userInfo.achievementRate?.lastWeekRate;
