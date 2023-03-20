@@ -152,6 +152,16 @@ const PlannerMain = () => {
 
   // 투두 Update하는 코드 입니다.
   const onClickUpdate = async (id) => {
+    const selectedTodo = todos.filter((todo) => todo.id === id);
+    if (selectedTodo[0].title.length < 2) {
+      // alert방식
+      // alert("두글자 이상 입력해주세요.");
+      // state변경 방식
+      selectedTodo[0].inputMessage = "두글자 이상 입력해주세요.";
+      setTodos([...todos]);
+      return; // 추가 버튼 실행하지 않음
+    }
+
     const newTodos = todos.filter((todo) => {
       if (todo.id === id) {
         todo.updateMode = false;
