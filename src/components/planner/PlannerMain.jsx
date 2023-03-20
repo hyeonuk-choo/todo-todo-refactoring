@@ -51,13 +51,17 @@ const PlannerMain = () => {
   };
 
   // 투두 추가하기 버튼 + post요청
-  const onClickAddButton = (id, event) => {
-    // // 최소 1자이상 입력 로직 구현중
-    // const val = event.target.value;
-    // if (val.length < 1) {
-    //   const tempTodo = todos.filter((each) => each.id === id);
-    //   tempTodo.inputMessage = "최소 1글자이상 입력해주세요.";
-    // }
+  const onClickAddButton = (id) => {
+    const selectedOne = todos.filter((todo) => todo.id === id);
+    if (selectedOne[0].title.length < 2) {
+      // alert방식
+      // alert("두글자 이상 입력해주세요.");
+      // state변경 방식
+      selectedOne[0].inputMessage = "두글자 이상 입력해주세요.";
+      setTodos([...todos]);
+      return; // 추가 버튼 실행하지 않음
+    }
+
     let newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.addMode = !todo.addMode;
@@ -268,8 +272,9 @@ const PlannerMain = () => {
                     <div className="buttonBox">
                       <button
                         className="leftButton"
-                        onClick={(event) => {
-                          onClickAddButton(each.id, event);
+                        onClick={() => {
+                          // ※추가하기 '버튼'에는 value가 없다. event를 가져오는게 무의미
+                          onClickAddButton(each.id);
                         }}
                       >
                         추가하기
@@ -441,6 +446,10 @@ const StTodo = styled.div`
 
     input:focus {
       outline: none;
+    }
+
+    & button {
+      cursor: pointer;
     }
 
     .rightButton {
