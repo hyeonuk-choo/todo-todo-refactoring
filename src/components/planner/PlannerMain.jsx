@@ -40,13 +40,24 @@ const PlannerMain = () => {
     );
 
     if (updatedTodo) {
-      updatedTodo[name] = value;
+      if (value.length <= 17) {
+        updatedTodo[name] = value;
+        updatedTodo.inputMessage = "";
+      } else {
+        updatedTodo.inputMessage = "입력가능한 글자수는 최대17자입니다.";
+      }
       setTodos([...todos]);
     }
   };
 
   // 투두 추가하기 버튼 + post요청
-  const onClickAddButton = (id) => {
+  const onClickAddButton = (id, event) => {
+    // // 최소 1자이상 입력 로직 구현중
+    // const val = event.target.value;
+    // if (val.length < 1) {
+    //   const tempTodo = todos.filter((each) => each.id === id);
+    //   tempTodo.inputMessage = "최소 1글자이상 입력해주세요.";
+    // }
     let newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.addMode = !todo.addMode;
@@ -99,6 +110,7 @@ const PlannerMain = () => {
         updateMode: false,
         addMode: true,
         isCompleted: false,
+        inputMessage: "",
       },
       ...todos,
     ]);
@@ -115,7 +127,7 @@ const PlannerMain = () => {
       .then((data) => {
         setTodos(data.data);
       })
-      .catch((e) => console.log(e));
+      .catch((error) => console.error(error));
   };
 
   useEffect(getTodos, []);
@@ -243,6 +255,7 @@ const PlannerMain = () => {
                   checked={each.isCompleted}
                 />
                 <div className="titleDivBox">
+                  <div className="adjust"></div>
                   <label>
                     <input
                       value={each.title}
@@ -250,12 +263,13 @@ const PlannerMain = () => {
                       id={each.id}
                       onChange={onChangeInput}
                       autoFocus
+                      placeholder="최대 17자까지 입력가능합니다."
                     />
                     <div className="buttonBox">
                       <button
                         className="leftButton"
-                        onClick={() => {
-                          onClickAddButton(each.id);
+                        onClick={(event) => {
+                          onClickAddButton(each.id, event);
                         }}
                       >
                         추가하기
@@ -270,6 +284,7 @@ const PlannerMain = () => {
                       </button>
                     </div>
                   </label>
+                  <div className="adjust">{each.inputMessage}</div>
                 </div>
               </>
             ) : each.updateMode ? (
@@ -284,6 +299,7 @@ const PlannerMain = () => {
                   checked={each.isCompleted}
                 />
                 <div className="titleDivBox">
+                  <div className="adjust"></div>
                   <label>
                     <input
                       value={each.title}
@@ -291,6 +307,7 @@ const PlannerMain = () => {
                       id={each.id}
                       onChange={onChangeInput}
                       autoFocus
+                      placeholder="최대 17자까지 입력가능합니다."
                     />
                     <button
                       className="rightButton"
@@ -301,6 +318,7 @@ const PlannerMain = () => {
                       수정완료
                     </button>
                   </label>
+                  <div className="adjust">{each.inputMessage}</div>
                 </div>
               </>
             ) : (
@@ -386,9 +404,22 @@ const StTodo = styled.div`
     width: calc(100% - 13%);
     height: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
+
+    .adjust {
+      box-sizing: border-box;
+      height: 30%;
+      padding-left: 2%;
+      font-size: 1.4vh;
+      color: red;
+      font-weight: 600;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
     label {
       display: flex;
