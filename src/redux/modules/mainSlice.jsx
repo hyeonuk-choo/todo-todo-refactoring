@@ -6,7 +6,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const initialState = {
   userInfo: [],
-  dday: [],
   thisMonthRate: [],
   totalRate: [],
   totalTodo: [],
@@ -30,35 +29,6 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
-export const getDday = createAsyncThunk(
-  "mainSlice/getDday",
-  async (payload, thunkAPI) => {
-    try {
-      const data = await axios.get(`${BASE_URL}/dday`);
-
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const updateDday = createAsyncThunk(
-  "mainSlice/updateDday",
-  async ({ id, title, selectedDate }, thunkAPI) => {
-    try {
-      const data = await axios.put(`${BASE_URL}/dday/${id}`, {
-        title,
-        selectedDate,
-      });
-
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 const mainSlice = createSlice({
   name: "mainSlice",
   initialState,
@@ -75,29 +45,6 @@ const mainSlice = createSlice({
       .addCase(getUserInfo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload.message;
-      })
-      .addCase(getDday.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getDday.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.dday = action.payload[0];
-      })
-      .addCase(getDday.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(updateDday.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateDday.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.dday.title = action.meta.arg.title;
-        state.dday.selectedDate = action.meta.arg.selectedDate;
-      })
-      .addCase(updateDday.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
       });
   },
 });
