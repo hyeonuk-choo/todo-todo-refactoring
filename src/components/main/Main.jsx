@@ -68,15 +68,22 @@ const Main = () => {
           <div className="thisMonthGauge">
             <div className="gaugeText">
               이번달 플래너 달성률
-              <div>{Math.round(userInfo.achievementRate?.thisMonthRate)} %</div>
+              <div>
+                {/* reload시 View에 NaN을 0으로 대체 */}
+                {userInfo?.length === 0
+                  ? 0
+                  : Math.round(userInfo?.thisMonthRate)}
+                %
+              </div>
             </div>
 
             <StProgressBarBox>
+              {/* attribute NaN 관련 디버깅*/}
               <StProgressBar
                 width={
-                  userInfo.achievementRate
-                    ? Math.round(userInfo.achievementRate.thisMonthRate)
-                    : 0
+                  userInfo?.length === 0
+                    ? 0
+                    : Math.round(userInfo.thisMonthRate)
                 }
               ></StProgressBar>
             </StProgressBarBox>
@@ -85,15 +92,17 @@ const Main = () => {
           <div className="totalGauge">
             <div className="gaugeText">
               플래너 총 달성률
-              <div>{Math.round(userInfo.achievementRate?.totalRate)} %</div>
+              <div>
+                {/* reload시 View에 NaN을 0으로 대체 */}
+                {userInfo?.length === 0 ? 0 : Math.round(userInfo?.totalRate)} %
+              </div>
             </div>
 
             <StProgressBarBox>
+              {/* attribute NaN 관련 디버깅*/}
               <StProgressBar
                 width={
-                  userInfo.achievementRate
-                    ? Math.round(userInfo.achievementRate.totalRate)
-                    : 0
+                  userInfo?.length === 0 ? 0 : Math.round(userInfo.totalRate)
                 }
               ></StProgressBar>
             </StProgressBarBox>
